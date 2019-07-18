@@ -13,18 +13,27 @@ repositories {
 }
 
 ext {
+    kotlin_version = '1.3.21'
     dropwizard_version = '1.3.13'
+    kotlintest_version = '3.3.3'
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "io.dropwizard:dropwizard-core:$dropwizard_version"
 
     // https://www.jeffryhouser.com/index.cfm/2017/12/21/Why-wont-Jersey-work-on-JDK-9
     implementation 'javax.xml.bind:jaxb-api:2.3.0'
     implementation 'javax.activation:activation:1.1'
+
+    testImplementation "io.kotlintest:kotlintest-runner-junit5:$kotlintest_version"
 }
 
 run {
     args = ['server', 'config/default.yaml']
+}
+
+test {
+    useJUnitPlatform()
 }
