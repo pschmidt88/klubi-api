@@ -23,6 +23,4 @@ class DiagnosticContextFilter : ContainerRequestFilter, ContainerResponseFilter 
         val id = MDC.get(requestId)
         log.info("[${Thread.currentThread().name}] REMOVE : $id")
     }
-
-
 }
