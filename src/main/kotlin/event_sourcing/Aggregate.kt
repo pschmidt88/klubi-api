@@ -9,6 +9,7 @@ abstract class Aggregate {
     }
 
     private fun applyEventToAggregate(event: Event) {
+        // TODO find out, how we can call the correct apply method with kotlin reflection
         this.javaClass.getDeclaredMethod("apply", event.javaClass).also {
             it.isAccessible = true
             it.invoke(this, event)

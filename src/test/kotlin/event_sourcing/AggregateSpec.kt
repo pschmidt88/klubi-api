@@ -19,27 +19,23 @@ class AggregateSpec : DescribeSpec() {
     init {
         describe("a test aggregate") {
 
-//            it("should have an id") {
-//                assertThat(aggregateInstance).hasFieldOrProperty("id")
-//                assertThat(aggregateInstance.id).isNotNull()
-//            }
-
             context("raising events") {
 
                 it("event can be raised and be applied") {
-                    aggregateInstance.someCommandWhichRaisesAnEvent()
+                    aggregateInstance.raiseTestEvent()
                     aggregateInstance.foo shouldBe "bar"
                 }
 
-//                it("multiple events can be raised and be applied") {
-//                    aggregateInstance.raiseEvent(TestEvent(), TestEvent())
-//                    assertThat(aggregateInstance.foo).isEqualTo("barbar")
-//                }
+                it("multiple events can be raised and be applied") {
+                    aggregateInstance.raiseTestEvent()
+                    aggregateInstance.raiseAnotherEvent()
+                    aggregateInstance.foo shouldBe "barbaz"
+                }
             }
 
             context("occurred events") {
                 it("has a list of occurred events") {
-                    aggregateInstance.someCommandWhichRaisesAnEvent()
+                    aggregateInstance.raiseTestEvent()
                     aggregateInstance.recordedEvents shouldNot beEmpty()
                 }
             }
@@ -50,7 +46,7 @@ class AggregateSpec : DescribeSpec() {
 class TestAggregate : Aggregate() {
     var foo: String = ""
 
-    fun someCommandWhichRaisesAnEvent() {
+    fun raiseTestEvent() {
         this.raise(TestEvent())
     }
 
@@ -58,6 +54,17 @@ class TestAggregate : Aggregate() {
     fun apply(testEvent: TestEvent) {
         this.foo += "bar"
     }
+
+    @Suppress
+    fun apply(anotherEvent: AnotherEvent) {
+        this.foo += "baz"
+    }
+
+    fun raiseAnotherEvent() {
+        this.raise(AnotherEvent())
+    }
 }
 
 class TestEvent : Event()
+
+class AnotherEvent : Event()
