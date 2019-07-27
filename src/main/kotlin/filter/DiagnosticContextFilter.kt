@@ -16,7 +16,6 @@ class DiagnosticContextFilter : ContainerRequestFilter, ContainerResponseFilter 
         val id = randomUUID().toString()
         log.info("[${Thread.currentThread().name}] PUT : $id")
         MDC.put(requestId, id)
-
     }
 
     override fun filter(requestContext: ContainerRequestContext?, responseContext: ContainerResponseContext?) {

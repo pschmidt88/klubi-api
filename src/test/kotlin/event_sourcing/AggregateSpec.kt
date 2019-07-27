@@ -1,13 +1,8 @@
-package event_sourcing
+package racoony.software.klubi.event_sourcing
 
 import io.kotlintest.TestCase
-import io.kotlintest.matchers.beEmpty
 import io.kotlintest.shouldBe
-import io.kotlintest.shouldNot
 import io.kotlintest.specs.DescribeSpec
-import racoony.software.klubi.event_sourcing.Aggregate
-import racoony.software.klubi.event_sourcing.Event
-
 
 class AggregateSpec : DescribeSpec() {
     private lateinit var aggregateInstance: TestAggregate
@@ -18,9 +13,7 @@ class AggregateSpec : DescribeSpec() {
 
     init {
         describe("a test aggregate") {
-
             context("raising events") {
-
                 it("event can be raised and be applied") {
                     aggregateInstance.raiseTestEvent()
                     aggregateInstance.foo shouldBe "bar"
@@ -33,10 +26,10 @@ class AggregateSpec : DescribeSpec() {
                 }
             }
 
-            context("occurred events") {
-                it("has a list of occurred events") {
-                    aggregateInstance.raiseTestEvent()
-                    aggregateInstance.recordedEvents shouldNot beEmpty()
+            context("replaying events") {
+                it("events can be applied from history") {
+                    aggregateInstance.fromHistory(listOf(TestEvent(), AnotherEvent()))
+                    aggregateInstance.foo shouldBe "barbaz"
                 }
             }
         }
@@ -51,12 +44,12 @@ class TestAggregate : Aggregate() {
     }
 
     @Suppress("unused")
-    fun apply(testEvent: TestEvent) {
+    private fun apply(testEvent: TestEvent) {
         this.foo += "bar"
     }
 
-    @Suppress
-    fun apply(anotherEvent: AnotherEvent) {
+    @Suppress("unused")
+    private fun apply(anotherEvent: AnotherEvent) {
         this.foo += "baz"
     }
 
