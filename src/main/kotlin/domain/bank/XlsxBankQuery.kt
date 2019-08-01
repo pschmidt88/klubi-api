@@ -4,6 +4,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory
 
 private const val BANKCODES_PATH = "/bankcodes/201907_blz-aktuell-xls-data.xlsx"
 
+// TODO extract into own micro service
 class XlsxBankQuery : BankQuery {
     private val bankCodesStore = mutableListOf<BankInformation>()
 
