@@ -55,6 +55,6 @@ jobs:
       - store_artifacts:
           path: ~/test-results/junit
 
-      - run: echo "$CANISTER_PWD" | docker login --username $CANISTER_USER --password-stdin cloud.canister.io:5000
+      - run: docker login --username $CANISTER_USER --password $CANISTER_PWD cloud.canister.io:5000
       - run: docker build -t cloud.canister.io:5000/rookian/klubi-api:latest .
       - run: docker push cloud.canister.io:5000/rookian/klubi-api:latest
