@@ -10,7 +10,7 @@ import javax.ws.rs.QueryParam
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
-@Path("/api/domain.bank")
+@Path("/api/bank")
 class BankResource(
     private val bankQuery: BankQuery
 ) {
