@@ -10,6 +10,8 @@ version '1.0-SNAPSHOT'
 
 mainClassName = 'racoony.software.klubi.KlubiAPI'
 
+test.dependsOn('spotlessCheck')
+
 repositories {
     jcenter()
 }
