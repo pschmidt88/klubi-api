@@ -3,7 +3,6 @@ package racoony.software.klubi.event_sourcing
 import io.kotlintest.TestCase
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
-import racoony.software.klubi.racoony.software.klubi.event_sourcing.Aggregate
 
 class AggregateSpec : DescribeSpec() {
     private lateinit var aggregateInstance: TestAggregate

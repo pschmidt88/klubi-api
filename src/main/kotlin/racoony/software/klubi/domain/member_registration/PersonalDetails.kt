@@ -7,8 +7,8 @@ class PersonalDetails(
     val lastName: String,
     val address: Address,
     val birthday: LocalDate,
-    val phone: PhoneNumber?,
-    val email: EmailAddress?
+    val phone: PhoneNumber? = null,
+    val email: EmailAddress? = null
 )
 
 data class EmailAddress(

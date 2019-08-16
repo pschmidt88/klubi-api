@@ -14,7 +14,7 @@ class AssigningDepartmentsSpec : BehaviorSpec({
         val member = MemberRegistration()
         When("assign to the football department as active member") {
             val footballDepartment = Department("Fußball")
-            member.assignDepartment(footballDepartment, MemberStatus.ACTIVE, LocalDate.now())
+            member.assignToDepartment(footballDepartment, MemberStatus.ACTIVE, LocalDate.now())
 
             Then("member is assigned to the football department") {
                 val memberAssignedEvents = Changes(member).ofType(AssignedToDepartment::class.java)

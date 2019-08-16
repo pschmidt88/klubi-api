@@ -1,11 +1,11 @@
-package racoony.software.klubi.racoony.software.klubi.event_sourcing
+package racoony.software.klubi.event_sourcing
 
-import racoony.software.klubi.event_sourcing.Event
 import java.util.UUID
 
 // TODO implement version to avoid concurrency problems
-abstract class Aggregate {
+abstract class Aggregate(
     var id: UUID = UUID.randomUUID()
+) {
     val changes: MutableList<Event> = mutableListOf()
 
     protected fun raise(event: Event) {

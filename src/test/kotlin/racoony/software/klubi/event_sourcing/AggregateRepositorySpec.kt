@@ -4,7 +4,6 @@ import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.BehaviorSpec
-import racoony.software.klubi.racoony.software.klubi.event_sourcing.Aggregate
 import java.util.UUID
 
 class AggregateRepositorySpec : BehaviorSpec({

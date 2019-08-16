@@ -5,14 +5,22 @@ import racoony.software.klubi.domain.member_registration.events.PersonalDetailsA
 import racoony.software.klubi.domain.member_registration.events.AssignedToDepartment
 import racoony.software.klubi.domain.member_registration.events.BankTransferPaymentMethodSet
 import racoony.software.klubi.domain.member_registration.events.DirectDebitPaymentMethodSet
-import racoony.software.klubi.racoony.software.klubi.event_sourcing.Aggregate
+import racoony.software.klubi.event_sourcing.Aggregate
+import java.util.UUID
 
-class MemberRegistration : Aggregate() {
+class MemberRegistration(
+    id: UUID = UUID.randomUUID()
+) : Aggregate(id) {
+
     fun addPersonalDetails(personalDetails: PersonalDetails) {
         raise(PersonalDetailsAdded(personalDetails))
     }
 
-    fun assignDepartment(department: Department, memberStatus: MemberStatus, now: LocalDate) {
+    fun assignToDepartment(departmentAssignment: DepartmentAssignment) {
+        this.assignToDepartment(departmentAssignment.department, departmentAssignment.memberStatus, departmentAssignment.entryDate)
+    }
+
+    fun assignToDepartment(department: Department, memberStatus: MemberStatus, now: LocalDate) {
         raise(AssignedToDepartment(department, memberStatus, now))
     }
 

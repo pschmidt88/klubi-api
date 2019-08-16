@@ -1,6 +1,5 @@
 package racoony.software.klubi.event_sourcing
 
-import racoony.software.klubi.racoony.software.klubi.event_sourcing.Aggregate
 import java.util.UUID
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
