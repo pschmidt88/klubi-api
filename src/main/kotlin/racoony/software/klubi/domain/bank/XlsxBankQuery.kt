@@ -1,6 +1,7 @@
 package racoony.software.klubi.domain.bank
 
 import org.apache.poi.ss.usermodel.WorkbookFactory
+import kotlin.Exception
 
 private const val BANKCODES_PATH = "/bankcodes/201907_blz-aktuell-xls-data.xlsx"
 
@@ -27,11 +28,13 @@ class XlsxBankQuery : BankQuery {
         }
     }
 
-    override fun byIban(iban: IBAN): BankInformation? {
-        return bankCodesStore.firstOrNull { it.bankCode == iban.bankCode }
+    override fun byIban(iban: IBAN): BankInformation {
+        return bankCodesStore.firstOrNull { it.bankCode == iban.bankCode } ?: throw NoBankInformationFound()
     }
 
-    override fun byBankCode(bankCode: BankCode): BankInformation? {
-        return bankCodesStore.firstOrNull { it.bankCode == bankCode }
+    override fun byBankCode(bankCode: BankCode): BankInformation {
+        return bankCodesStore.firstOrNull { it.bankCode == bankCode } ?: throw NoBankInformationFound()
     }
 }
+
+class NoBankInformationFound : Exception()
