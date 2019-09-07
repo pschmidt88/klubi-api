@@ -2,7 +2,6 @@ package racoony.software.klubi.domain.member_registration
 
 import io.kotlintest.matchers.beEmpty
 import io.kotlintest.matchers.collections.shouldHaveSize
-import io.kotlintest.should
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNot
 import io.kotlintest.specs.BehaviorSpec
@@ -19,7 +18,7 @@ class AssigningDepartmentsSpec : BehaviorSpec({
             member.assignToDepartment(AssignedDepartment(footballDepartment, MemberStatus.ACTIVE, LocalDate.now()))
 
             val memberAssignedEvents = Changes(member).ofType(AssignedToDepartment::class.java)
-            Then ("member is assigned to a department") {
+            Then("member is assigned to a department") {
                 memberAssignedEvents shouldNot beEmpty()
                 memberAssignedEvents shouldHaveSize 1
             }
@@ -28,11 +27,11 @@ class AssigningDepartmentsSpec : BehaviorSpec({
                 memberAssignedEvents.first().assignedDepartment.department shouldBe footballDepartment
             }
 
-            Then ("member is an active member in this department") {
+            Then("member is an active member in this department") {
                 memberAssignedEvents.first().assignedDepartment.memberStatus shouldBe MemberStatus.ACTIVE
             }
 
-            Then ("is a member in this department since ${LocalDate.now()}") {
+            Then("is a member in this department since ${LocalDate.now()}") {
                 memberAssignedEvents.first().assignedDepartment.entryDate shouldBe LocalDate.now()
             }
         }
