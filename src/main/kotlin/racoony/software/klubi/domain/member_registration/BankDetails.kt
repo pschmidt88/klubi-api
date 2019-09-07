@@ -8,8 +8,3 @@ data class BankDetails(
     val iban: IBAN,
     val bic: Bic? = null
 )
-
-data class AccountOwner(
-    val firstName: String,
-    val lastName: String
-)

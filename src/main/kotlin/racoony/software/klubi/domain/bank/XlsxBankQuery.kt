@@ -29,7 +29,7 @@ class XlsxBankQuery : BankQuery {
     }
 
     override fun byIban(iban: IBAN): BankInformation {
-        return bankCodesStore.firstOrNull { it.bankCode == iban.bankCode } ?: throw NoBankInformationFound()
+        return bankCodesStore.firstOrNull { it.bankCode == iban.bankCode() } ?: throw NoBankInformationFound()
     }
 
     override fun byBankCode(bankCode: BankCode): BankInformation {

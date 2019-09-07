@@ -1,11 +1,11 @@
 package racoony.software.klubi.domain.member_registration
 
-import org.joda.time.LocalDate
 import racoony.software.klubi.domain.member_registration.events.PersonalDetailsAdded
 import racoony.software.klubi.domain.member_registration.events.AssignedToDepartment
-import racoony.software.klubi.domain.member_registration.events.BankTransferPaymentMethodSet
-import racoony.software.klubi.domain.member_registration.events.DirectDebitPaymentMethodSet
+import racoony.software.klubi.domain.member_registration.events.BankTransferPaymentMethodSelected
+import racoony.software.klubi.domain.member_registration.events.DirectDebitPaymentMethodSelected
 import racoony.software.klubi.event_sourcing.Aggregate
+import racoony.software.klubi.resource.requests.AssignedDepartment
 import java.util.UUID
 
 class MemberRegistration(
@@ -16,22 +16,18 @@ class MemberRegistration(
         raise(PersonalDetailsAdded(personalDetails))
     }
 
-    fun assignToDepartment(departmentAssignment: DepartmentAssignment) {
-        this.assignToDepartment(departmentAssignment.department, departmentAssignment.memberStatus, departmentAssignment.entryDate)
-    }
-
-    fun assignToDepartment(department: Department, memberStatus: MemberStatus, now: LocalDate) {
-        raise(AssignedToDepartment(department, memberStatus, now))
+    fun assignToDepartment(assignedDepartment: AssignedDepartment) {
+        raise(AssignedToDepartment(assignedDepartment))
     }
 
     fun setPaymentMethod(method: PaymentMethod, bankDetails: BankDetails? = null) {
         when (method) {
             PaymentMethod.BANK_TRANSFER -> raise(
-                    BankTransferPaymentMethodSet()
+                BankTransferPaymentMethodSelected()
             )
             PaymentMethod.DEBIT -> {
                 bankDetails?.let {
-                    raise(DirectDebitPaymentMethodSet(it))
+                    raise(DirectDebitPaymentMethodSelected(it))
                 } ?: throw NoBankDetails()
             }
         }

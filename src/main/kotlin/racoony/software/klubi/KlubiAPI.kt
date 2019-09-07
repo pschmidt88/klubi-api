@@ -1,5 +1,7 @@
 package racoony.software.klubi
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import io.dropwizard.Application
 import io.dropwizard.jersey.setup.JerseyEnvironment
@@ -12,21 +14,28 @@ import racoony.software.klubi.healthcheck.DefaultHealthCheck
 import racoony.software.klubi.resource.BankResource
 import racoony.software.klubi.resource.MemberRegistrationResource
 import com.mongodb.MongoClientURI
+import io.dropwizard.jersey.jackson.JsonProcessingExceptionMapper
 import io.dropwizard.setup.Bootstrap
 import racoony.software.klubi.event_sourcing.AggregateRepository
 import racoony.software.klubi.event_sourcing.EventStore
 
 class KlubiAPI : Application<KlubiConfiguration>() {
     override fun initialize(bootstrap: Bootstrap<KlubiConfiguration>) {
-        bootstrap.objectMapper.registerKotlinModule()
+        this.configureObjectMapper(bootstrap.objectMapper)
+    }
+
+    private fun configureObjectMapper(objectMapper: ObjectMapper) {
+        objectMapper.registerKotlinModule()
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
     }
 
     override fun run(configuration: KlubiConfiguration, environment: Environment) {
         println("Booting Klubi API...")
 
-        val uri = MongoClientURI("mongodb+srv://klubi:yWDY6%40qnTxVzsjFG.FC2@klubi-cluster-yev0b.mongodb.net/test?retryWrites=true&w=majority")
-
+        val uri = MongoClientURI("mongodb+srv://klubi:YQzVTrWsUtZToaGR@klubi-cluster-yev0b.mongodb.net/test?retryWrites=true&w=majority")
         val eventStore = MongoDBEventStore(KMongo.createClient(uri))
+
+        environment.jersey().register(JsonProcessingExceptionMapper(true))
 
         registerApiEndpoints(environment.jersey(), eventStore)
 

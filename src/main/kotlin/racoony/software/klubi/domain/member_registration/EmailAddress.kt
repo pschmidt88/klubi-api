@@ -1,5 +1,5 @@
 package racoony.software.klubi.domain.member_registration
 
-class Department(
-    val name: String
+data class EmailAddress(
+    val value: String
 )

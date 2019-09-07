@@ -12,13 +12,13 @@ class DiagnosticContextFilter : ContainerRequestFilter, ContainerResponseFilter 
     private val log = LoggerFactory.getLogger(DiagnosticContextFilter::class.java)
     private val requestId = "id"
 
-    override fun filter(requestContext: ContainerRequestContext?) {
+    override fun filter(requestContext: ContainerRequestContext) {
         val id = randomUUID().toString()
         log.info("[${Thread.currentThread().name}] PUT : $id")
         MDC.put(requestId, id)
     }
 
-    override fun filter(requestContext: ContainerRequestContext?, responseContext: ContainerResponseContext?) {
+    override fun filter(requestContext: ContainerRequestContext, responseContext: ContainerResponseContext) {
         val id = MDC.get(requestId)
         log.info("[${Thread.currentThread().name}] REMOVE : $id")
     }

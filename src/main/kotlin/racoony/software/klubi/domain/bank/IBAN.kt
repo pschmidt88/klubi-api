@@ -3,9 +3,7 @@ package racoony.software.klubi.domain.bank
 data class IBAN(
     val value: String
 ) {
-    val bankCode = bankCodeFromIban()
-
-    private fun bankCodeFromIban(): BankCode {
+    fun bankCode(): BankCode {
         if (this.value.startsWith("DE")) {
             return BankCode(this.value.substring(4, 12))
         }

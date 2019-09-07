@@ -6,8 +6,8 @@ import racoony.software.klubi.domain.bank.IBAN
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNot
-import racoony.software.klubi.domain.member_registration.events.BankTransferPaymentMethodSet
-import racoony.software.klubi.domain.member_registration.events.DirectDebitPaymentMethodSet
+import racoony.software.klubi.domain.member_registration.events.BankTransferPaymentMethodSelected
+import racoony.software.klubi.domain.member_registration.events.DirectDebitPaymentMethodSelected
 import racoony.software.klubi.event_sourcing.Changes
 
 class ChoosingPaymentMethodSpec : BehaviorSpec({
@@ -18,7 +18,7 @@ class ChoosingPaymentMethodSpec : BehaviorSpec({
 
             Then("Bank transfer set as payment method") {
                 val setPaymentMethodEvents =
-                    Changes(memberRegistration).ofType(BankTransferPaymentMethodSet::class.java)
+                    Changes(memberRegistration).ofType(BankTransferPaymentMethodSelected::class.java)
                 setPaymentMethodEvents shouldNot beEmpty()
                 setPaymentMethodEvents shouldHaveSize 1
             }
@@ -31,7 +31,7 @@ class ChoosingPaymentMethodSpec : BehaviorSpec({
             )
             memberRegistration.setPaymentMethod(PaymentMethod.DEBIT, bankDetails)
 
-            val paymentMethodSetEvents = Changes(memberRegistration).ofType(DirectDebitPaymentMethodSet::class.java)
+            val paymentMethodSetEvents = Changes(memberRegistration).ofType(DirectDebitPaymentMethodSelected::class.java)
             Then("direct debit set as payment method") {
                 paymentMethodSetEvents shouldNot beEmpty()
                 paymentMethodSetEvents shouldHaveSize 1

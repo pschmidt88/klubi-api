@@ -1,12 +1,13 @@
 package racoony.software.klubi.resource
 
 import racoony.software.klubi.domain.member_registration.BankDetails
-import racoony.software.klubi.domain.member_registration.DepartmentAssignment
 import racoony.software.klubi.domain.member_registration.MemberRegistration
 import racoony.software.klubi.domain.member_registration.PaymentMethod
 import racoony.software.klubi.domain.member_registration.PersonalDetails
 import racoony.software.klubi.event_sourcing.AggregateRepository
+import racoony.software.klubi.resource.requests.AssignedDepartment
 import racoony.software.klubi.resource.requests.MemberRegistrationRequest
+import javax.validation.Valid
 import javax.ws.rs.Consumes
 import javax.ws.rs.POST
 import javax.ws.rs.Path
@@ -19,12 +20,10 @@ class MemberRegistrationResource(
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    fun createMember(request: MemberRegistrationRequest) {
+    fun createMember(@Valid request: MemberRegistrationRequest) {
         val memberRegistration = MemberRegistration().apply {
             addPersonalDetails(personalDetailsFromRequest(request))
-            departmentsFromRequest(request).forEach {
-                assignToDepartment(it)
-            }
+            assignToDepartment(assignedDepartmentFromRequest(request))
             setPaymentMethod(paymentMethodFromRequest(request), bankDetailsFromRequest(request))
         }
 
@@ -32,25 +31,23 @@ class MemberRegistrationResource(
     }
 
     private fun paymentMethodFromRequest(request: MemberRegistrationRequest): PaymentMethod {
-        return request.paymentMethod
+        return request.paymentMethod()
     }
 
     private fun bankDetailsFromRequest(request: MemberRegistrationRequest): BankDetails? {
-        return request.bankDetails
+        return request.bankDetails()
     }
 
-    private fun departmentsFromRequest(request: MemberRegistrationRequest): List<DepartmentAssignment> {
-        return request.departments
+    private fun assignedDepartmentFromRequest(request: MemberRegistrationRequest): AssignedDepartment {
+        return request.assignedDepartment()
     }
 
     private fun personalDetailsFromRequest(request: MemberRegistrationRequest): PersonalDetails {
         return PersonalDetails(
-                request.firstName,
-                request.lastName,
-                request.address,
-                request.birthday,
-                request.phone,
-                request.email
+            request.name(),
+                request.address(),
+                request.birthday(),
+                request.contact()
         )
     }
 }

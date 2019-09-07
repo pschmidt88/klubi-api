@@ -1,1 +1,6 @@
 name: Klubi API
+
+logging:
+  appenders:
+  - type: console
+    threshold: DEBUG

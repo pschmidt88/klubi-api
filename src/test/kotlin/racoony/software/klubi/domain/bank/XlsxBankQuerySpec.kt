@@ -10,7 +10,7 @@ class XlsxBankQuerySpec : ShouldSpec({
 
         should("return bankinformation for ing diba") {
             bankInformation shouldNotBe null
-            bankInformation?.bankName?.name shouldBe "ING-DiBa"
+            bankInformation.bankName.name shouldBe "ING-DiBa"
         }
     }
 
@@ -18,7 +18,7 @@ class XlsxBankQuerySpec : ShouldSpec({
         val bankInformation = XlsxBankQuery().byIban(IBAN("DE78500105175419262594"))
         should("return bankinformation for ing diba") {
             bankInformation shouldNotBe null
-            bankInformation?.bankName?.name shouldBe "ING-DiBa"
+            bankInformation.bankName.name shouldBe "ING-DiBa"
         }
     }
 })

@@ -1,5 +1,6 @@
 package racoony.software.klubi.domain.member_registration
 
-class Department(
-    val name: String
-)
+enum class MemberStatus {
+    ACTIVE,
+    PASSIVE
+}
