@@ -1,6 +1,5 @@
 package racoony.software.klubi
 
-import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import io.dropwizard.Application
@@ -26,7 +25,6 @@ class KlubiAPI : Application<KlubiConfiguration>() {
 
     private fun configureObjectMapper(objectMapper: ObjectMapper) {
         objectMapper.registerKotlinModule()
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
     }
 
     override fun run(configuration: KlubiConfiguration, environment: Environment) {

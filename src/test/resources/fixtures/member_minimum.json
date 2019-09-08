@@ -1,0 +1,13 @@
+{
+  "firstName": "Paul",
+  "lastName": "Schmidt",
+  "streetAddress": "Aschrottstraße",
+  "streetNumber": "4",
+  "postalCode": "34119",
+  "city": "Kassel",
+  "birthday": "1988-06-16",
+  "department": "football",
+  "entryDate": "2019-09-07",
+  "memberStatus": "active",
+  "paymentMethod": "bank_transfer"
+}

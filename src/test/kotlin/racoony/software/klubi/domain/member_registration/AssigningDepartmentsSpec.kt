@@ -7,7 +7,6 @@ import io.kotlintest.shouldNot
 import io.kotlintest.specs.BehaviorSpec
 import racoony.software.klubi.domain.member_registration.events.AssignedToDepartment
 import racoony.software.klubi.event_sourcing.Changes
-import racoony.software.klubi.resource.requests.AssignedDepartment
 import java.time.LocalDate
 
 class AssigningDepartmentsSpec : BehaviorSpec({
@@ -15,7 +14,13 @@ class AssigningDepartmentsSpec : BehaviorSpec({
         val member = MemberRegistration()
         When("assign to the football department as active member") {
             val footballDepartment = Department("Fußball")
-            member.assignToDepartment(AssignedDepartment(footballDepartment, MemberStatus.ACTIVE, LocalDate.now()))
+            member.assignToDepartment(
+                AssignedDepartment(
+                    footballDepartment,
+                    MemberStatus.ACTIVE,
+                    LocalDate.now()
+                )
+            )
 
             val memberAssignedEvents = Changes(member).ofType(AssignedToDepartment::class.java)
             Then("member is assigned to a department") {

@@ -1,0 +1,19 @@
+{
+  "firstName": "Paul",
+  "lastName": "Schmidt",
+  "streetAddress": "Aschrottstraße",
+  "streetNumber": "4",
+  "postalCode": "34119",
+  "city": "Kassel",
+  "phone": "01711234567",
+  "email": "rookian@gmail.com",
+  "birthday": "1988-06-16",
+  "department": "football",
+  "entryDate": "2019-09-07",
+  "memberStatus": "active",
+  "paymentMethod": "debit",
+  "accountOwnerFirstName": "Paul",
+  "accountOwnerLastName": "Schmidt",
+  "iban": "DE78500105175419262594",
+  "bic": "SOMEBIC"
+}

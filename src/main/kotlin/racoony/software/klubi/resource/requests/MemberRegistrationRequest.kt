@@ -1,8 +1,10 @@
 package racoony.software.klubi.resource.requests
 
+import racoony.software.klubi.domain.bank.Bic
 import racoony.software.klubi.domain.bank.IBAN
 import racoony.software.klubi.domain.member_registration.AccountOwner
 import racoony.software.klubi.domain.member_registration.Address
+import racoony.software.klubi.domain.member_registration.AssignedDepartment
 import racoony.software.klubi.domain.member_registration.BankDetails
 import racoony.software.klubi.domain.member_registration.Contact
 import racoony.software.klubi.domain.member_registration.Department
@@ -28,10 +30,15 @@ class MemberRegistrationRequest(
     private val memberStatus: String,
     private val accountOwnerFirstName: String?,
     private val accountOwnerLastName: String?,
-    private val iban: String,
+    private val iban: String?,
+    private val bic: String?,
     private val paymentMethod: String
 ) {
     private fun email(): EmailAddress? = this.email?.let { EmailAddress(it) }
+    private fun phone(): PhoneNumber? = this.phone?.let { PhoneNumber(it) }
+    private fun bic(): Bic? = this.bic?.let {
+        Bic(it)
+    }
 
     fun address(): Address = Address(
         this.streetAddress,
@@ -44,15 +51,19 @@ class MemberRegistrationRequest(
 
     fun birthday(): LocalDate = this.birthday
 
-    fun contact(): Contact = Contact(this.phone(), this.email())
+    fun contact(): Contact {
+        return Contact(phone(), email())
+    }
 
-    fun phone(): PhoneNumber? = this.phone?.let { PhoneNumber(it) }
-
-    // TODO: maybe there is a better way for multiple .let checks
     fun bankDetails(): BankDetails? {
-        return this.accountOwner()?.let {
-            BankDetails(it, IBAN(this.iban))
+        if (this.accountOwnerFirstName != null && this.accountOwnerLastName != null && this.iban != null) {
+            return BankDetails(
+                AccountOwner(this.accountOwnerFirstName, this.accountOwnerLastName),
+                IBAN(this.iban),
+                this.bic()
+            )
         }
+        return null
     }
 
     private fun accountOwner(): AccountOwner? {
@@ -64,9 +75,10 @@ class MemberRegistrationRequest(
 
     fun paymentMethod(): PaymentMethod = PaymentMethod.valueOf(this.paymentMethod.toUpperCase())
 
-    fun assignedDepartment(): AssignedDepartment = AssignedDepartment(
-        Department(this.department),
-        MemberStatus.valueOf(this.memberStatus.toUpperCase()),
-        this.entryDate
-    )
+    fun assignedDepartment(): AssignedDepartment =
+        AssignedDepartment(
+            Department(this.department),
+            MemberStatus.valueOf(this.memberStatus.toUpperCase()),
+            this.entryDate
+        )
 }

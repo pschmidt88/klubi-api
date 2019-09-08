@@ -5,7 +5,6 @@ import racoony.software.klubi.domain.member_registration.events.AssignedToDepart
 import racoony.software.klubi.domain.member_registration.events.BankTransferPaymentMethodSelected
 import racoony.software.klubi.domain.member_registration.events.DirectDebitPaymentMethodSelected
 import racoony.software.klubi.event_sourcing.Aggregate
-import racoony.software.klubi.resource.requests.AssignedDepartment
 import java.util.UUID
 
 class MemberRegistration(

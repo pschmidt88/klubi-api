@@ -5,7 +5,7 @@ import racoony.software.klubi.domain.member_registration.MemberRegistration
 import racoony.software.klubi.domain.member_registration.PaymentMethod
 import racoony.software.klubi.domain.member_registration.PersonalDetails
 import racoony.software.klubi.event_sourcing.AggregateRepository
-import racoony.software.klubi.resource.requests.AssignedDepartment
+import racoony.software.klubi.domain.member_registration.AssignedDepartment
 import racoony.software.klubi.resource.requests.MemberRegistrationRequest
 import javax.validation.Valid
 import javax.ws.rs.Consumes
