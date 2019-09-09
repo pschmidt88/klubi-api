@@ -19,7 +19,7 @@ class MemberRegistration(
         raise(AssignedToDepartment(assignedDepartment))
     }
 
-    fun setPaymentMethod(method: PaymentMethod, bankDetails: BankDetails? = null) {
+    fun selectPaymentMethod(method: PaymentMethod, bankDetails: BankDetails? = null) {
         when (method) {
             PaymentMethod.BANK_TRANSFER -> raise(
                 BankTransferPaymentMethodSelected()

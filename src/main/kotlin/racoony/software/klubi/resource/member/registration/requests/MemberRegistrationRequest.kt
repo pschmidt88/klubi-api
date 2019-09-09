@@ -1,4 +1,4 @@
-package racoony.software.klubi.resource.requests
+package racoony.software.klubi.resource.member.registration.requests
 
 import racoony.software.klubi.domain.bank.Bic
 import racoony.software.klubi.domain.bank.IBAN

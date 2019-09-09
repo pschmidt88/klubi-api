@@ -17,7 +17,7 @@ import racoony.software.klubi.domain.member_registration.Name
 import racoony.software.klubi.domain.member_registration.PaymentMethod
 import racoony.software.klubi.domain.member_registration.PhoneNumber
 import racoony.software.klubi.domain.member_registration.AssignedDepartment
-import racoony.software.klubi.resource.requests.MemberRegistrationRequest
+import racoony.software.klubi.resource.member.registration.requests.MemberRegistrationRequest
 import java.time.LocalDate
 
 class MemberRegistrationRequestSpec : ShouldSpec({

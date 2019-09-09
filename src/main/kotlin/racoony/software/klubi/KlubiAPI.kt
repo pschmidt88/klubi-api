@@ -11,7 +11,7 @@ import racoony.software.klubi.event_sourcing.storage.MongoDBEventStore
 import racoony.software.klubi.filter.DiagnosticContextFilter
 import racoony.software.klubi.healthcheck.DefaultHealthCheck
 import racoony.software.klubi.resource.BankResource
-import racoony.software.klubi.resource.MemberRegistrationResource
+import racoony.software.klubi.resource.member.registration.MembersRegistrationResource
 import com.mongodb.MongoClientURI
 import io.dropwizard.jersey.jackson.JsonProcessingExceptionMapper
 import io.dropwizard.setup.Bootstrap
@@ -34,11 +34,10 @@ class KlubiAPI : Application<KlubiConfiguration>() {
         val eventStore = MongoDBEventStore(KMongo.createClient(uri))
 
         environment.jersey().register(JsonProcessingExceptionMapper(true))
-
-        registerApiEndpoints(environment.jersey(), eventStore)
-
         environment.jersey().register(DiagnosticContextFilter())
         environment.healthChecks().register("default", DefaultHealthCheck())
+
+        registerApiEndpoints(environment.jersey(), eventStore)
     }
 
     private fun registerApiEndpoints(
@@ -46,7 +45,11 @@ class KlubiAPI : Application<KlubiConfiguration>() {
         eventStore: EventStore
     ) {
         jersey.register(BankResource(XlsxBankQuery()))
-        jersey.register(MemberRegistrationResource(AggregateRepository(eventStore)))
+        jersey.register(
+            MembersRegistrationResource(
+                AggregateRepository(eventStore)
+            )
+        )
     }
 
     companion object {

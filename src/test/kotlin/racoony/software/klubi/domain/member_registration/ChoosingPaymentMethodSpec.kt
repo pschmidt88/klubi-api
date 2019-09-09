@@ -14,7 +14,7 @@ class ChoosingPaymentMethodSpec : BehaviorSpec({
     Given("Member registration") {
         val memberRegistration = MemberRegistration()
         When("Choose bank transfer as payment method") {
-            memberRegistration.setPaymentMethod(PaymentMethod.BANK_TRANSFER)
+            memberRegistration.selectPaymentMethod(PaymentMethod.BANK_TRANSFER)
 
             Then("Bank transfer set as payment method") {
                 val setPaymentMethodEvents =
@@ -29,7 +29,7 @@ class ChoosingPaymentMethodSpec : BehaviorSpec({
                     accountOwner = AccountOwner("Paul", "Schmidt"),
                     iban = IBAN("DE19500105174628554285")
             )
-            memberRegistration.setPaymentMethod(PaymentMethod.DEBIT, bankDetails)
+            memberRegistration.selectPaymentMethod(PaymentMethod.DEBIT, bankDetails)
 
             val paymentMethodSetEvents = Changes(memberRegistration).ofType(DirectDebitPaymentMethodSelected::class.java)
             Then("direct debit set as payment method") {
