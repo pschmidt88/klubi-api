@@ -2,7 +2,7 @@ package racoony.software.klubi.event_sourcing.bus
 
 import racoony.software.klubi.event_sourcing.Event
 
-class RecordingEventBus(): EventBus {
+class RecordingEventBus() : EventBus {
     private val publishedEvents: MutableList<Event> = mutableListOf()
 
     override fun publish(event: Event) {

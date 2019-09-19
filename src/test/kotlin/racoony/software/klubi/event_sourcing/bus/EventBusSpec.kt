@@ -7,7 +7,7 @@ import racoony.software.klubi.event_sourcing.TestEvent
 
 class EventBusSpec : DescribeSpec({
     describe("event bus") {
-        it ("publishes events to subscribed event handlers") {
+        it("publishes events to subscribed event handlers") {
             val handler = BusTestEventHandler()
             RxEventBus().apply {
                 subscribe(BusTestEvent::class.java, handler)
@@ -17,7 +17,7 @@ class EventBusSpec : DescribeSpec({
             handler.message shouldBe "foo"
         }
 
-        it ("does not publish events to other handlers") {
+        it("does not publish events to other handlers") {
             val handler = BusTestEventHandler()
             RxEventBus().apply {
                 subscribe(BusTestEvent::class.java, handler)

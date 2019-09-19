@@ -56,10 +56,10 @@ class MemberDetailsProjectionSpec : BehaviorSpec({
             }
 
             Then("member details holds assigned department") {
-                memberDetails.departments shouldContain AssignedDepartment(Department("football"), MemberStatus.ACTIVE, LocalDate.of(2019,6,1))
+                memberDetails.departments shouldContain AssignedDepartment(Department("football"), MemberStatus.ACTIVE, LocalDate.of(2019, 6, 1))
             }
 
-            Then ("member details holds bank transfer payment method") {
+            Then("member details holds bank transfer payment method") {
                 memberDetails.paymentMethod shouldBe PaymentMethod.BANK_TRANSFER
             }
         }
