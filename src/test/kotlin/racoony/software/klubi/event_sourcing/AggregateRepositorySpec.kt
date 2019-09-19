@@ -1,9 +1,13 @@
 package racoony.software.klubi.event_sourcing
 
+import io.kotlintest.matchers.beOfType
+import io.kotlintest.matchers.collections.shouldHaveSize
+import io.kotlintest.should
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.BehaviorSpec
+import racoony.software.klubi.event_sourcing.bus.RecordingEventBus
 import java.util.UUID
 
 class AggregateRepositorySpec : BehaviorSpec({
@@ -12,7 +16,9 @@ class AggregateRepositorySpec : BehaviorSpec({
         val eventStore = InMemoryEventStore().apply { save(aggregateId, listOf(TestEvent())) }
 
         When("findById") {
-            val aggregate = AggregateRepository<TestAggregate>(eventStore).findById(aggregateId, TestAggregate::class)
+            val aggregate = AggregateRepository<TestAggregate>(eventStore,
+                RecordingEventBus()
+            ).findById(aggregateId, TestAggregate::class)
 
             Then("aggregate is not null") {
                 aggregate shouldNotBe null
@@ -28,7 +34,9 @@ class AggregateRepositorySpec : BehaviorSpec({
         When("findById") {
             Then("Aggregate not exists") {
                 shouldThrow<AggregateNotExists> {
-                    AggregateRepository<TestAggregate>(InMemoryEventStore()).findById(UUID.randomUUID(), TestAggregate::class)
+                    AggregateRepository<TestAggregate>(InMemoryEventStore(),
+                        RecordingEventBus()
+                    ).findById(UUID.randomUUID(), TestAggregate::class)
                 }
             }
         }
@@ -41,7 +49,9 @@ class AggregateRepositorySpec : BehaviorSpec({
             When("findById") {
                 Then("aggregate class should have no-arg constructor") {
                     shouldThrow<IllegalArgumentException> {
-                        AggregateRepository<MoreComplicatedTestAggregate>(eventStore)
+                        AggregateRepository<MoreComplicatedTestAggregate>(eventStore,
+                            RecordingEventBus()
+                        )
                             .findById(id, MoreComplicatedTestAggregate::class)
                     }
                 }
@@ -57,12 +67,18 @@ class AggregateRepositorySpec : BehaviorSpec({
         }
         When("Saving aggregate") {
             val eventStore = InMemoryEventStore()
-            AggregateRepository<TestAggregate>(eventStore).save(testAggregate)
+            val eventBus = RecordingEventBus()
+            AggregateRepository<TestAggregate>(eventStore, eventBus).save(testAggregate)
 
             Then("events should've been persisted to event store") {
                 val events = eventStore.storage[aggregateId]
                 events shouldNotBe null
                 events?.size shouldBe 1
+            }
+
+            Then("events should've been published to event bus") {
+                eventBus.publishedEvents() shouldHaveSize 1
+                eventBus.publishedEvents().first() should beOfType(TestEvent::class)
             }
         }
     }

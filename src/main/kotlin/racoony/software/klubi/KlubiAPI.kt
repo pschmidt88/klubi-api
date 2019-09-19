@@ -17,6 +17,8 @@ import io.dropwizard.jersey.jackson.JsonProcessingExceptionMapper
 import io.dropwizard.setup.Bootstrap
 import racoony.software.klubi.event_sourcing.AggregateRepository
 import racoony.software.klubi.event_sourcing.EventStore
+import racoony.software.klubi.event_sourcing.bus.EventBus
+import racoony.software.klubi.event_sourcing.bus.RxEventBus
 
 class KlubiAPI : Application<KlubiConfiguration>() {
     override fun initialize(bootstrap: Bootstrap<KlubiConfiguration>) {
@@ -37,17 +39,20 @@ class KlubiAPI : Application<KlubiConfiguration>() {
         environment.jersey().register(DiagnosticContextFilter())
         environment.healthChecks().register("default", DefaultHealthCheck())
 
-        registerApiEndpoints(environment.jersey(), eventStore)
+        val eventBus = RxEventBus()
+
+        registerApiEndpoints(environment.jersey(), eventStore, eventBus)
     }
 
     private fun registerApiEndpoints(
         jersey: JerseyEnvironment,
-        eventStore: EventStore
+        eventStore: EventStore,
+        eventBus: EventBus
     ) {
         jersey.register(BankResource(XlsxBankQuery()))
         jersey.register(
             MembersRegistrationResource(
-                AggregateRepository(eventStore)
+                AggregateRepository(eventStore, eventBus)
             )
         )
     }

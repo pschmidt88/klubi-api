@@ -9,7 +9,7 @@ class EventBusSpec : DescribeSpec({
     describe("event bus") {
         it ("publishes events to subscribed event handlers") {
             val handler = BusTestEventHandler()
-            EventBus().apply {
+            RxEventBus().apply {
                 subscribe(BusTestEvent::class.java, handler)
                 publish(BusTestEvent("test"))
             }
@@ -19,7 +19,7 @@ class EventBusSpec : DescribeSpec({
 
         it ("does not publish events to other handlers") {
             val handler = BusTestEventHandler()
-            EventBus().apply {
+            RxEventBus().apply {
                 subscribe(BusTestEvent::class.java, handler)
                 publish(TestEvent())
             }
