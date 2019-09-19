@@ -57,10 +57,10 @@ jobs:
 
       - run:
           name: "Build docker image"
-          command: docker build -t repo.treescale.com/rookian/klubi-api:latest -t repo.treescale.com/rookian/klubi-api:$CIRCLE_BUILD_NUM .
-          #      - run:
-          #name: "Publish to image repository"
-          #command: |
-          #echo $CR_PASS | docker login -u $CR_USER --password-stdin repo.treescale.com
-          # docker push repo.treescale.com/rookian/klubi-api:latest
-          # docker push repo.treescale.com/rookian/klubi-api:$CIRCLE_BUILD_NUM
+          command: docker build -t klubi-api:latest
+      - run:
+          name: "Publish to image repository"
+          command: |
+            echo $CR_PASS | docker login -u $CR_USER --password-stdin docker.pkg.github.com
+            docker push docker.pkg.github.com/pschmidt88/klubi-api/api:latest
+            docker push docker.pkg.github.com/pschmidt88/klubi-api/api:$CIRCLE_SHA1
