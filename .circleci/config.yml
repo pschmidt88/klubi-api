@@ -62,6 +62,7 @@ jobs:
           name: "Publish to image repository"
           command: |
             echo $CR_PASS | docker login -u $CR_USER --password-stdin docker.pkg.github.com
-            docker tag docker.pkg.github.com/pschmidt88/klubi-api/api:latest docker.pkg.github.com/pschmidt88/klubi-api/api:$CIRCLE_SHA1
+            docker tag klubi-api:latest docker.pkg.github.com/pschmidt88/klubi-api/api:latest
+            docker tag klubi-api:latest docker.pkg.github.com/pschmidt88/klubi-api/api:$CIRCLE_SHA1
             docker push docker.pkg.github.com/pschmidt88/klubi-api/api:latest
             docker push docker.pkg.github.com/pschmidt88/klubi-api/api:$CIRCLE_SHA1
