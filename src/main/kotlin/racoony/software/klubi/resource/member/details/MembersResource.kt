@@ -15,6 +15,7 @@ class MembersResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     fun find(@PathParam("id") id: UUID): MemberDetails {
+//        return MemberDetailsRepository().findById(id)
         return MemberDetails()
     }
 }

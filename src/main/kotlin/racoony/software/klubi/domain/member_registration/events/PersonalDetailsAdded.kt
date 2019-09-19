@@ -5,4 +5,4 @@ import racoony.software.klubi.event_sourcing.Event
 
 class PersonalDetailsAdded(
     val personalDetails: PersonalDetails
-) : Event()
+) : Event

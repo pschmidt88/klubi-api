@@ -37,6 +37,8 @@ dependencies {
 
     implementation "org.litote.kmongo:kmongo:$kmongo_version"
 
+    implementation "io.reactivex.rxjava2:rxjava:2.2.12"
+
     testImplementation "io.dropwizard:dropwizard-testing:$dropwizard_version"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:$kotlintest_version"
     testImplementation "org.testcontainers:testcontainers:1.11.3"

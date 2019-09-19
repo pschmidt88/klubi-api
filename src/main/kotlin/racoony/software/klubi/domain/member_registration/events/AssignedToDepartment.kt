@@ -5,4 +5,4 @@ import racoony.software.klubi.domain.member_registration.AssignedDepartment
 
 class AssignedToDepartment(
     val assignedDepartment: AssignedDepartment
-) : Event()
+) : Event

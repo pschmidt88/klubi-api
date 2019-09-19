@@ -58,6 +58,6 @@ class TestAggregate : Aggregate() {
     }
 }
 
-class TestEvent : Event()
+class TestEvent : Event
 
-class AnotherEvent : Event()
+class AnotherEvent : Event

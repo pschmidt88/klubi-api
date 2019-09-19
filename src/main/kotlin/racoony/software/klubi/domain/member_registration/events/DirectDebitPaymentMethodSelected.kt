@@ -5,4 +5,4 @@ import racoony.software.klubi.event_sourcing.Event
 
 class DirectDebitPaymentMethodSelected(
     val bankDetails: BankDetails
-) : Event()
+) : Event
