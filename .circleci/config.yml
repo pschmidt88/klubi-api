@@ -57,7 +57,7 @@ jobs:
 
       - run:
           name: "Build docker image"
-          command: docker build -t klubi-api:latest
+          command: docker build -t klubi-api:latest .
       - run:
           name: "Publish to image repository"
           command: |
