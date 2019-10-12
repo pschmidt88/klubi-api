@@ -19,11 +19,12 @@ class XlsxBankQuery : BankQuery {
                 }
 
                 val bankCode = BankCode(row.getCell(0).stringCellValue)
-                val bankName = row.getCell(2).stringCellValue
-                val shortBankName = row.getCell(5).stringCellValue
                 val bic = Bic(row.getCell(7).stringCellValue)
-
-                bankCodesStore.add(BankInformation(bankCode, BankName(shortBankName, bankName), bic))
+                val bankName = BankName(
+                    row.getCell(5).stringCellValue,
+                    row.getCell(2).stringCellValue
+                )
+                bankCodesStore.add(BankInformation(bankCode, bankName, bic))
             }
         }
     }

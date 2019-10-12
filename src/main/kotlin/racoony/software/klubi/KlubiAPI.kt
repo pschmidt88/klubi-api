@@ -15,9 +15,8 @@ import racoony.software.klubi.resource.member.registration.MembersRegistrationRe
 import com.mongodb.MongoClientURI
 import io.dropwizard.jersey.jackson.JsonProcessingExceptionMapper
 import io.dropwizard.setup.Bootstrap
+import racoony.software.klubi.domain.member_registration.MemberRegistration
 import racoony.software.klubi.event_sourcing.AggregateRepository
-import racoony.software.klubi.event_sourcing.EventStore
-import racoony.software.klubi.event_sourcing.bus.EventBus
 import racoony.software.klubi.event_sourcing.bus.RxEventBus
 
 class KlubiAPI : Application<KlubiConfiguration>() {
@@ -41,20 +40,16 @@ class KlubiAPI : Application<KlubiConfiguration>() {
 
         val eventBus = RxEventBus()
 
-        registerApiEndpoints(environment.jersey(), eventStore, eventBus)
+        val memberRegistrations = AggregateRepository<MemberRegistration>(eventStore, eventBus)
+        registerApiEndpoints(environment.jersey(), memberRegistrations)
     }
 
     private fun registerApiEndpoints(
         jersey: JerseyEnvironment,
-        eventStore: EventStore,
-        eventBus: EventBus
+        memberRegistrationRepository: AggregateRepository<MemberRegistration>
     ) {
         jersey.register(BankResource(XlsxBankQuery()))
-        jersey.register(
-            MembersRegistrationResource(
-                AggregateRepository(eventStore, eventBus)
-            )
-        )
+        jersey.register(MembersRegistrationResource(memberRegistrationRepository))
     }
 
     companion object {

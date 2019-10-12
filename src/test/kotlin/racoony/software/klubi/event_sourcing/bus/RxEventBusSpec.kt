@@ -5,7 +5,7 @@ import io.kotlintest.specs.DescribeSpec
 import racoony.software.klubi.event_sourcing.Event
 import racoony.software.klubi.event_sourcing.TestEvent
 
-class EventBusSpec : DescribeSpec({
+class RxEventBusSpec : DescribeSpec({
     describe("event bus") {
         it("publishes events to subscribed event handlers") {
             val handler = BusTestEventHandler()
