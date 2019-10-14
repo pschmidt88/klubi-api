@@ -7,7 +7,8 @@ import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.BehaviorSpec
-import racoony.software.klubi.event_sourcing.bus.RecordingEventBus
+import racoony.software.klubi.ports.bus.RecordingEventBus
+import racoony.software.klubi.ports.store.EventStore
 import java.util.UUID
 
 class AggregateRepositorySpec : BehaviorSpec({
@@ -109,7 +110,7 @@ class MoreComplicatedTestAggregate(
 
     private var foo: String = ""
 
-    @Suppress("unused")
+    @Suppress("UNUSED_PARAMETER")
     fun apply(event: TestEvent) {
         this.foo = "bar"
     }

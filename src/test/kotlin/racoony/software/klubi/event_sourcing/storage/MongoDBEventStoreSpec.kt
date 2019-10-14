@@ -8,6 +8,7 @@ import io.kotlintest.shouldNot
 import io.kotlintest.specs.DescribeSpec
 import org.litote.kmongo.KMongo
 import racoony.software.klubi.KGenericContainer
+import racoony.software.klubi.adapter.mongodb.MongoDBEventStore
 import racoony.software.klubi.event_sourcing.TestEvent
 import java.util.UUID
 

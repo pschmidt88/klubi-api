@@ -7,7 +7,7 @@ import io.dropwizard.jersey.setup.JerseyEnvironment
 import io.dropwizard.setup.Environment
 import org.litote.kmongo.KMongo
 import racoony.software.klubi.domain.bank.XlsxBankQuery
-import racoony.software.klubi.event_sourcing.storage.MongoDBEventStore
+import racoony.software.klubi.adapter.mongodb.MongoDBEventStore
 import racoony.software.klubi.filter.DiagnosticContextFilter
 import racoony.software.klubi.healthcheck.DefaultHealthCheck
 import racoony.software.klubi.resource.BankResource
@@ -17,7 +17,7 @@ import io.dropwizard.jersey.jackson.JsonProcessingExceptionMapper
 import io.dropwizard.setup.Bootstrap
 import racoony.software.klubi.domain.member_registration.MemberRegistration
 import racoony.software.klubi.event_sourcing.AggregateRepository
-import racoony.software.klubi.event_sourcing.bus.RxEventBus
+import racoony.software.klubi.adapter.rx.RxEventBus
 
 class KlubiAPI : Application<KlubiConfiguration>() {
     override fun initialize(bootstrap: Bootstrap<KlubiConfiguration>) {

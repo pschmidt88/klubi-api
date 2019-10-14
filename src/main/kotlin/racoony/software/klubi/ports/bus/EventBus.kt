@@ -1,4 +1,4 @@
-package racoony.software.klubi.event_sourcing.bus
+package racoony.software.klubi.ports.bus
 
 import racoony.software.klubi.event_sourcing.Event
 

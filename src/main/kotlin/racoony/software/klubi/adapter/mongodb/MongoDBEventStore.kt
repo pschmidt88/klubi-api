@@ -1,14 +1,11 @@
-package racoony.software.klubi.event_sourcing.storage
+package racoony.software.klubi.adapter.mongodb
 
 import com.mongodb.MongoClient
-
-import org.bson.codecs.pojo.annotations.BsonId
-import org.bson.types.ObjectId
 import org.litote.kmongo.eq
-import racoony.software.klubi.event_sourcing.Event
-import racoony.software.klubi.event_sourcing.EventStore
-import java.util.UUID
 import org.litote.kmongo.getCollection
+import racoony.software.klubi.event_sourcing.Event
+import racoony.software.klubi.ports.store.EventStore
+import java.util.UUID
 
 class MongoDBEventStore(
     client: MongoClient
@@ -29,12 +26,4 @@ class MongoDBEventStore(
             .map(MongoEvent::event)
             .toList()
     }
-}
-
-data class MongoEvent(
-    val aggregateId: UUID,
-    val event: Event
-) {
-    @BsonId
-    val id: ObjectId = ObjectId.get()
 }

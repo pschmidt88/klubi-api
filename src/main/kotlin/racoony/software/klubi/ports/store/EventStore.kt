@@ -1,5 +1,6 @@
-package racoony.software.klubi.event_sourcing
+package racoony.software.klubi.ports.store
 
+import racoony.software.klubi.event_sourcing.Event
 import java.util.UUID
 
 interface EventStore {
