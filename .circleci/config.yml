@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     machine:
-      docker_layer_caching: true
+      #docker_layer_caching: true
       # specify the version you desire here
       #- image: circleci/openjdk:8-jdk
 
