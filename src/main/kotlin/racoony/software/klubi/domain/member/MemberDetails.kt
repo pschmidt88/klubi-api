@@ -23,6 +23,7 @@ class MemberDetails {
     val departments: MutableList<AssignedDepartment> = mutableListOf()
     var paymentMethod: PaymentMethod? = null
 
+    @Suppress("UNUSED_PARAMETER")
     private fun apply(event: BankTransferPaymentMethodSelected) {
         this.paymentMethod = PaymentMethod.BANK_TRANSFER
     }
