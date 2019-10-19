@@ -1,6 +1,7 @@
 package racoony.software.klubi.domain.member
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import io.dropwizard.testing.FixtureHelpers.fixture
 import io.kotlintest.matchers.collections.shouldContain
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
@@ -64,8 +65,11 @@ class MemberDetailsProjectionSpec : BehaviorSpec({
                 memberDetails.paymentMethod() shouldBe PaymentMethod.BANK_TRANSFER
             }
 
-            Then("member details to json representation") {
-                println(jacksonObjectMapper().writeValueAsString(memberDetails.toJson()))
+            Then("member details json representation is valid") {
+                val expectedJson = fixture("fixtures/member_details/paul.json")
+                val actualJson = jacksonObjectMapper().writeValueAsString(memberDetails.toJson())
+
+                actualJson shouldBe expectedJson
             }
         }
     }

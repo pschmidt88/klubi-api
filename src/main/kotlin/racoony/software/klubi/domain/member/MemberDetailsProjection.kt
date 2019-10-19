@@ -3,6 +3,7 @@ package racoony.software.klubi.domain.member
 import racoony.software.klubi.domain.member_registration.Address
 import racoony.software.klubi.domain.member_registration.AssignedDepartment
 import racoony.software.klubi.domain.member_registration.Contact
+import racoony.software.klubi.domain.member_registration.EmailAddress
 import racoony.software.klubi.domain.member_registration.Name
 import racoony.software.klubi.domain.member_registration.PaymentMethod
 import racoony.software.klubi.domain.member_registration.events.AssignedToDepartment
