@@ -1,5 +1,7 @@
 name: Klubi API
 
+mongoDbConnection: ${MONGO_DB_CONNECTION}
+
 logging:
   appenders:
   - type: console
