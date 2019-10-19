@@ -58,12 +58,12 @@ jobs:
 
       - run:
           name: "Build docker image"
-          command: docker build -t klubi-api:latest .
+          command: docker build -t klubi-api:$CIRCLE_SHA1 .
       - run:
           name: "Publish to image repository"
           command: |
             echo $CR_PASS | docker login -u $CR_USER --password-stdin docker.pkg.github.com
-            docker tag klubi-api:latest docker.pkg.github.com/pschmidt88/klubi-api/api:latest
-            docker tag klubi-api:latest docker.pkg.github.com/pschmidt88/klubi-api/api:$CIRCLE_SHA1
-            docker push docker.pkg.github.com/pschmidt88/klubi-api/api:latest
-            docker push docker.pkg.github.com/pschmidt88/klubi-api/api:$CIRCLE_SHA1
+            docker tag klubi-api:$CIRCLE_SHA1 docker.pkg.github.com/appveloper-de/klubi-api/api:$CIRCLE_SHA1
+            docker tag klubi-api:$CIRCLE_SHA1 docker.pkg.github.com/appveloper-de/klubi-api/api:$CIRCLE_BUILD_NUM
+            docker push docker.pkg.github.com/appveloper-de/klubi-api/api:$CIRCLE_SHA1
+            docker push docker.pkg.github.com/appveloper-de/klubi-api/api:$CIRCLE_BUILD_NUM
