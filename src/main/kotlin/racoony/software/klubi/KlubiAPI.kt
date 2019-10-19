@@ -3,7 +3,6 @@ package racoony.software.klubi
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import io.dropwizard.Application
-import io.dropwizard.jersey.setup.JerseyEnvironment
 import io.dropwizard.setup.Environment
 import org.litote.kmongo.KMongo
 import racoony.software.klubi.domain.bank.XlsxBankQuery
