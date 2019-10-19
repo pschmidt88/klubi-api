@@ -1,5 +1,6 @@
 package racoony.software.klubi.domain.member
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.kotlintest.matchers.collections.shouldContain
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
@@ -35,32 +36,36 @@ class MemberDetailsProjectionSpec : BehaviorSpec({
         )
 
         When("build member details from history") {
-            val memberDetails = MemberDetails().apply {
+            val memberDetails = MemberDetailsProjection().apply {
                 restoreFromHistory(history)
             }
 
             Then("member details holds members name") {
-                memberDetails.name shouldBe Name("Paul", "Schmidt")
+                memberDetails.name() shouldBe Name("Paul", "Schmidt")
             }
 
             Then("member details holds members address") {
-                memberDetails.address shouldBe Address("Aschrottstraße", "4", "34119", "Kassel")
+                memberDetails.address() shouldBe Address("Aschrottstraße", "4", "34119", "Kassel")
             }
 
             Then("member details holds members birthday") {
-                memberDetails.birthday shouldBe LocalDate.of(1988, 6, 16)
+                memberDetails.birthday() shouldBe LocalDate.of(1988, 6, 16)
             }
 
             Then("member details hold members contact") {
-                memberDetails.contact shouldBe Contact(email = EmailAddress("rookian@gmail.com"))
+                memberDetails.contact() shouldBe Contact(email = EmailAddress("rookian@gmail.com"))
             }
 
             Then("member details holds assigned department") {
-                memberDetails.departments shouldContain AssignedDepartment(Department("football"), MemberStatus.ACTIVE, LocalDate.of(2019, 6, 1))
+                memberDetails.departments() shouldContain AssignedDepartment(Department("football"), MemberStatus.ACTIVE, LocalDate.of(2019, 6, 1))
             }
 
             Then("member details holds bank transfer payment method") {
-                memberDetails.paymentMethod shouldBe PaymentMethod.BANK_TRANSFER
+                memberDetails.paymentMethod() shouldBe PaymentMethod.BANK_TRANSFER
+            }
+
+            Then("member details to json representation") {
+                println(jacksonObjectMapper().writeValueAsString(memberDetails.toJson()))
             }
         }
     }

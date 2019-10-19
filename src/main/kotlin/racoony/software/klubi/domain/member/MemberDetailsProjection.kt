@@ -1,7 +1,5 @@
 package racoony.software.klubi.domain.member
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import racoony.software.klubi.domain.member_registration.Address
 import racoony.software.klubi.domain.member_registration.AssignedDepartment
 import racoony.software.klubi.domain.member_registration.Contact
@@ -13,25 +11,25 @@ import racoony.software.klubi.domain.member_registration.events.PersonalDetailsA
 import racoony.software.klubi.event_sourcing.Event
 import java.time.LocalDate
 
-class MemberDetails {
-    private val logger: Logger = LoggerFactory.getLogger(MemberDetails::class.java)
+class MemberDetailsProjection {
+    private lateinit var name: Name
+    private lateinit var address: Address
+    private lateinit var birthday: LocalDate
+    private lateinit var contact: Contact
+    private val departments: MutableList<AssignedDepartment> = mutableListOf()
+    private lateinit var paymentMethod: PaymentMethod
 
-    var name: Name? = null
-    var address: Address? = null
-    var birthday: LocalDate? = null
-    var contact: Contact? = null
-    val departments: MutableList<AssignedDepartment> = mutableListOf()
-    var paymentMethod: PaymentMethod? = null
-
-    @Suppress("UNUSED_PARAMETER")
+    @Suppress("unused")
     private fun apply(event: BankTransferPaymentMethodSelected) {
         this.paymentMethod = PaymentMethod.BANK_TRANSFER
     }
 
+    @Suppress("unused")
     private fun apply(event: AssignedToDepartment) {
         this.departments.add(event.assignedDepartment)
     }
 
+    @Suppress("unused")
     private fun apply(event: PersonalDetailsAdded) {
         this.name = event.personalDetails.name
         this.address = event.personalDetails.address
@@ -40,13 +38,9 @@ class MemberDetails {
     }
 
     private fun applyChange(event: Event) {
-        try {
-            this.javaClass.getDeclaredMethod("apply", event.javaClass).also {
-                it.isAccessible = true
-                it.invoke(this, event)
-            }
-        } catch (_: NoSuchMethodException) {
-            logger.debug("No method for ${event::class}")
+        this.javaClass.getDeclaredMethod("apply", event.javaClass).also {
+            it.isAccessible = true
+            it.invoke(this, event)
         }
     }
 
@@ -55,4 +49,25 @@ class MemberDetails {
             this.applyChange(it)
         }
     }
+
+    fun toJson(): MemberDetailsJsonRepresentation {
+        return MemberDetailsJsonRepresentation(
+            this.name(),
+            Address("Aschrottstraße", "4", "34119", "Kassel"),
+            LocalDate.parse("1988-06-16"),
+            Contact(email = EmailAddress("rookian@gmail.com"))
+        )
+    }
+
+    fun name(): Name = this.name
+
+    fun address(): Address = this.address
+
+    fun birthday(): LocalDate = this.birthday
+
+    fun contact(): Contact = this.contact
+
+    fun departments(): List<AssignedDepartment> = this.departments
+
+    fun paymentMethod(): PaymentMethod = this.paymentMethod
 }

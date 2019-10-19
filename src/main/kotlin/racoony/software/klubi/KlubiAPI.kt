@@ -19,6 +19,7 @@ import io.dropwizard.setup.Bootstrap
 import racoony.software.klubi.domain.member_registration.MemberRegistration
 import racoony.software.klubi.event_sourcing.AggregateRepository
 import racoony.software.klubi.adapter.rx.RxEventBus
+import racoony.software.klubi.resource.member.details.MembersResource
 
 class KlubiAPI : Application<KlubiConfiguration>() {
     override fun initialize(bootstrap: Bootstrap<KlubiConfiguration>) {
@@ -49,6 +50,7 @@ class KlubiAPI : Application<KlubiConfiguration>() {
 
         environment.jersey().register(BankResource(XlsxBankQuery()))
         environment.jersey().register(MembersRegistrationResource(memberRegistrations))
+        environment.jersey().register(MembersResource(eventStore))
     }
 
     companion object {
