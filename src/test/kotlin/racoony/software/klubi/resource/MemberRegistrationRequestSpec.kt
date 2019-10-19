@@ -24,7 +24,7 @@ class MemberRegistrationRequestSpec : ShouldSpec({
     val mapper = Jackson.newObjectMapper().registerKotlinModule()
 
     "deserializes minimum json" {
-        val json = fixture("fixtures/member_minimum.json")
+        val json = fixture("fixtures/requests/member_minimum.json")
         val request = mapper.readValue(json, MemberRegistrationRequest::class.java)
 
         should("contain the name Paul Schmidt") {
@@ -61,7 +61,7 @@ class MemberRegistrationRequestSpec : ShouldSpec({
     }
 
     "deserializes json with bankdetails and contact" {
-        val json = fixture("fixtures/member_full.json")
+        val json = fixture("fixtures/requests/member_full.json")
         val request = mapper.readValue(json, MemberRegistrationRequest::class.java)
 
         should("contain bank details") {
