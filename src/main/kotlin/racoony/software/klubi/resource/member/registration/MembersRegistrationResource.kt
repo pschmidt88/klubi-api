@@ -1,11 +1,8 @@
 package racoony.software.klubi.resource.member.registration
 
-import racoony.software.klubi.domain.member_registration.BankDetails
 import racoony.software.klubi.domain.member_registration.MemberRegistration
-import racoony.software.klubi.domain.member_registration.PaymentMethod
 import racoony.software.klubi.domain.member_registration.PersonalDetails
 import racoony.software.klubi.event_sourcing.AggregateRepository
-import racoony.software.klubi.domain.member_registration.AssignedDepartment
 import racoony.software.klubi.resource.member.registration.requests.MemberRegistrationRequest
 import javax.validation.Valid
 import javax.ws.rs.Consumes
@@ -23,23 +20,11 @@ class MembersRegistrationResource(
     fun createMember(@Valid request: MemberRegistrationRequest) {
         val memberRegistration = MemberRegistration().apply {
             addPersonalDetails(personalDetailsFromRequest(request))
-            assignToDepartment(assignedDepartmentFromRequest(request))
-            selectPaymentMethod(paymentMethodFromRequest(request), bankDetailsFromRequest(request))
+            assignToDepartment(request.assignedDepartment())
+            selectPaymentMethod(request.paymentMethod(), request.bankDetails())
         }
 
         repository.save(memberRegistration)
-    }
-
-    private fun paymentMethodFromRequest(request: MemberRegistrationRequest): PaymentMethod {
-        return request.paymentMethod()
-    }
-
-    private fun bankDetailsFromRequest(request: MemberRegistrationRequest): BankDetails? {
-        return request.bankDetails()
-    }
-
-    private fun assignedDepartmentFromRequest(request: MemberRegistrationRequest): AssignedDepartment {
-        return request.assignedDepartment()
     }
 
     private fun personalDetailsFromRequest(request: MemberRegistrationRequest): PersonalDetails {

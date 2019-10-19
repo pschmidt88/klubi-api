@@ -13,6 +13,8 @@ import racoony.software.klubi.healthcheck.DefaultHealthCheck
 import racoony.software.klubi.resource.BankResource
 import racoony.software.klubi.resource.member.registration.MembersRegistrationResource
 import com.mongodb.MongoClientURI
+import io.dropwizard.configuration.EnvironmentVariableSubstitutor
+import io.dropwizard.configuration.SubstitutingSourceProvider
 import io.dropwizard.jersey.jackson.JsonProcessingExceptionMapper
 import io.dropwizard.setup.Bootstrap
 import racoony.software.klubi.domain.member_registration.MemberRegistration
@@ -21,6 +23,10 @@ import racoony.software.klubi.adapter.rx.RxEventBus
 
 class KlubiAPI : Application<KlubiConfiguration>() {
     override fun initialize(bootstrap: Bootstrap<KlubiConfiguration>) {
+        bootstrap.configurationSourceProvider = SubstitutingSourceProvider(
+            bootstrap.configurationSourceProvider,
+            EnvironmentVariableSubstitutor()
+        )
         this.configureObjectMapper(bootstrap.objectMapper)
     }
 
@@ -31,7 +37,7 @@ class KlubiAPI : Application<KlubiConfiguration>() {
     override fun run(configuration: KlubiConfiguration, environment: Environment) {
         println("Booting Klubi API...")
 
-        val uri = MongoClientURI("mongodb+srv://klubi:YQzVTrWsUtZToaGR@klubi-cluster-yev0b.mongodb.net/test?retryWrites=true&w=majority")
+        val uri = MongoClientURI(configuration.mongoDbConnection)
         val eventStore = MongoDBEventStore(KMongo.createClient(uri))
 
         environment.jersey().register(JsonProcessingExceptionMapper(true))
@@ -41,15 +47,9 @@ class KlubiAPI : Application<KlubiConfiguration>() {
         val eventBus = RxEventBus()
 
         val memberRegistrations = AggregateRepository<MemberRegistration>(eventStore, eventBus)
-        registerApiEndpoints(environment.jersey(), memberRegistrations)
-    }
 
-    private fun registerApiEndpoints(
-        jersey: JerseyEnvironment,
-        memberRegistrationRepository: AggregateRepository<MemberRegistration>
-    ) {
-        jersey.register(BankResource(XlsxBankQuery()))
-        jersey.register(MembersRegistrationResource(memberRegistrationRepository))
+        environment.jersey().register(BankResource(XlsxBankQuery()))
+        environment.jersey().register(MembersRegistrationResource(memberRegistrations))
     }
 
     companion object {
