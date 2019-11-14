@@ -6,3 +6,10 @@ logging:
   appenders:
   - type: console
     threshold: DEBUG
+  - type: gelf
+    host: ${SEMATEXT_LOG_URL}/klubi-api/
+    facility: KlubiAPI
+    extractStackTrace: true
+    filterStackTrace: true
+    includeFullMDC: true
+    includeLocation: true

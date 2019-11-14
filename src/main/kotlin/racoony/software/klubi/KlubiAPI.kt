@@ -12,10 +12,10 @@ import racoony.software.klubi.healthcheck.DefaultHealthCheck
 import racoony.software.klubi.resource.BankResource
 import racoony.software.klubi.resource.member.registration.MembersRegistrationResource
 import com.mongodb.MongoClientURI
-import io.dropwizard.configuration.EnvironmentVariableSubstitutor
 import io.dropwizard.configuration.SubstitutingSourceProvider
 import io.dropwizard.jersey.jackson.JsonProcessingExceptionMapper
 import io.dropwizard.setup.Bootstrap
+import org.slf4j.LoggerFactory
 import racoony.software.klubi.domain.member_registration.MemberRegistration
 import racoony.software.klubi.event_sourcing.AggregateRepository
 import racoony.software.klubi.adapter.rx.RxEventBus
@@ -25,7 +25,7 @@ class KlubiAPI : Application<KlubiConfiguration>() {
     override fun initialize(bootstrap: Bootstrap<KlubiConfiguration>) {
         bootstrap.configurationSourceProvider = SubstitutingSourceProvider(
             bootstrap.configurationSourceProvider,
-            EnvironmentVariableSubstitutor()
+            DotEnvEnvironmentVariableSubstitutor()
         )
         this.configureObjectMapper(bootstrap.objectMapper)
     }
@@ -35,7 +35,7 @@ class KlubiAPI : Application<KlubiConfiguration>() {
     }
 
     override fun run(configuration: KlubiConfiguration, environment: Environment) {
-        println("Booting Klubi API...")
+        LoggerFactory.getLogger(KlubiAPI::class.java).info("Starting Klubi API...")
 
         val uri = MongoClientURI(configuration.mongoDbConnection)
         val eventStore = MongoDBEventStore(KMongo.createClient(uri))
