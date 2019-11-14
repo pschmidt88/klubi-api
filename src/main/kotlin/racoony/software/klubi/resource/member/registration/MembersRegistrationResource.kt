@@ -4,11 +4,13 @@ import racoony.software.klubi.domain.member_registration.MemberRegistration
 import racoony.software.klubi.domain.member_registration.PersonalDetails
 import racoony.software.klubi.event_sourcing.AggregateRepository
 import racoony.software.klubi.resource.member.registration.requests.MemberRegistrationRequest
+import java.net.URI
 import javax.validation.Valid
 import javax.ws.rs.Consumes
 import javax.ws.rs.POST
 import javax.ws.rs.Path
 import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
 
 @Path("/api/members/registration")
 class MembersRegistrationResource(
@@ -17,7 +19,7 @@ class MembersRegistrationResource(
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    fun createMember(@Valid request: MemberRegistrationRequest) {
+    fun createMember(@Valid request: MemberRegistrationRequest): Response {
         val memberRegistration = MemberRegistration().apply {
             addPersonalDetails(personalDetailsFromRequest(request))
             assignToDepartment(request.assignedDepartment())
@@ -25,6 +27,8 @@ class MembersRegistrationResource(
         }
 
         repository.save(memberRegistration)
+
+        return Response.created(URI.create("/api/members/${memberRegistration.id}")).build()
     }
 
     private fun personalDetailsFromRequest(request: MemberRegistrationRequest): PersonalDetails {

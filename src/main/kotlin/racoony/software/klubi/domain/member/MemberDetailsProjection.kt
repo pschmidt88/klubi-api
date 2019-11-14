@@ -39,10 +39,12 @@ class MemberDetailsProjection {
     }
 
     private fun applyChange(event: Event) {
-        this.javaClass.getDeclaredMethod("apply", event.javaClass).also {
-            it.isAccessible = true
-            it.invoke(this, event)
-        }
+        try {
+            this.javaClass.getDeclaredMethod("apply", event.javaClass).also {
+                it.isAccessible = true
+                it.invoke(this, event)
+            }
+        } catch (_: NoSuchMethodException) {}
     }
 
     fun restoreFromHistory(history: List<Event>) {

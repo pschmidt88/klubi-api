@@ -10,11 +10,10 @@ import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
-@Path("/api/v0/members")
+@Path("/api/members")
 class MembersResource(
     private val eventStore: EventStore
 ) {
-
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
