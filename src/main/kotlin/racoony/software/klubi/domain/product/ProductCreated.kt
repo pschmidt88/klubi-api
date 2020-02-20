@@ -8,4 +8,3 @@ class ProductCreated(
     val productType: ProductType,
     val price: Price
 ) : Event
-
