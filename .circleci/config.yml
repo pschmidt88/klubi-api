@@ -34,7 +34,7 @@ jobs:
 
       - setup_remote_docker:
 
-      - run: ./gradlew test
+      - run: gradle test
 
       - save_cache:
           paths:
