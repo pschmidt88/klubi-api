@@ -11,10 +11,6 @@ jobs:
   build:
     machine: true
 
-    branches:
-      only:
-        - master
-
     environment:
       # Configure the JVM and Gradle to avoid OOM errors
       _JAVA_OPTIONS: "-Xmx3g"
