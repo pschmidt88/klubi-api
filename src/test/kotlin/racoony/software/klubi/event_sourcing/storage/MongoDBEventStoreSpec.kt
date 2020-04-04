@@ -7,7 +7,6 @@ import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNot
 import org.litote.kmongo.KMongo
-import org.testcontainers.containers.wait.strategy.Wait
 import racoony.software.klubi.KGenericContainer
 import racoony.software.klubi.adapter.mongodb.MongoDBEventStore
 import racoony.software.klubi.event_sourcing.TestEvent
