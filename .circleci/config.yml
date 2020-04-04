@@ -2,10 +2,7 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2.1
-
-orbs:
-  openjdk-install: cloudesire/openjdk-install@1.2.3
+version: 2
 
 jobs:
   build:
@@ -19,8 +16,9 @@ jobs:
     steps:
       - checkout
 
-      - openjdk:
-          version: 11
+      - run:
+          name: Install openjdk-11-jdk
+          command: sudo apt-get install -y openjdk-11-jdk
 
       - restore_cache:
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
