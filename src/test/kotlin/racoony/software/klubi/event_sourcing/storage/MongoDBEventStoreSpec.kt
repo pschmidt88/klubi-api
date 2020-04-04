@@ -14,10 +14,8 @@ import racoony.software.klubi.event_sourcing.TestEvent
 import java.util.UUID
 
 class MongoDBEventStoreSpec : DescribeSpec() {
-    private val mongoContainer: KGenericContainer = KGenericContainer("mongo").waitingFor(Wait.forHealthcheck())
-
-    override fun beforeSpec(spec: Spec) {
-        mongoContainer.start()
+    private val mongoContainer: KGenericContainer = KGenericContainer("mongo").apply {
+        start()
     }
 
     override fun afterSpec(spec: Spec) {
@@ -25,11 +23,14 @@ class MongoDBEventStoreSpec : DescribeSpec() {
     }
 
     init {
-        val client = KMongo.createClient(this.mongoContainer.containerIpAddress, this.mongoContainer.getMappedPort(27017))
-        val eventStore = MongoDBEventStore(client)
-
         describe("Writing events to mongodb") {
+            val client = KMongo.createClient(
+                mongoContainer.containerIpAddress,
+                mongoContainer.getMappedPort(27017)
+            )
+            val eventStore = MongoDBEventStore(client)
             val aggregateId = UUID.randomUUID()
+
             it("should not blow up when saving") {
                 eventStore.save(aggregateId, listOf(TestEvent()))
             }
