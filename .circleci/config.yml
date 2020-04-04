@@ -2,23 +2,17 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2
+version: 2.1
 jobs:
   build:
-    docker:
-      # docker_layer_caching: true
-      # specify the version you desire here
-      - image: gradle:6.3-jdk11
-      #- image: circleci/openjdk:8-jdk
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
+    machine: true
 
     branches:
       only:
         - master
+
+    orbs:
+      openjdk-install: cloudesire/openjdk-install@1.2.3
 
     environment:
       # Configure the JVM and Gradle to avoid OOM errors
@@ -27,14 +21,16 @@ jobs:
 
     steps:
       - checkout
+
+      - cloudesire/openjdk-install:
+          version: 11
+
       - restore_cache:
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       - restore_cache:
           key: v1-gradle-cache-{{ checksum "build.gradle" }}
 
-      - setup_remote_docker:
-
-      - run: gradle test
+      - run: ./gradlew test
 
       - save_cache:
           paths:
