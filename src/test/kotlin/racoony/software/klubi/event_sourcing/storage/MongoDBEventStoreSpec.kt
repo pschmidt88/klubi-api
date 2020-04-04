@@ -17,7 +17,7 @@ import java.util.UUID
 class MongoDBEventStoreSpec : DescribeSpec() {
     private val mongoContainer: KGenericContainer = KGenericContainer("mongo").waitingFor(Wait.forHealthcheck())
 
-    override fun beforeTest(testCase: TestCase) {
+    override fun beforeSpec(spec: Spec) {
         mongoContainer.start()
     }
 
