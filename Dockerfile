@@ -1,11 +1,11 @@
-FROM gradle:5.5-jdk8 AS BUILD
+FROM gradle:6.3-jdk11 AS BUILD
 
 ADD . .
 ADD gradle.properties /home/gradle/.gradle/
 
 RUN gradle clean shadowJar
 
-FROM java:8-jre-alpine
+FROM adoptopenjdk:11-jre-hotspot
 
 COPY --from=BUILD /home/gradle/build/libs/api.jar /app/
 
