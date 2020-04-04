@@ -5,8 +5,11 @@
 version: 2
 jobs:
   build:
-    machine:
-      image: ubuntu-1604:201903-01
+    docker:
+      # docker_layer_caching: true
+      # specify the version you desire here
+      - image: gradle:6.3-jdk11
+      #- image: circleci/openjdk:8-jdk
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images

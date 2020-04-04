@@ -2,19 +2,23 @@ package racoony.software.klubi.event_sourcing.storage
 
 import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.core.test.TestCase
 import io.kotest.matchers.beOfType
 import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNot
 import org.litote.kmongo.KMongo
+import org.testcontainers.containers.wait.strategy.Wait
 import racoony.software.klubi.KGenericContainer
 import racoony.software.klubi.adapter.mongodb.MongoDBEventStore
 import racoony.software.klubi.event_sourcing.TestEvent
 import java.util.UUID
 
 class MongoDBEventStoreSpec : DescribeSpec() {
-    private val mongoContainer: KGenericContainer = KGenericContainer("mongo").apply {
-        start()
+    private val mongoContainer: KGenericContainer = KGenericContainer("mongo").waitingFor(Wait.forHealthcheck())
+
+    override fun beforeTest(testCase: TestCase) {
+        mongoContainer.start()
     }
 
     override fun afterSpec(spec: Spec) {
