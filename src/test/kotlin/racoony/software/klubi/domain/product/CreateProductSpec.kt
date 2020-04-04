@@ -5,9 +5,9 @@ import io.kotest.matchers.beOfType
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
+import java.util.Currency
 import racoony.software.klubi.domain.product.ProductType.PHYSICAL
 import racoony.software.klubi.event_sourcing.Changes
-import java.util.Currency
 
 class CreateProductSpec : BehaviorSpec({
     Given("Product information for a product to be created") {

@@ -7,9 +7,9 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import java.util.UUID
 import racoony.software.klubi.ports.bus.RecordingEventBus
 import racoony.software.klubi.ports.store.EventStore
-import java.util.UUID
 
 class AggregateRepositorySpec : BehaviorSpec({
     Given("Aggregate with at least one event in store") {

@@ -3,10 +3,10 @@ package racoony.software.klubi.domain.member
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonInclude.Include
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.time.LocalDate
 import racoony.software.klubi.domain.member_registration.Address
 import racoony.software.klubi.domain.member_registration.Contact
 import racoony.software.klubi.domain.member_registration.Name
-import java.time.LocalDate
 
 @JsonInclude(Include.NON_NULL)
 data class MemberDetailsJsonRepresentation(

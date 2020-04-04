@@ -6,11 +6,11 @@ import io.kotest.matchers.beOfType
 import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNot
+import java.util.UUID
 import org.litote.kmongo.KMongo
 import racoony.software.klubi.KGenericContainer
 import racoony.software.klubi.adapter.mongodb.MongoDBEventStore
 import racoony.software.klubi.event_sourcing.TestEvent
-import java.util.UUID
 
 class MongoDBEventStoreSpec : DescribeSpec() {
     private val mongoContainer: KGenericContainer = KGenericContainer("mongo").apply {

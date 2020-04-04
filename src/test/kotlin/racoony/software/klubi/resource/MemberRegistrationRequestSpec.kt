@@ -6,19 +6,19 @@ import io.dropwizard.testing.FixtureHelpers.fixture
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import java.time.LocalDate
 import racoony.software.klubi.domain.bank.Bic
 import racoony.software.klubi.domain.bank.IBAN
 import racoony.software.klubi.domain.member_registration.AccountOwner
 import racoony.software.klubi.domain.member_registration.Address
+import racoony.software.klubi.domain.member_registration.AssignedDepartment
 import racoony.software.klubi.domain.member_registration.Department
 import racoony.software.klubi.domain.member_registration.EmailAddress
 import racoony.software.klubi.domain.member_registration.MemberStatus
 import racoony.software.klubi.domain.member_registration.Name
 import racoony.software.klubi.domain.member_registration.PaymentMethod
 import racoony.software.klubi.domain.member_registration.PhoneNumber
-import racoony.software.klubi.domain.member_registration.AssignedDepartment
 import racoony.software.klubi.resource.member.registration.requests.MemberRegistrationRequest
-import java.time.LocalDate
 
 class MemberRegistrationRequestSpec : ShouldSpec({
     val mapper = Jackson.newObjectMapper().registerKotlinModule()

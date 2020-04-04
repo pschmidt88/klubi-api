@@ -5,9 +5,9 @@ import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNot
+import java.time.LocalDate
 import racoony.software.klubi.domain.member_registration.events.AssignedToDepartment
 import racoony.software.klubi.event_sourcing.Changes
-import java.time.LocalDate
 
 class AssigningDepartmentsSpec : BehaviorSpec({
     Given("a fresh member registration") {

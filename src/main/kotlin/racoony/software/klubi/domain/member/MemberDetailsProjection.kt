@@ -1,5 +1,6 @@
 package racoony.software.klubi.domain.member
 
+import java.time.LocalDate
 import racoony.software.klubi.domain.member_registration.Address
 import racoony.software.klubi.domain.member_registration.AssignedDepartment
 import racoony.software.klubi.domain.member_registration.Contact
@@ -10,7 +11,6 @@ import racoony.software.klubi.domain.member_registration.events.AssignedToDepart
 import racoony.software.klubi.domain.member_registration.events.BankTransferPaymentMethodSelected
 import racoony.software.klubi.domain.member_registration.events.PersonalDetailsAdded
 import racoony.software.klubi.event_sourcing.Event
-import java.time.LocalDate
 
 class MemberDetailsProjection {
     private lateinit var name: Name

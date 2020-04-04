@@ -1,11 +1,11 @@
 package racoony.software.klubi.domain.member_registration
 
-import racoony.software.klubi.domain.member_registration.events.PersonalDetailsAdded
+import java.util.UUID
 import racoony.software.klubi.domain.member_registration.events.AssignedToDepartment
 import racoony.software.klubi.domain.member_registration.events.BankTransferPaymentMethodSelected
 import racoony.software.klubi.domain.member_registration.events.DirectDebitPaymentMethodSelected
+import racoony.software.klubi.domain.member_registration.events.PersonalDetailsAdded
 import racoony.software.klubi.event_sourcing.Aggregate
-import java.util.UUID
 
 class MemberRegistration(
     id: UUID = UUID.randomUUID()

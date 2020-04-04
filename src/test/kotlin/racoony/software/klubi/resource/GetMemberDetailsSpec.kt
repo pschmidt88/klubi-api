@@ -2,6 +2,8 @@ package racoony.software.klubi.resource
 
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
+import java.time.LocalDate
+import java.util.UUID
 import racoony.software.klubi.domain.member.MemberDetailsJsonRepresentation
 import racoony.software.klubi.domain.member_registration.Address
 import racoony.software.klubi.domain.member_registration.Contact
@@ -10,8 +12,6 @@ import racoony.software.klubi.domain.member_registration.Name
 import racoony.software.klubi.event_sourcing.InMemoryEventStore
 import racoony.software.klubi.event_sourcing.Stories
 import racoony.software.klubi.resource.member.details.MembersResource
-import java.time.LocalDate
-import java.util.UUID
 
 class GetMemberDetailsSpec : BehaviorSpec({
     Given("registered member") {

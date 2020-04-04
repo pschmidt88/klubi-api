@@ -1,5 +1,6 @@
 package racoony.software.klubi.event_sourcing
 
+import java.time.LocalDate
 import racoony.software.klubi.domain.member_registration.Address
 import racoony.software.klubi.domain.member_registration.AssignedDepartment
 import racoony.software.klubi.domain.member_registration.Contact
@@ -11,7 +12,6 @@ import racoony.software.klubi.domain.member_registration.PersonalDetails
 import racoony.software.klubi.domain.member_registration.events.AssignedToDepartment
 import racoony.software.klubi.domain.member_registration.events.BankTransferPaymentMethodSelected
 import racoony.software.klubi.domain.member_registration.events.PersonalDetailsAdded
-import java.time.LocalDate
 
 object Stories {
     fun registeredMember(): List<Event> {

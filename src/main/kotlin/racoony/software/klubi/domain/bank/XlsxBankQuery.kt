@@ -1,7 +1,7 @@
 package racoony.software.klubi.domain.bank
 
-import org.apache.poi.ss.usermodel.WorkbookFactory
 import kotlin.Exception
+import org.apache.poi.ss.usermodel.WorkbookFactory
 
 private const val BANKCODES_PATH = "/bankcodes/201907_blz-aktuell-xls-data.xlsx"
 

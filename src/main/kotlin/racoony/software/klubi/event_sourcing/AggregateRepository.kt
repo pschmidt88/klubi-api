@@ -1,10 +1,10 @@
 package racoony.software.klubi.event_sourcing
 
-import racoony.software.klubi.ports.bus.EventBus
-import racoony.software.klubi.ports.store.EventStore
 import java.util.UUID
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
+import racoony.software.klubi.ports.bus.EventBus
+import racoony.software.klubi.ports.store.EventStore
 
 class AggregateRepository<T : Aggregate>(
     private val eventStore: EventStore,
