@@ -5,11 +5,8 @@
 version: 2
 jobs:
   build:
-    docker:
-      # docker_layer_caching: true
-      # specify the version you desire here
-      - image: circleci/openjdk:11.0.3-jdk-stretch
-      #- image: circleci/openjdk:8-jdk
+    machine:
+      image: ubuntu-1604:201903-01
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
