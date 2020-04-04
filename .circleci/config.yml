@@ -18,7 +18,10 @@ jobs:
 
       - run:
           name: Install openjdk-11-jdk
-          command: sudo apt-get install -y openjdk-11-jdk
+          command: |
+            sudo add-apt-repository ppa:openjdk-r/ppa
+            sudo apt-get update
+            sudo apt-get install -y openjdk-11-jdk
 
       - restore_cache:
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
