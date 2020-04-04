@@ -1,7 +1,7 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '5.1.0'
     id 'com.diffplug.gradle.spotless' version '3.23.1'
-    id 'org.jetbrains.kotlin.jvm' version '1.3.40'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.70'
     id 'application'
 }
 
@@ -17,9 +17,9 @@ repositories {
 }
 
 ext {
-    kotlin_version = '1.3.40'
+    kotlin_version = '1.3.70'
     dropwizard_version = '1.3.14'
-    kotlintest_version = '3.3.3'
+    kotest_version = '4.0.2'
     kmongo_version = '3.10.2'
 }
 
@@ -43,8 +43,9 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.2.12"
 
     testImplementation "io.dropwizard:dropwizard-testing:$dropwizard_version"
-    testImplementation "io.kotlintest:kotlintest-runner-junit5:$kotlintest_version"
-    testImplementation "org.testcontainers:testcontainers:1.11.3"
+    testImplementation "io.kotest:kotest-runner-junit5-jvm:$kotest_version"
+    testImplementation "io.kotest:kotest-assertions-core-jvm:$kotest_version"
+    testImplementation "org.testcontainers:testcontainers:1.13.0"
 }
 
 shadowJar {
@@ -67,9 +68,9 @@ spotless {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }

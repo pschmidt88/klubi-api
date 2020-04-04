@@ -1,12 +1,12 @@
 package racoony.software.klubi.event_sourcing
 
-import io.kotlintest.matchers.beOfType
-import io.kotlintest.matchers.collections.shouldHaveSize
-import io.kotlintest.should
-import io.kotlintest.shouldBe
-import io.kotlintest.shouldNotBe
-import io.kotlintest.shouldThrow
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.beOfType
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.should
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import racoony.software.klubi.ports.bus.RecordingEventBus
 import racoony.software.klubi.ports.store.EventStore
 import java.util.UUID

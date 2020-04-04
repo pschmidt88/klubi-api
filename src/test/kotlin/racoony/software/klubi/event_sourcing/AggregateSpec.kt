@@ -1,8 +1,8 @@
 package racoony.software.klubi.event_sourcing
 
-import io.kotlintest.TestCase
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.core.test.TestCase
+import io.kotest.matchers.shouldBe
 
 class AggregateSpec : DescribeSpec() {
     private lateinit var aggregateInstance: TestAggregate

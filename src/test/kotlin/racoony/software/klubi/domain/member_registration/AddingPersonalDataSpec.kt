@@ -1,10 +1,10 @@
 package racoony.software.klubi.domain.member_registration
 
-import io.kotlintest.specs.BehaviorSpec
-import io.kotlintest.matchers.beEmpty
-import io.kotlintest.matchers.collections.shouldHaveSize
-import io.kotlintest.shouldBe
-import io.kotlintest.shouldNot
+import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.collections.beEmpty
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNot
 import racoony.software.klubi.domain.member_registration.events.PersonalDetailsAdded
 import racoony.software.klubi.event_sourcing.Changes
 import java.time.LocalDate

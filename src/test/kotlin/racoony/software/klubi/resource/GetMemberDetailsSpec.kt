@@ -1,7 +1,7 @@
 package racoony.software.klubi.resource
 
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.shouldBe
 import racoony.software.klubi.domain.member.MemberDetailsJsonRepresentation
 import racoony.software.klubi.domain.member_registration.Address
 import racoony.software.klubi.domain.member_registration.Contact

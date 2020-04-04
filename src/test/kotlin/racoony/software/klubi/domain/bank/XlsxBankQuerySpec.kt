@@ -1,8 +1,8 @@
 package racoony.software.klubi.domain.bank
 
-import io.kotlintest.shouldBe
-import io.kotlintest.shouldNotBe
-import io.kotlintest.specs.ShouldSpec
+import io.kotest.core.spec.style.ShouldSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 
 class XlsxBankQuerySpec : ShouldSpec({
     "XlsxBankQuery::byBankCode with 50010517" {

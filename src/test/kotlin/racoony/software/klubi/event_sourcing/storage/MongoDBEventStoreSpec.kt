@@ -1,11 +1,11 @@
 package racoony.software.klubi.event_sourcing.storage
 
-import io.kotlintest.Spec
-import io.kotlintest.matchers.beEmpty
-import io.kotlintest.matchers.beOfType
-import io.kotlintest.shouldBe
-import io.kotlintest.shouldNot
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.Spec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.beOfType
+import io.kotest.matchers.collections.beEmpty
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNot
 import org.litote.kmongo.KMongo
 import racoony.software.klubi.KGenericContainer
 import racoony.software.klubi.adapter.mongodb.MongoDBEventStore

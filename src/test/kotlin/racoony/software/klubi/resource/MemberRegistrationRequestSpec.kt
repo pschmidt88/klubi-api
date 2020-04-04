@@ -3,9 +3,9 @@ package racoony.software.klubi.resource
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import io.dropwizard.jackson.Jackson
 import io.dropwizard.testing.FixtureHelpers.fixture
-import io.kotlintest.shouldBe
-import io.kotlintest.shouldNotBe
-import io.kotlintest.specs.ShouldSpec
+import io.kotest.core.spec.style.ShouldSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import racoony.software.klubi.domain.bank.Bic
 import racoony.software.klubi.domain.bank.IBAN
 import racoony.software.klubi.domain.member_registration.AccountOwner

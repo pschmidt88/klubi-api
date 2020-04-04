@@ -2,9 +2,9 @@ package racoony.software.klubi.domain.member
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.dropwizard.testing.FixtureHelpers.fixture
-import io.kotlintest.matchers.collections.shouldContain
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.collections.shouldContain
+import io.kotest.matchers.shouldBe
 import racoony.software.klubi.domain.member_registration.Address
 import racoony.software.klubi.domain.member_registration.AssignedDepartment
 import racoony.software.klubi.domain.member_registration.Contact

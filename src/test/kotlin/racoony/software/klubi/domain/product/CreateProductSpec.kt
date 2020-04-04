@@ -1,10 +1,10 @@
 package racoony.software.klubi.domain.product
 
-import io.kotlintest.matchers.beOfType
-import io.kotlintest.matchers.collections.shouldHaveSize
-import io.kotlintest.should
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.BehaviorSpec
+import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.beOfType
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.should
+import io.kotest.matchers.shouldBe
 import racoony.software.klubi.domain.product.ProductType.PHYSICAL
 import racoony.software.klubi.event_sourcing.Changes
 import java.util.Currency
