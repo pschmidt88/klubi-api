@@ -3,6 +3,10 @@
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
 version: 2.1
+
+orbs:
+  openjdk-install: cloudesire/openjdk-install@1.2.3
+
 jobs:
   build:
     machine: true
@@ -10,9 +14,6 @@ jobs:
     branches:
       only:
         - master
-
-    orbs:
-      openjdk-install: cloudesire/openjdk-install@1.2.3
 
     environment:
       # Configure the JVM and Gradle to avoid OOM errors
