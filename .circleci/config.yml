@@ -19,7 +19,7 @@ jobs:
     steps:
       - checkout
 
-      - openjdk-install:
+      - openjdk:
           version: 11
 
       - restore_cache:
