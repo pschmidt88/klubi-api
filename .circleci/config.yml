@@ -19,7 +19,7 @@ jobs:
     steps:
       - checkout
 
-      - cloudesire/openjdk-install:
+      - openjdk-install:
           version: 11
 
       - restore_cache:
