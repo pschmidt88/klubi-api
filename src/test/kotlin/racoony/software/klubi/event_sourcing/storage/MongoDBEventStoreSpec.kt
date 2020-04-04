@@ -2,7 +2,6 @@ package racoony.software.klubi.event_sourcing.storage
 
 import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.core.test.TestCase
 import io.kotest.matchers.beOfType
 import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.shouldBe
