@@ -36,7 +36,7 @@ dependencies {
     implementation 'javax.xml.bind:jaxb-api:2.3.0'
     implementation 'javax.activation:activation:1.1'
 
-    implementation 'org.apache.poi:poi-ooxml:3.17'
+    implementation 'org.apache.poi:poi-ooxml:4.1.2'
 
     implementation "org.litote.kmongo:kmongo:$kmongo_version"
 
