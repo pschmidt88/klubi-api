@@ -3,6 +3,8 @@ name: Klubi API
 mongoDbConnection: ${MONGO_DB_CONNECTION}
 
 logging:
+  loggers:
+    "org.mongodb.driver.cluster": WARN
   appenders:
   - type: console
     threshold: DEBUG
