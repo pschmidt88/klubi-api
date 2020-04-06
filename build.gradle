@@ -18,7 +18,7 @@ repositories {
 
 ext {
     kotlin_version = '1.3.70'
-    dropwizard_version = '1.3.14'
+    dropwizard_version = '1.3.22'
     kotest_version = '4.0.2'
     kmongo_version = '3.10.2'
 }
