@@ -8,5 +8,6 @@ RUN gradle clean shadowJar
 FROM adoptopenjdk:11-jre-hotspot
 
 COPY --from=BUILD /home/gradle/build/libs/api.jar /app/
+COPY config/default.yaml /app/config/default.yaml
 
-CMD ["/usr/bin/java", "-jar", "/app/klubi-api.jar", "server", "/app/config/default.yaml"]
+CMD ["java", "-jar", "/app/api.jar", "server", "/app/config/default.yaml"]

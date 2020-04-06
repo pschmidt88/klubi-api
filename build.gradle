@@ -51,6 +51,7 @@ dependencies {
 shadowJar {
     classifier = null
     version = null
+    mergeServiceFiles()
 }
 
 run {
