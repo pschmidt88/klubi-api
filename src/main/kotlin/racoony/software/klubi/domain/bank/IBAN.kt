@@ -4,7 +4,7 @@ data class IBAN(
     val value: String
 ) {
     fun bankCode(): BankCode {
-        if (this.value.startsWith("DE")) {
+        if (this.value.startsWith("DE", true)) {
             return BankCode(this.value.substring(4, 12))
         }
 

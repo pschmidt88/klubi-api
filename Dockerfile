@@ -1,13 +1,4 @@
-FROM gradle:6.3-jdk11 AS BUILD
-
-ADD . .
-ADD gradle.properties /home/gradle/.gradle/
-
-RUN gradle clean shadowJar
-
-FROM adoptopenjdk:11-jre-hotspot
-
-COPY --from=BUILD /home/gradle/build/libs/api.jar /app/
-COPY config/default.yaml /app/config/default.yaml
-
-CMD ["java", "-jar", "/app/api.jar", "server", "/app/config/default.yaml"]
+FROM openjdk:14-alpine
+COPY build/libs/klubi-api-*-all.jar klubi-api.jar
+EXPOSE 8080
+CMD ["java", "-Dcom.sun.management.jmxremote", "-Xmx128m", "-jar", "klubi-api.jar"]

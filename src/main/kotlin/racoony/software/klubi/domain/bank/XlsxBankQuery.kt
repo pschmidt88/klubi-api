@@ -1,11 +1,12 @@
 package racoony.software.klubi.domain.bank
 
-import kotlin.Exception
 import org.apache.poi.ss.usermodel.WorkbookFactory
+import javax.inject.Singleton
+import kotlin.Exception
 
 private const val BANKCODES_PATH = "/bankcodes/201907_blz-aktuell-xls-data.xlsx"
 
-// TODO extract into own micro service
+@Singleton
 class XlsxBankQuery : BankQuery {
     private val bankCodesStore = mutableListOf<BankInformation>()
 

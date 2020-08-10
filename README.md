@@ -1,7 +1,4 @@
-# klubi-api [![CircleCI](https://circleci.com/gh/appveloper-de/klubi-api/tree/master.svg?style=svg)](https://circleci.com/gh/appveloper-de/klubi-api/tree/master)
+## Feature http-client documentation
 
-*Some description goes here with a little explanatory text what this project is about.*
+- [Micronaut Micronaut HTTP Client documentation](https://docs.micronaut.io/latest/guide/index.html#httpClient)
 
-## Installation
-
-TODO installation setup

@@ -1,6 +1,5 @@
 package racoony.software.klubi.resource.member.registration.requests
 
-import java.time.LocalDate
 import racoony.software.klubi.domain.bank.Bic
 import racoony.software.klubi.domain.bank.IBAN
 import racoony.software.klubi.domain.member_registration.AccountOwner
@@ -14,6 +13,7 @@ import racoony.software.klubi.domain.member_registration.MemberStatus
 import racoony.software.klubi.domain.member_registration.Name
 import racoony.software.klubi.domain.member_registration.PaymentMethod
 import racoony.software.klubi.domain.member_registration.PhoneNumber
+import java.time.LocalDate
 
 class MemberRegistrationRequest(
     private val firstName: String,
