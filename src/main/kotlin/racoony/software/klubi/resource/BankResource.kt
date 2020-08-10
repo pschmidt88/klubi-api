@@ -21,12 +21,12 @@ class BankResource(
     @Produces(MediaType.APPLICATION_JSON)
     fun findByBankCode(
         @QueryValue bankCode: BankCode?,
-        @QueryValue iban: String?
+        @QueryValue iban: IBAN?
     ): HttpResponse<*> {
         // if both query params are set, we use iban
         val bankInformation = try {
             iban?.let {
-                this.bankQuery.byIban(IBAN(iban))
+                this.bankQuery.byIban(iban)
             } ?: bankCode?.let {
                 this.bankQuery.byBankCode(bankCode)
             } ?: throw Error("wether bankcode nor iban given.")
