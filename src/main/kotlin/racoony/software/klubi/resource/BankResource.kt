@@ -10,8 +10,6 @@ import racoony.software.klubi.domain.bank.BankCode
 import racoony.software.klubi.domain.bank.BankQuery
 import racoony.software.klubi.domain.bank.IBAN
 import racoony.software.klubi.domain.bank.NoBankInformationFound
-import java.util.Optional
-import javax.inject.Inject
 
 @Controller("/api/bank")
 class BankResource(
