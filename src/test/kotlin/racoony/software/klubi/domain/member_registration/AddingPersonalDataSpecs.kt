@@ -9,7 +9,7 @@ import java.time.LocalDate
 import racoony.software.klubi.domain.member_registration.events.PersonalDetailsAdded
 import racoony.software.klubi.event_sourcing.Changes
 
-class AddingPersonalDataSpec : BehaviorSpec({
+class AddingPersonalDataSpecs : BehaviorSpec({
     Given("A fresh member registration") {
         val member = MemberRegistration()
         When("Submitting personal data") {

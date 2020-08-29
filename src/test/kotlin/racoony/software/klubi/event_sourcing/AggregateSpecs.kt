@@ -4,7 +4,7 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.core.test.TestCase
 import io.kotest.matchers.shouldBe
 
-class AggregateSpec : DescribeSpec() {
+class AggregateSpecs : DescribeSpec() {
     private lateinit var aggregateInstance: TestAggregate
 
     override fun beforeTest(testCase: TestCase) {

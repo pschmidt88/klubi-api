@@ -1,27 +1,26 @@
 package racoony.software.klubi.resource
 
-import javax.ws.rs.GET
-import javax.ws.rs.Path
-import javax.ws.rs.Produces
-import javax.ws.rs.QueryParam
-import javax.ws.rs.core.MediaType
-import javax.ws.rs.core.Response
+import io.micronaut.http.HttpResponse
+import io.micronaut.http.MediaType
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Produces
+import io.micronaut.http.annotation.QueryValue
 import racoony.software.klubi.domain.bank.BankCode
 import racoony.software.klubi.domain.bank.BankQuery
 import racoony.software.klubi.domain.bank.IBAN
 import racoony.software.klubi.domain.bank.NoBankInformationFound
 
-@Path("/api/bank")
+@Controller("/api/bank")
 class BankResource(
     private val bankQuery: BankQuery
 ) {
-
-    @GET
+    @Get
     @Produces(MediaType.APPLICATION_JSON)
     fun findByBankCode(
-        @QueryParam("bankcode") bankCode: BankCode?,
-        @QueryParam("iban") iban: IBAN?
-    ): Response {
+        @QueryValue bankCode: BankCode?,
+        @QueryValue iban: IBAN?
+    ): HttpResponse<*> {
         // if both query params are set, we use iban
         val bankInformation = try {
             iban?.let {
@@ -30,9 +29,9 @@ class BankResource(
                 this.bankQuery.byBankCode(bankCode)
             } ?: throw Error("wether bankcode nor iban given.")
         } catch (noBankInformationFound: NoBankInformationFound) {
-            return Response.status(Response.Status.NOT_FOUND).build()
+            return HttpResponse.notFound<Any>()
         }
 
-        return Response.ok().entity(bankInformation).build()
+        return HttpResponse.ok(bankInformation)
     }
 }

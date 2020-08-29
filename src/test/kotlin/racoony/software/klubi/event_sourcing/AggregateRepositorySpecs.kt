@@ -2,24 +2,24 @@ package racoony.software.klubi.event_sourcing
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.matchers.beOfType
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.types.beOfType
 import java.util.UUID
 import racoony.software.klubi.ports.bus.RecordingEventBus
 import racoony.software.klubi.ports.store.EventStore
 
-class AggregateRepositorySpec : BehaviorSpec({
+class AggregateRepositorySpecs : BehaviorSpec({
     Given("Aggregate with at least one event in store") {
         val aggregateId = UUID.randomUUID()
         val eventStore = InMemoryEventStore().apply { save(aggregateId, listOf(TestEvent())) }
 
         When("findById") {
             val aggregate = AggregateRepository<TestAggregate>(eventStore,
-                RecordingEventBus()
-            ).findById(aggregateId, TestAggregate::class)
+                    RecordingEventBus()
+            ).findById(aggregateId) { TestAggregate() }
 
             Then("aggregate is not null") {
                 aggregate shouldNotBe null
@@ -36,25 +36,8 @@ class AggregateRepositorySpec : BehaviorSpec({
             Then("Aggregate not exists") {
                 shouldThrow<AggregateNotExists> {
                     AggregateRepository<TestAggregate>(InMemoryEventStore(),
-                        RecordingEventBus()
-                    ).findById(UUID.randomUUID(), TestAggregate::class)
-                }
-            }
-        }
-    }
-
-    Given("TestAggregate with no no-arg constructor") {
-        val id = UUID.randomUUID()
-        And("one event for this aggregate") {
-            val eventStore = InMemoryEventStore().apply { save(id, listOf(TestEvent())) }
-            When("findById") {
-                Then("aggregate class should have no-arg constructor") {
-                    shouldThrow<IllegalArgumentException> {
-                        AggregateRepository<MoreComplicatedTestAggregate>(eventStore,
                             RecordingEventBus()
-                        )
-                            .findById(id, MoreComplicatedTestAggregate::class)
-                    }
+                    ).findById(UUID.randomUUID()) { TestAggregate() }
                 }
             }
         }

@@ -1,7 +1,7 @@
 package racoony.software.klubi.domain.member
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import io.dropwizard.testing.FixtureHelpers.fixture
+import fixture
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
@@ -22,18 +22,18 @@ import racoony.software.klubi.domain.member_registration.events.PersonalDetailsA
 class MemberDetailsProjectionSpec : BehaviorSpec({
     Given("a completed member registration") {
         val history = listOf(
-            PersonalDetailsAdded(PersonalDetails(
-                Name("Paul", "Schmidt"),
-                Address("Aschrottstraße", "4", "34119", "Kassel"),
-                LocalDate.of(1988, 6, 16),
-                Contact(email = EmailAddress("rookian@gmail.com"))
-            )),
-            AssignedToDepartment(AssignedDepartment(
-                Department("football"),
-                MemberStatus.ACTIVE,
-                LocalDate.of(2019, 6, 1)
-            )),
-            BankTransferPaymentMethodSelected()
+                PersonalDetailsAdded(PersonalDetails(
+                        Name("Paul", "Schmidt"),
+                        Address("Aschrottstraße", "4", "34119", "Kassel"),
+                        LocalDate.of(1988, 6, 16),
+                        Contact(email = EmailAddress("rookian@gmail.com"))
+                )),
+                AssignedToDepartment(AssignedDepartment(
+                        Department("football"),
+                        MemberStatus.ACTIVE,
+                        LocalDate.of(2019, 6, 1)
+                )),
+                BankTransferPaymentMethodSelected()
         )
 
         When("build member details from history") {
@@ -66,7 +66,7 @@ class MemberDetailsProjectionSpec : BehaviorSpec({
             }
 
             Then("member details json representation is valid") {
-                val expectedJson = fixture("fixtures/member_details/paul.json")
+                val expectedJson = fixture("paul.json")
                 val actualJson = jacksonObjectMapper().writeValueAsString(memberDetails.toJson())
 
                 actualJson shouldBe expectedJson

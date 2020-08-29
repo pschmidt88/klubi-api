@@ -10,7 +10,7 @@ import racoony.software.klubi.domain.member_registration.events.BankTransferPaym
 import racoony.software.klubi.domain.member_registration.events.DirectDebitPaymentMethodSelected
 import racoony.software.klubi.event_sourcing.Changes
 
-class ChoosingPaymentMethodSpec : BehaviorSpec({
+class ChoosingPaymentMethodSpecs : BehaviorSpec({
     Given("Member registration") {
         val memberRegistration = MemberRegistration()
         When("Choose bank transfer as payment method") {

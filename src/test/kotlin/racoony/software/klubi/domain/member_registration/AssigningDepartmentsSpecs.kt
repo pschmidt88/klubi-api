@@ -9,7 +9,7 @@ import java.time.LocalDate
 import racoony.software.klubi.domain.member_registration.events.AssignedToDepartment
 import racoony.software.klubi.event_sourcing.Changes
 
-class AssigningDepartmentsSpec : BehaviorSpec({
+class AssigningDepartmentsSpecs : BehaviorSpec({
     Given("a fresh member registration") {
         val member = MemberRegistration()
         When("assign to the football department as active member") {
