@@ -1,3 +1,6 @@
 micronaut:
   application:
     name: klubiApi
+
+mongodb:
+  connectionString: "mongodb://localhost:27017"

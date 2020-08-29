@@ -48,7 +48,12 @@ dependencies {
 
     implementation("io.reactivex.rxjava2:rxjava:2.2.12")
 
-    implementation("org.apache.poi:poi-ooxml:3.17")
+    implementation("org.apache.poi:poi-ooxml:4.1.2")
+
+    testImplementation('io.kotest:kotest-runner-junit5:4.2.2')
+    testImplementation('io.kotest:kotest-assertions-core:4.2.2')
+    testCompile "org.testcontainers:testcontainers:1.14.3"
+    testCompile "org.testcontainers:junit-jupiter:1.14.3"
 }
 
 test.classpath += configurations.developmentOnly
