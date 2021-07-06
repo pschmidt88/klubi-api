@@ -1,25 +1,27 @@
 package racoony.software.klubi.resource.member.registration
 
-import io.micronaut.http.HttpResponse
-import io.micronaut.http.MediaType
-import io.micronaut.http.annotation.Body
-import io.micronaut.http.annotation.Consumes
-import io.micronaut.http.annotation.Controller
-import io.micronaut.http.annotation.Post
 import racoony.software.klubi.domain.member_registration.MemberRegistration
 import racoony.software.klubi.domain.member_registration.PersonalDetails
 import racoony.software.klubi.event_sourcing.AggregateRepository
 import racoony.software.klubi.resource.member.registration.requests.MemberRegistrationRequest
 import java.net.URI
+import javax.ws.rs.Consumes
+import javax.ws.rs.POST
+import javax.ws.rs.Path
+import javax.ws.rs.Produces
+import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
 
-@Controller("/api/members/registration")
+@Path("/api/members/registration")
 class MembersRegistrationResource(
     private val repository: AggregateRepository<MemberRegistration>
 ) {
 
-    @Post("/")
+    @Path("/")
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    fun createMember(@Body request: MemberRegistrationRequest): HttpResponse<*> {
+    @Produces(MediaType.APPLICATION_JSON)
+    fun createMember(request: MemberRegistrationRequest): Response {
         val memberRegistration = MemberRegistration().apply {
             addPersonalDetails(personalDetailsFromRequest(request))
             assignToDepartment(request.assignedDepartment())
@@ -28,7 +30,7 @@ class MembersRegistrationResource(
 
         repository.save(memberRegistration)
 
-        return HttpResponse.created<Any>(URI.create("/api/members/${memberRegistration.id}"))
+        return Response.created(URI.create("/api/members/${memberRegistration.id}")).build()
     }
 
     private fun personalDetailsFromRequest(request: MemberRegistrationRequest): PersonalDetails {

@@ -29,9 +29,6 @@ class MongoDBEventStore(
         .getCollection<MongoEvent>("event_store")
 
 
-
-
-
     override fun save(aggregateId: UUID, events: List<Event>) {
         this.collection.insertMany(events.map {
             MongoEvent(aggregateId, it)
