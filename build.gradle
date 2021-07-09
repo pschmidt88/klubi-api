@@ -19,12 +19,13 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
     implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
     implementation 'io.quarkus:quarkus-arc'
+    implementation 'io.quarkus:quarkus-config-yaml'
 
     implementation("org.apache.poi:poi-ooxml:4.1.2")
 
     implementation("io.reactivex.rxjava2:rxjava:2.2.12")
 
-    implementation("org.litote.kmongo:kmongo:$kmongoVersion")
+    implementation "org.litote.kmongo:kmongo-rxjava2:$kmongoVersion"
 
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'

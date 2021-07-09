@@ -1,5 +1,8 @@
 package racoony.software.klubi
 
-class MongoDbConfiguration {
-    lateinit var connectionString: String
+import io.smallrye.config.ConfigMapping
+
+@ConfigMapping(prefix = "mongodb", namingStrategy = ConfigMapping.NamingStrategy.VERBATIM)
+interface MongoDbConfiguration {
+    fun connectionString(): String
 }

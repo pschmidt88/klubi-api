@@ -5,7 +5,9 @@ import io.reactivex.subjects.PublishSubject
 import racoony.software.klubi.event_sourcing.Event
 import racoony.software.klubi.ports.bus.EventBus
 import racoony.software.klubi.ports.bus.EventHandler
+import javax.enterprise.context.ApplicationScoped
 
+@ApplicationScoped
 class RxEventBus : EventBus {
     private val publisher = PublishSubject.create<Event>()
 

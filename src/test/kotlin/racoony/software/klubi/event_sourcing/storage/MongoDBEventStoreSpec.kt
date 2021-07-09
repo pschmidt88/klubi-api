@@ -23,8 +23,8 @@ class MongoDBEventStoreSpec : DescribeSpec() {
 
     init {
         describe("Writing events to mongodb") {
-            val configuration = MongoDbConfiguration().apply {
-                connectionString = "mongodb://${mongoContainer.containerIpAddress}:${mongoContainer.getMappedPort(27017)}"
+            val configuration = object : MongoDbConfiguration {
+                override fun connectionString() = "mongodb://${mongoContainer.containerIpAddress}:${mongoContainer.getMappedPort(27017)}"
             }
 
             val eventStore = MongoDBEventStore(configuration)

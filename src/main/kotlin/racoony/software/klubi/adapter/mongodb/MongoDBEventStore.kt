@@ -2,23 +2,27 @@ package racoony.software.klubi.adapter.mongodb
 
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
+import io.smallrye.mutiny.Multi
+import io.smallrye.mutiny.Uni
 import org.bson.UuidRepresentation
-import org.litote.kmongo.KMongo
+import org.bson.types.ObjectId
 import org.litote.kmongo.eq
-import org.litote.kmongo.getCollection
+import org.litote.kmongo.reactivestreams.KMongo
+import org.litote.kmongo.reactivestreams.getCollectionOfName
+import org.litote.kmongo.rxjava2.toObservable
 import racoony.software.klubi.MongoDbConfiguration
 import racoony.software.klubi.event_sourcing.Event
 import racoony.software.klubi.ports.store.EventStore
 import java.util.UUID
-import javax.inject.Singleton
+import javax.enterprise.context.ApplicationScoped
 
-@Singleton
+@ApplicationScoped
 class MongoDBEventStore(
     mongoDbConfiguration: MongoDbConfiguration
 ) : EventStore {
 
     private val clientSettings = MongoClientSettings.builder()
-            .applyConnectionString(ConnectionString(mongoDbConfiguration.connectionString))
+            .applyConnectionString(ConnectionString(mongoDbConfiguration.connectionString()))
             .uuidRepresentation(UuidRepresentation.JAVA_LEGACY)
             .build()
 
@@ -26,19 +30,19 @@ class MongoDBEventStore(
 
     private val collection = client
         .getDatabase("klubi")
-        .getCollection<MongoEvent>("event_store")
+        .getCollectionOfName<MongoEvent>("event_store")
 
-
-    override fun save(aggregateId: UUID, events: List<Event>) {
+    override fun save(aggregateId: UUID, events: List<Event>): Uni<Unit> {
         this.collection.insertMany(events.map {
             MongoEvent(aggregateId, it)
         })
+
+        return Uni.createFrom().nothing();
     }
 
-    override fun loadEvents(aggregateId: UUID): List<Event> {
-        return this.collection
-            .find(MongoEvent::aggregateId eq aggregateId)
-            .map(MongoEvent::event)
-            .toList()
+    override fun loadEvents(aggregateId: UUID): Multi<Event> {
+        val eventPublisher = this.collection.find(MongoEvent::aggregateId eq aggregateId)
+        return Multi.createFrom().publisher(eventPublisher)
+            .onItem().transform { it.event }
     }
 }
