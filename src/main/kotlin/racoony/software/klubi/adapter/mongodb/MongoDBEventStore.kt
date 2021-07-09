@@ -5,15 +5,13 @@ import com.mongodb.MongoClientSettings
 import io.smallrye.mutiny.Multi
 import io.smallrye.mutiny.Uni
 import org.bson.UuidRepresentation
-import org.bson.types.ObjectId
 import org.litote.kmongo.eq
 import org.litote.kmongo.reactivestreams.KMongo
 import org.litote.kmongo.reactivestreams.getCollectionOfName
-import org.litote.kmongo.rxjava2.toObservable
 import racoony.software.klubi.MongoDbConfiguration
 import racoony.software.klubi.event_sourcing.Event
 import racoony.software.klubi.ports.store.EventStore
-import java.util.UUID
+import java.util.*
 import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
@@ -37,7 +35,7 @@ class MongoDBEventStore(
             MongoEvent(aggregateId, it)
         })
 
-        return Uni.createFrom().nothing();
+        return Uni.createFrom().nothing()
     }
 
     override fun loadEvents(aggregateId: UUID): Multi<Event> {

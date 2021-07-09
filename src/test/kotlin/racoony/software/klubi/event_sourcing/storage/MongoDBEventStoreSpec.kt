@@ -6,11 +6,12 @@ import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNot
 import io.kotest.matchers.types.beOfType
+import io.smallrye.mutiny.helpers.test.AssertSubscriber
 import racoony.software.klubi.KGenericContainer
 import racoony.software.klubi.MongoDbConfiguration
 import racoony.software.klubi.adapter.mongodb.MongoDBEventStore
 import racoony.software.klubi.event_sourcing.TestEvent
-import java.util.UUID
+import java.util.*
 
 class MongoDBEventStoreSpec : DescribeSpec() {
     private val mongoContainer: KGenericContainer = KGenericContainer("mongo").apply {
@@ -35,9 +36,10 @@ class MongoDBEventStoreSpec : DescribeSpec() {
             }
 
             it("should read saved events") {
-                val events = eventStore.loadEvents(aggregateId)
-                events shouldNot beEmpty()
-                events.first() shouldBe beOfType(TestEvent::class)
+                val subscriber = eventStore.loadEvents(aggregateId).subscribe().withSubscriber(AssertSubscriber.create(10))
+
+                subscriber.items shouldNot beEmpty()
+                subscriber.items.first() shouldBe beOfType(TestEvent::class)
             }
         }
     }
