@@ -3,15 +3,14 @@ package racoony.software.klubi.event_sourcing.storage
 import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.beEmpty
-import io.kotest.matchers.shouldBe
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldNot
 import io.kotest.matchers.types.beOfType
-import io.smallrye.mutiny.helpers.test.AssertSubscriber
 import racoony.software.klubi.KGenericContainer
 import racoony.software.klubi.MongoDbConfiguration
 import racoony.software.klubi.adapter.mongodb.MongoDBEventStore
 import racoony.software.klubi.event_sourcing.TestEvent
-import java.util.*
+import java.util.UUID
 
 class MongoDBEventStoreSpec : DescribeSpec() {
     private val mongoContainer: KGenericContainer = KGenericContainer("mongo").apply {
@@ -32,14 +31,14 @@ class MongoDBEventStoreSpec : DescribeSpec() {
             val aggregateId = UUID.randomUUID()
 
             it("should not blow up when saving") {
-                eventStore.save(aggregateId, listOf(TestEvent()))
+                eventStore.save(aggregateId, listOf(TestEvent())).await().indefinitely()
             }
 
             it("should read saved events") {
-                val subscriber = eventStore.loadEvents(aggregateId).subscribe().withSubscriber(AssertSubscriber.create(10))
+                val events = eventStore.loadEvents(aggregateId).collect().asList().await().indefinitely()
 
-                subscriber.items shouldNot beEmpty()
-                subscriber.items.first() shouldBe beOfType(TestEvent::class)
+                events shouldNot beEmpty()
+                events.first() should beOfType(TestEvent::class)
             }
         }
     }
