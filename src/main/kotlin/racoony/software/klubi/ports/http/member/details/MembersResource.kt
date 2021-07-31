@@ -1,8 +1,7 @@
-package racoony.software.klubi.resource.member.details
+package racoony.software.klubi.ports.http.member.details
 
 import io.smallrye.mutiny.Uni
 import racoony.software.klubi.domain.member.MemberDetailsProjection
-import racoony.software.klubi.event_sourcing.AggregateRepository
 import racoony.software.klubi.ports.store.EventStore
 import java.util.*
 import javax.ws.rs.GET

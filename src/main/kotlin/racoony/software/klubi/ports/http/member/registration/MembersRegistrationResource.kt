@@ -1,10 +1,11 @@
-package racoony.software.klubi.resource.member.registration
+package racoony.software.klubi.ports.http.member.registration
 
 import io.smallrye.mutiny.Uni
 import racoony.software.klubi.domain.member_registration.MemberRegistration
+import racoony.software.klubi.domain.member_registration.PaymentMethod
 import racoony.software.klubi.domain.member_registration.PersonalDetails
 import racoony.software.klubi.event_sourcing.AggregateRepository
-import racoony.software.klubi.resource.member.registration.requests.MemberRegistrationRequest
+import racoony.software.klubi.ports.http.member.registration.requests.MemberRegistrationRequest
 import java.net.URI
 import javax.inject.Inject
 import javax.ws.rs.Consumes
@@ -26,23 +27,20 @@ class MembersRegistrationResource(
     fun createMember(request: MemberRegistrationRequest): Uni<Response> {
         val memberRegistration = MemberRegistration().apply {
             addPersonalDetails(personalDetailsFromRequest(request))
-            assignToDepartment(request.assignedDepartment())
-            selectPaymentMethod(request.paymentMethod(), request.bankDetails())
+            assignToDepartment(request.assignedDepartment)
+            selectPaymentMethod(PaymentMethod.valueOf(request.paymentMethod.toUpperCase()), request.bankDetails)
         }
 
-        repository.save(memberRegistration)
-
-        return Uni.createFrom().item(memberRegistration)
-            .onItem().transform { Response.created(URI.create("/api/members/${memberRegistration.id}")) }
-            .onItem().transform { it.build() }
+        return repository.save(memberRegistration)
+            .onItem().transform { Response.created(URI.create("/api/members/${memberRegistration.id}")).build() }
     }
 
     private fun personalDetailsFromRequest(request: MemberRegistrationRequest): PersonalDetails {
         return PersonalDetails(
-            request.name(),
-            request.address(),
-            request.birthday(),
-            request.contact()
+            request.name,
+            request.address,
+            request.birthday,
+            request.contact
         )
     }
 }

@@ -5,7 +5,6 @@ import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNot
-import racoony.software.klubi.domain.bank.IBAN
 import racoony.software.klubi.domain.member_registration.events.BankTransferPaymentMethodSelected
 import racoony.software.klubi.domain.member_registration.events.DirectDebitPaymentMethodSelected
 import racoony.software.klubi.event_sourcing.Changes

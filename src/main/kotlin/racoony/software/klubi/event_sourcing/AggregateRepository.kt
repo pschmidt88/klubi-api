@@ -20,8 +20,8 @@ class AggregateRepository<T : Aggregate>(
             .transform { events -> aggregate().apply { fromHistory(events) } }
     }
 
-    fun save(aggregate: T) {
-        this.eventStore.save(aggregate.id, aggregate.changes)
+    fun save(aggregate: T): Uni<Void> {
+        return this.eventStore.save(aggregate.id, aggregate.changes)
             .onItem().invoke(Consumer {
                 aggregate.changes.forEach {
                     this.eventBus.publish(it)
