@@ -4,3 +4,10 @@ micronaut:
 
 mongodb:
   connectionString: "mongodb://localhost:27017"
+
+quarkus:
+  log:
+    level: info
+  http:
+    access-log:
+      enabled: true

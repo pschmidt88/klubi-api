@@ -17,26 +17,26 @@ import java.time.LocalDate
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 class MemberRegistrationRequest(
-    private val firstName: String,
-    private val lastName: String,
-    private val streetAddress: String,
-    private val streetNumber: String,
-    private val postalCode: String,
-    private val city: String,
+    val firstName: String,
+    val lastName: String,
+    val streetAddress: String,
+    val streetNumber: String,
+    val postalCode: String,
+    val city: String,
     val birthday: LocalDate,
-    private val phone: String?,
-    private val email: String?,
-    private val department: String,
-    private val entryDate: LocalDate,
-    private val memberStatus: String,
-    private val accountOwnerFirstName: String?,
-    private val accountOwnerLastName: String?,
-    private val iban: String?,
-    private val bic: Bic?,
-    val paymentMethod: String
+    val phone: String?,
+    val email: String?,
+    val department: String,
+    val entryDate: LocalDate,
+    val memberStatus: String,
+    val paymentMethod: String,
+    val accountOwnerFirstName: String?,
+    val accountOwnerLastName: String?,
+    val iban: String?,
+    val bic: Bic?
 ) {
-    private fun email(): EmailAddress? = this.email?.let { EmailAddress(it) }
-    private fun phone(): PhoneNumber? = this.phone?.let { PhoneNumber(it) }
+    private fun email(): EmailAddress? = this.email?.ifBlank { null }?.let { EmailAddress(it) }
+    private fun phone(): PhoneNumber? = this.phone?.ifBlank { null }?.let { PhoneNumber(it) }
 
     val address: Address = Address(
         this.streetAddress,

@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response
 
 @Path("/api/members/registration")
 class MembersRegistrationResource(
-    @Inject private val repository: AggregateRepository<MemberRegistration>
+    private val repository: AggregateRepository<MemberRegistration>
 ) {
 
     @Path("/")
@@ -28,7 +28,7 @@ class MembersRegistrationResource(
         val memberRegistration = MemberRegistration().apply {
             addPersonalDetails(personalDetailsFromRequest(request))
             assignToDepartment(request.assignedDepartment)
-            selectPaymentMethod(PaymentMethod.valueOf(request.paymentMethod.toUpperCase()), request.bankDetails)
+            selectPaymentMethod(PaymentMethod.valueOf(request.paymentMethod.uppercase()), request.bankDetails)
         }
 
         return repository.save(memberRegistration)

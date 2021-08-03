@@ -1,5 +1,6 @@
 package racoony.software.klubi.adapter.mongodb
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
 import io.smallrye.mutiny.Multi
@@ -8,6 +9,7 @@ import org.bson.UuidRepresentation
 import org.litote.kmongo.eq
 import org.litote.kmongo.reactivestreams.KMongo
 import org.litote.kmongo.reactivestreams.getCollectionOfName
+import org.litote.kmongo.util.KMongoConfiguration
 import racoony.software.klubi.MongoDbConfiguration
 import racoony.software.klubi.event_sourcing.Event
 import racoony.software.klubi.ports.store.EventStore
@@ -18,6 +20,11 @@ import javax.enterprise.context.ApplicationScoped
 class MongoDBEventStore(
     mongoDbConfiguration: MongoDbConfiguration
 ) : EventStore {
+
+    init {
+        KMongoConfiguration.bsonMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
+        KMongoConfiguration.bsonMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+    }
 
     private val clientSettings = MongoClientSettings.builder()
         .applyConnectionString(ConnectionString(mongoDbConfiguration.connectionString()))
