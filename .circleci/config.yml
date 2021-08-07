@@ -10,7 +10,7 @@ jobs:
 
     environment:
       # Configure the JVM and Gradle to avoid OOM errors
-      _JAVA_OPTIONS: "-Xmx3g"
+      _JAVA_OPTIONS: "-Xmx7g"
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
 
     steps:
@@ -48,8 +48,12 @@ jobs:
           when: always
 
       - run:
+          name: "Build native image"
+          command: ./gradlew build -x test -Dquarkus.package.type=native -Dquarkus.native.container-build=true
+
+      - run:
           name: "Build docker image"
-          command: docker build -t klubi-api:$CIRCLE_SHA1 .
+          command: docker build -f src/main/docker/Dockerfile.native-distroless -t klubi-api:$CIRCLE_SHA1 .
 
       - run:
           name: "Publish to image repository"
