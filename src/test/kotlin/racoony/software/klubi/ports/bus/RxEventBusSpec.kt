@@ -22,7 +22,7 @@ class RxEventBusSpec : DescribeSpec({
             val handler = BusTestEventHandler()
             RxEventBus().apply {
                 subscribe(BusTestEvent::class.java, handler)
-                publish(TestEvent())
+                publish(TestEvent("foo"))
             }
 
             handler.message shouldBe ""
@@ -32,7 +32,7 @@ class RxEventBusSpec : DescribeSpec({
 
 class BusTestEvent(val value: String) : Event
 
-class BusTestEventHandler() : EventHandler<BusTestEvent> {
+class BusTestEventHandler : EventHandler<BusTestEvent> {
     var message = ""
     override fun handle(event: BusTestEvent) {
         this.message += "foo"

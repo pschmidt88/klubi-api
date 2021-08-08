@@ -1,53 +1,36 @@
 package racoony.software.klubi.adapter.mongodb
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.mongodb.ConnectionString
-import com.mongodb.MongoClientSettings
+import com.mongodb.client.model.Filters.eq
+import io.quarkus.mongodb.reactive.ReactiveMongoClient
 import io.smallrye.mutiny.Multi
 import io.smallrye.mutiny.Uni
-import org.bson.UuidRepresentation
-import org.litote.kmongo.eq
-import org.litote.kmongo.reactivestreams.KMongo
-import org.litote.kmongo.reactivestreams.getCollectionOfName
-import org.litote.kmongo.util.KMongoConfiguration
-import racoony.software.klubi.MongoDbConfiguration
+import org.jboss.logging.Logger
 import racoony.software.klubi.event_sourcing.Event
 import racoony.software.klubi.ports.store.EventStore
 import java.util.UUID
+import java.util.function.Consumer
 import javax.enterprise.context.ApplicationScoped
+import javax.inject.Inject
 
 @ApplicationScoped
 class MongoDBEventStore(
-    mongoDbConfiguration: MongoDbConfiguration
+    @Inject private val client: ReactiveMongoClient
 ) : EventStore {
-
-    init {
-        KMongoConfiguration.bsonMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
-        KMongoConfiguration.bsonMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-    }
-
-    private val clientSettings = MongoClientSettings.builder()
-        .applyConnectionString(ConnectionString(mongoDbConfiguration.connectionString()))
-        .uuidRepresentation(UuidRepresentation.JAVA_LEGACY)
-        .build()
-
-    private val client = KMongo.createClient(clientSettings)
-
     private val collection = client
         .getDatabase("klubi")
-        .getCollectionOfName<MongoEvent>("event_store")
+        .getCollection("event_store", MongoEvent::class.java)
 
     override fun save(aggregateId: UUID, events: List<Event>): Uni<Void> {
-        val insertMany = this.collection.insertMany(events.map {
-            MongoEvent(aggregateId, it)
-        })
-
-        return Uni.createFrom().publisher(insertMany).onItem().ignore().andContinueWithNull();
+        return collection
+            .insertMany(events.map {
+                MongoEvent(aggregateId = aggregateId, event = it)
+            })
+            .onItem().ignore().andContinueWithNull()
     }
 
     override fun loadEvents(aggregateId: UUID): Multi<Event> {
-        val eventPublisher = this.collection.find(MongoEvent::aggregateId eq aggregateId)
-        return Multi.createFrom().publisher(eventPublisher)
+        return collection
+            .find(eq("aggregateId", aggregateId))
             .onItem().transform { it.event }
     }
 }

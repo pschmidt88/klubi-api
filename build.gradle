@@ -8,25 +8,22 @@ group 'software.racoony'
 version '1.0.0-SNAPSHOT'
 
 repositories {
-    mavenLocal()
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-resteasy-reactive-jackson:2.1.0.Final'
     implementation 'io.quarkus:quarkus-kotlin:2.1.0.Final'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.12.4'
+    implementation 'io.quarkus:quarkus-mongodb-client:2.1.0.Final'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
     implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
     implementation 'io.quarkus:quarkus-arc:2.1.0.Final'
     implementation 'io.quarkus:quarkus-config-yaml:2.1.0.Final'
 
-    implementation('org.apache.poi:poi-ooxml:5.0.0')
-
     implementation('io.reactivex.rxjava2:rxjava:2.2.21')
-
-    implementation "org.litote.kmongo:kmongo-rxjava2:$kmongoVersion"
-
     testImplementation 'io.quarkus:quarkus-junit5:2.1.0.Final'
     testImplementation 'io.rest-assured:rest-assured:4.4.0'
     testImplementation 'io.rest-assured:kotlin-extensions:4.4.0'

@@ -16,20 +16,22 @@ class AggregateSpecs : DescribeSpec() {
             context("raising events") {
                 it("event can be raised and be applied") {
                     aggregateInstance.raiseTestEvent()
-                    aggregateInstance.foo shouldBe "bar"
+                    aggregateInstance.testEvent shouldBe "foo"
                 }
 
                 it("multiple events can be raised and be applied") {
                     aggregateInstance.raiseTestEvent()
                     aggregateInstance.raiseAnotherEvent()
-                    aggregateInstance.foo shouldBe "barbaz"
+                    aggregateInstance.testEvent shouldBe "foo"
+                    aggregateInstance.anotherEvent shouldBe "bar"
                 }
             }
 
             context("replaying events") {
                 it("events can be applied from history") {
-                    aggregateInstance.fromHistory(listOf(TestEvent(), AnotherEvent()))
-                    aggregateInstance.foo shouldBe "barbaz"
+                    aggregateInstance.fromHistory(listOf(TestEvent("foo"), AnotherEvent("bar")))
+                    aggregateInstance.testEvent shouldBe "foo"
+                    aggregateInstance.anotherEvent shouldBe "bar"
                 }
             }
         }
@@ -37,27 +39,32 @@ class AggregateSpecs : DescribeSpec() {
 }
 
 class TestAggregate : Aggregate() {
-    var foo: String = ""
+    var testEvent = ""
+    var anotherEvent = ""
 
     fun raiseTestEvent() {
-        this.raise(TestEvent())
+        this.raise(TestEvent("foo"))
     }
 
     @Suppress("unused")
     private fun apply(testEvent: TestEvent) {
-        this.foo += "bar"
+        this.testEvent = testEvent.someValue
     }
 
     @Suppress("unused")
     private fun apply(anotherEvent: AnotherEvent) {
-        this.foo += "baz"
+        this.anotherEvent = anotherEvent.otherValue
     }
 
     fun raiseAnotherEvent() {
-        this.raise(AnotherEvent())
+        this.raise(AnotherEvent("bar"))
     }
 }
 
-class TestEvent : Event
+data class TestEvent(
+    val someValue: String
+) : Event
 
-class AnotherEvent : Event
+data class AnotherEvent(
+    val otherValue: String
+) : Event

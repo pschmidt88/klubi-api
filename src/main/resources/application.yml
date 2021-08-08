@@ -1,13 +1,8 @@
-micronaut:
-  application:
-    name: klubiApi
-
-mongodb:
-  connectionString: "mongodb://localhost:27017"
-
 quarkus:
   log:
     level: info
   http:
     access-log:
       enabled: true
+  mongodb:
+    connection-string: mongodb://localhost:27017/?uuidRepresentation=STANDARD

@@ -1,4 +1,4 @@
-package racoony.software.klubi.ports
+package racoony.software.klubi.event_sourcing.storage
 
 import io.quarkus.test.common.QuarkusTestResourceLifecycleManager
 import org.testcontainers.containers.MongoDBContainer
@@ -10,7 +10,7 @@ class MongoDBTestResource : QuarkusTestResourceLifecycleManager {
     override fun start(): MutableMap<String, String> {
         mongoDBContainer.start()
         return mutableMapOf(
-            "mongodb.connectionString" to "mongodb://${mongoDBContainer.host}:${mongoDBContainer.firstMappedPort}"
+            "quarkus.mongodb.connection-string" to "mongodb://${mongoDBContainer.host}:${mongoDBContainer.firstMappedPort}/?uuidRepresentation=STANDARD"
         )
     }
 
