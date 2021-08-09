@@ -1,8 +1,5 @@
-.idea/
-.circleci/
-.gradle/
-.kotlintest/
-build/
-gradle/
-gradlew
-gradlew.bat
+*
+!build/*-runner
+!build/*-runner.jar
+!build/lib/*
+!build/quarkus-app/*
