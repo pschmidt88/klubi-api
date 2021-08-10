@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @QuarkusTest
 @QuarkusTestResource(MongoDBTestResource::class)
-class MongoDBEventStoreSpec {
+class MongoDBEventStoreTest {
 
     @Inject
     lateinit var eventStore: MongoDBEventStore

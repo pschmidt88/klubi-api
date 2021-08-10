@@ -3,6 +3,7 @@ package racoony.software.klubi.ports.http.member.registration
 import io.smallrye.mutiny.Uni
 import org.jboss.logging.Logger
 import racoony.software.klubi.domain.member_registration.MemberRegistration
+import racoony.software.klubi.domain.member_registration.MembershipFeePayment
 import racoony.software.klubi.domain.member_registration.PaymentMethod
 import racoony.software.klubi.domain.member_registration.PersonalDetails
 import racoony.software.klubi.event_sourcing.AggregateRepository
@@ -29,10 +30,13 @@ class MembersRegistrationResource(
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     fun createMember(request: MemberRegistrationRequest): Uni<Response> {
+
+        val personalDetails = request.personalDetails
+        val assignedDepartment = request.assignedDepartment
+        val membershipFeePayment = request.membershipFeePayment
+
         val memberRegistration = MemberRegistration().apply {
-            addPersonalDetails(personalDetailsFromRequest(request))
-            assignToDepartment(request.assignedDepartment)
-            selectPaymentMethod(PaymentMethod.valueOf(request.paymentMethod.uppercase()), request.bankDetails)
+            registerNewMember(personalDetails, assignedDepartment, membershipFeePayment)
         }
 
         return repository.save(memberRegistration)
@@ -42,12 +46,4 @@ class MembersRegistrationResource(
             .onFailure().invoke(Consumer { logger.error("Failed to save member registration aggregate: $it") })
     }
 
-    private fun personalDetailsFromRequest(request: MemberRegistrationRequest): PersonalDetails {
-        return PersonalDetails(
-            request.name,
-            request.address,
-            request.birthday,
-            request.contact
-        )
-    }
 }

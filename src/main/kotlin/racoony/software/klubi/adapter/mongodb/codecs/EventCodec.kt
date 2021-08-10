@@ -13,7 +13,6 @@ import org.bson.codecs.Codec
 import org.bson.codecs.DecoderContext
 import org.bson.codecs.EncoderContext
 import racoony.software.klubi.event_sourcing.Event
-import javax.inject.Inject
 
 class EventCodec(
     private val documentCodec: Codec<Document> = MongoClientSettings.getDefaultCodecRegistry().get(Document::class.java),
