@@ -1,5 +1,6 @@
 package racoony.software.klubi.domain.member_registration
 
+import racoony.software.klubi.domain.member_registration.events.MemberRegistered
 import racoony.software.klubi.event_sourcing.Aggregate
 import java.util.UUID
 

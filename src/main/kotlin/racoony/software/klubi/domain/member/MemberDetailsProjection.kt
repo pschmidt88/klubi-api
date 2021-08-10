@@ -4,11 +4,9 @@ import racoony.software.klubi.domain.member_registration.Address
 import racoony.software.klubi.domain.member_registration.AssignedDepartment
 import racoony.software.klubi.domain.member_registration.Contact
 import racoony.software.klubi.domain.member_registration.EmailAddress
+import racoony.software.klubi.domain.member_registration.events.MemberRegistered
 import racoony.software.klubi.domain.member_registration.Name
 import racoony.software.klubi.domain.member_registration.PaymentMethod
-import racoony.software.klubi.domain.member_registration.events.AssignedToDepartment
-import racoony.software.klubi.domain.member_registration.events.BankTransferPaymentMethodSelected
-import racoony.software.klubi.domain.member_registration.events.PersonalDetailsAdded
 import racoony.software.klubi.event_sourcing.Event
 import java.time.LocalDate
 
@@ -20,24 +18,6 @@ class MemberDetailsProjection {
     private val departments: MutableList<AssignedDepartment> = mutableListOf()
     private lateinit var paymentMethod: PaymentMethod
 
-    @Suppress("unused")
-    private fun apply(event: BankTransferPaymentMethodSelected) {
-        this.paymentMethod = PaymentMethod.BANK_TRANSFER
-    }
-
-    @Suppress("unused")
-    private fun apply(event: AssignedToDepartment) {
-        this.departments.add(event.assignedDepartment)
-    }
-
-    @Suppress("unused")
-    private fun apply(event: PersonalDetailsAdded) {
-        this.name = event.personalDetails.name
-        this.address = event.personalDetails.address
-        this.birthday = event.personalDetails.birthday
-        this.contact = event.personalDetails.contact
-    }
-
     private fun applyChange(event: Event) {
         try {
             this.javaClass.getDeclaredMethod("apply", event.javaClass).also {
@@ -45,6 +25,15 @@ class MemberDetailsProjection {
                 it.invoke(this, event)
             }
         } catch (_: NoSuchMethodException) {}
+    }
+
+    fun apply(event: MemberRegistered) {
+        this.name = event.personalDetails.name
+        this.address = event.personalDetails.address
+        this.birthday = event.personalDetails.birthday
+        this.contact = event.personalDetails.contact
+        this.departments.add(event.assignedDepartment)
+        this.paymentMethod = event.membershipFeePayment.paymentMethod
     }
 
     fun restoreFromHistory(history: List<Event>) {

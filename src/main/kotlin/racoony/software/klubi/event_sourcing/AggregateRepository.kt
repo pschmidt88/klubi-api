@@ -11,8 +11,8 @@ import javax.inject.Inject
 
 @ApplicationScoped
 class AggregateRepository<T : Aggregate>(
-    @Inject var eventStore: EventStore,
-    @Inject var eventBus: EventBus
+    val eventStore: EventStore,
+    val eventBus: EventBus
 ) {
     fun <T : Aggregate> findById(id: UUID, aggregate: () -> T): Uni<T> {
         return this.eventStore.loadEvents(id)

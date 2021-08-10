@@ -4,17 +4,14 @@ import com.mongodb.client.model.Filters.eq
 import io.quarkus.mongodb.reactive.ReactiveMongoClient
 import io.smallrye.mutiny.Multi
 import io.smallrye.mutiny.Uni
-import org.jboss.logging.Logger
 import racoony.software.klubi.event_sourcing.Event
 import racoony.software.klubi.ports.store.EventStore
 import java.util.UUID
-import java.util.function.Consumer
 import javax.enterprise.context.ApplicationScoped
-import javax.inject.Inject
 
 @ApplicationScoped
 class MongoDBEventStore(
-    @Inject private val client: ReactiveMongoClient
+    private val client: ReactiveMongoClient
 ) : EventStore {
     private val collection = client
         .getDatabase("klubi")
