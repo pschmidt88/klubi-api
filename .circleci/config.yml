@@ -58,8 +58,8 @@ jobs:
       - run:
           name: "Publish to image repository"
           command: |
-            echo $CR_PASS | docker login -u $CR_USER --password-stdin docker.pkg.github.com
-            docker tag klubi-api:$CIRCLE_SHA1 docker.pkg.github.com/pschmidt88/klubi-api/api:$CIRCLE_SHA1
-            docker tag klubi-api:$CIRCLE_SHA1 docker.pkg.github.com/pschmidt88/klubi-api/api:$CIRCLE_BUILD_NUM
-            docker push docker.pkg.github.com/pschmidt88/klubi-api/api:$CIRCLE_SHA1
-            docker push docker.pkg.github.com/pschmidt88/klubi-api/api:$CIRCLE_BUILD_NUM
+            echo $CR_PASS | docker login ghcr.io -u $CR_USER --password-stdin
+            docker tag klubi-api:$CIRCLE_SHA1 ghcr.io/pschmidt88/klubi-api/api:$CIRCLE_SHA1
+            docker tag klubi-api:$CIRCLE_SHA1 ghcr.io/pschmidt88/klubi-api/api:$CIRCLE_BUILD_NUM
+            docker push ghcr.io/pschmidt88/klubi-api/api:$CIRCLE_SHA1
+            docker push ghcr.io/pschmidt88/klubi-api/api:$CIRCLE_BUILD_NUM
