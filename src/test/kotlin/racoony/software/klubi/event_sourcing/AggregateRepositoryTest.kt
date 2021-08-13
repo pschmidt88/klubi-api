@@ -3,15 +3,14 @@ package racoony.software.klubi.event_sourcing
 import com.mongodb.client.MongoClient
 import com.mongodb.client.model.Filters.eq
 import io.kotest.matchers.collections.shouldHaveSize
-import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.kotest.matchers.types.beOfType
 import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.junit.QuarkusTest
+import io.vertx.core.eventbus.EventBus
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
-import racoony.software.klubi.adapter.mongodb.MongoEvent
+import racoony.software.klubi.adapter.mongodb.events.MongoEvent
 import racoony.software.klubi.event_sourcing.storage.MongoDBTestResource
 import racoony.software.klubi.ports.bus.RecordingEventBus
 import racoony.software.klubi.ports.store.EventStore
@@ -26,6 +25,9 @@ class AggregateRepositoryTest {
     lateinit var eventStore: EventStore
 
     @Inject
+    lateinit var eventBus: EventBus
+
+    @Inject
     lateinit var mongoClient: MongoClient
 
     @AfterEach
@@ -38,7 +40,7 @@ class AggregateRepositoryTest {
         val aggregateId = UUID.randomUUID()
         eventStore.save(aggregateId, listOf(TestEvent("foo"))).await().indefinitely()
 
-        val aggregate = AggregateRepository<TestAggregate>(eventStore, RecordingEventBus())
+        val aggregate = AggregateRepository<TestAggregate>(eventStore, eventBus)
             .findById(aggregateId) { TestAggregate() }
             .await().indefinitely()
 
@@ -54,7 +56,7 @@ class AggregateRepositoryTest {
             raiseTestEvent()
         }
 
-        AggregateRepository<TestAggregate>(eventStore, RecordingEventBus()).save(testAggregate)
+        AggregateRepository<TestAggregate>(eventStore, eventBus).save(testAggregate)
             .await().indefinitely()
 
         val events = mongoClient.getDatabase("klubi")
@@ -74,12 +76,10 @@ class AggregateRepositoryTest {
             raiseTestEvent()
         }
 
-        val eventBus = RecordingEventBus()
-        AggregateRepository<TestAggregate>(eventStore, eventBus).save(testAggregate)
+        val recordingEventBus = RecordingEventBus()
+        AggregateRepository<TestAggregate>(eventStore, recordingEventBus).save(testAggregate)
             .await().indefinitely()
 
-        eventBus.publishedEvents() shouldHaveSize 1
-        eventBus.publishedEvents().first() should beOfType(TestEvent::class)
-
+        recordingEventBus.publishedEventsOfType(TestEvent::class.java) shouldHaveSize 1
     }
 }

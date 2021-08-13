@@ -1,4 +1,4 @@
-package racoony.software.klubi.adapter.mongodb.codecs
+package racoony.software.klubi.adapter.mongodb.events.codecs
 
 import org.bson.codecs.Codec
 import org.bson.codecs.configuration.CodecProvider

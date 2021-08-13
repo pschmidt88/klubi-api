@@ -10,7 +10,7 @@ import racoony.software.klubi.domain.member_registration.PaymentMethod
 import racoony.software.klubi.event_sourcing.Event
 import java.time.LocalDate
 
-class MemberDetailsProjection {
+class MemberProjection {
     private lateinit var name: Name
     private lateinit var address: Address
     private lateinit var birthday: LocalDate
@@ -42,15 +42,6 @@ class MemberDetailsProjection {
         }
     }
 
-    fun toJson(): MemberDetailsJsonRepresentation {
-        return MemberDetailsJsonRepresentation(
-            this.name(),
-            Address("Aschrottstraße", "4", "34119", "Kassel"),
-            LocalDate.parse("1988-06-16"),
-            Contact(email = EmailAddress("rookian@gmail.com"))
-        )
-    }
-
     fun name(): Name = this.name
 
     fun address(): Address = this.address
@@ -62,4 +53,18 @@ class MemberDetailsProjection {
     fun departments(): List<AssignedDepartment> = this.departments
 
     fun paymentMethod(): PaymentMethod = this.paymentMethod
+
+    fun toMember(): Member {
+        return Member(
+            name.firstName,
+            name.lastName,
+            address.streetAddress,
+            address.streetNumber,
+            address.postalCode,
+            address.city,
+            birthday,
+            contact.email?.toString(),
+            contact.phone?.toString()
+        )
+    }
 }

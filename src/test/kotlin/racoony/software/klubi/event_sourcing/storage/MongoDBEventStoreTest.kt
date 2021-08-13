@@ -7,7 +7,7 @@ import io.kotest.matchers.types.beOfType
 import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.junit.QuarkusTest
 import org.junit.jupiter.api.Test
-import racoony.software.klubi.adapter.mongodb.MongoDBEventStore
+import racoony.software.klubi.adapter.mongodb.events.MongoDBEventStore
 import racoony.software.klubi.event_sourcing.TestEvent
 import java.util.UUID
 import javax.inject.Inject

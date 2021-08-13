@@ -1,7 +1,7 @@
 package racoony.software.klubi.ports.http.member.details
 
 import io.smallrye.mutiny.Uni
-import racoony.software.klubi.domain.member.MemberDetailsProjection
+import racoony.software.klubi.domain.member.MemberProjection
 import racoony.software.klubi.ports.store.EventStore
 import java.util.*
 import javax.ws.rs.GET
@@ -21,11 +21,11 @@ class MembersResource(
         return eventStore.loadEvents(id)
             .collect().asList()
             .onItem().transform {
-                MemberDetailsProjection().apply {
+                MemberProjection().apply {
                     restoreFromHistory(it)
                 }
             }
-            .onItem().transform { Response.ok(it.toJson()).build() }
+            .onItem().transform { Response.ok(it.toMember()).build() }
 
     }
 }

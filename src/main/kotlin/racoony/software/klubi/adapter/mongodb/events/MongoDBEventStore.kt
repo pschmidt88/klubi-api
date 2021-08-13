@@ -1,4 +1,4 @@
-package racoony.software.klubi.adapter.mongodb
+package racoony.software.klubi.adapter.mongodb.events
 
 import com.mongodb.client.model.Filters.eq
 import io.quarkus.mongodb.reactive.ReactiveMongoClient

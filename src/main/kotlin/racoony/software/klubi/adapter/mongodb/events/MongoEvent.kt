@@ -1,4 +1,4 @@
-package racoony.software.klubi.adapter.mongodb
+package racoony.software.klubi.adapter.mongodb.events
 
 import io.quarkus.runtime.annotations.RegisterForReflection
 import org.bson.codecs.pojo.annotations.BsonCreator

@@ -1,4 +1,4 @@
-package racoony.software.klubi.adapter.mongodb.codecs
+package racoony.software.klubi.adapter.mongodb.events.codecs
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
