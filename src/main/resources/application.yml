@@ -5,4 +5,12 @@ quarkus:
     access-log:
       enabled: true
   mongodb:
-    connection-string: mongodb://localhost:27017/?uuidRepresentation=STANDARD
+    database: klubi
+    devservices:
+      properties:
+        uuidRepresentation: STANDARD
+
+"%prod":
+  quarkus:
+    mongodb:
+      connection-string: mongodb://localhost:27017/?uuidRepresentation=STANDARD

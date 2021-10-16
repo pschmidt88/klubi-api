@@ -9,4 +9,4 @@ class MemberRegistered(
     val personalDetails: PersonalDetails,
     val assignedDepartment: AssignedDepartment,
     val membershipFeePayment: MembershipFeePayment
-) : Event
+) : Event()

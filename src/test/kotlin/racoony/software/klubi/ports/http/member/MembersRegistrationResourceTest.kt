@@ -7,11 +7,9 @@ import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
 import org.hamcrest.CoreMatchers.startsWith
 import org.junit.jupiter.api.Test
-import racoony.software.klubi.event_sourcing.storage.MongoDBTestResource
 import javax.ws.rs.core.MediaType
 
 @QuarkusTest
-@QuarkusTestResource(MongoDBTestResource::class)
 class MembersRegistrationResourceTest {
 
     @Test

@@ -11,7 +11,7 @@ import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
 class MongoDBEventStore(
-    private val client: ReactiveMongoClient
+    client: ReactiveMongoClient
 ) : EventStore {
     private val collection = client
         .getDatabase("klubi")

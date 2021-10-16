@@ -14,7 +14,6 @@ import racoony.software.klubi.domain.member_registration.PaymentMethod
 import racoony.software.klubi.event_sourcing.Stories
 import java.time.LocalDate
 
-
 class MemberDetailsProjectionSpec {
 
     @Test
@@ -41,10 +40,3 @@ class MemberDetailsProjectionSpec {
         memberDetails.paymentMethod() shouldBe PaymentMethod.BANK_TRANSFER
     }
 }
-
-//            Then("member details json representation is valid") {
-//                val expectedJson = fixture("paul.json")
-//                val actualJson = jacksonObjectMapper().writeValueAsString(memberDetails.toJson())
-//
-//                actualJson shouldBe expectedJson
-//            }

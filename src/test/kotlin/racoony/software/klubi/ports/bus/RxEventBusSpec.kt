@@ -1,40 +1,31 @@
 package racoony.software.klubi.ports.bus
 
-import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.Test
 import racoony.software.klubi.adapter.rx.RxEventBus
-import racoony.software.klubi.event_sourcing.Event
 import racoony.software.klubi.event_sourcing.TestEvent
 
-class RxEventBusSpec : DescribeSpec({
-    describe("event bus") {
-        it("publishes events to subscribed event handlers") {
-            val handler = BusTestEventHandler()
-            RxEventBus().apply {
-                subscribe(BusTestEvent::class.java, handler)
-                publish(BusTestEvent("test"))
-            }
+class RxEventBusSpec {
 
-            handler.message shouldBe "foo"
+    @Test
+    fun `publishes events to subscribed event handlers`() {
+        val handler = BusTestEventHandler()
+        RxEventBus().apply {
+            subscribe(BusTestEvent::class.java, handler)
+            publish(BusTestEvent("test"))
         }
 
-        it("does not publish events to other handlers") {
-            val handler = BusTestEventHandler()
-            RxEventBus().apply {
-                subscribe(BusTestEvent::class.java, handler)
-                publish(TestEvent("foo"))
-            }
-
-            handler.message shouldBe ""
-        }
+        handler.message shouldBe "foo"
     }
-})
 
-class BusTestEvent(val value: String) : Event
+    @Test
+    fun `does not publish events to other handlers`() {
+        val handler = BusTestEventHandler()
+        RxEventBus().apply {
+            subscribe(BusTestEvent::class.java, handler)
+            publish(TestEvent("foo"))
+        }
 
-class BusTestEventHandler : EventHandler<BusTestEvent> {
-    var message = ""
-    override fun handle(event: BusTestEvent) {
-        this.message += "foo"
+        handler.message shouldBe ""
     }
 }

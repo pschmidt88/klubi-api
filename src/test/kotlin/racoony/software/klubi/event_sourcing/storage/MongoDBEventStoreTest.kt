@@ -13,7 +13,6 @@ import java.util.UUID
 import javax.inject.Inject
 
 @QuarkusTest
-@QuarkusTestResource(MongoDBTestResource::class)
 class MongoDBEventStoreTest {
 
     @Inject
