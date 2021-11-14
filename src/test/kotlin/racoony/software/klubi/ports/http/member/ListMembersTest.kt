@@ -7,6 +7,7 @@ import io.restassured.module.kotlin.extensions.Extract
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import racoony.software.klubi.domain.member.Member
 import racoony.software.klubi.event_sourcing.Stories
@@ -21,7 +22,7 @@ class ListMembersTest {
     @Inject
     lateinit var mongoClient: MongoClient
 
-    @AfterEach
+    @BeforeEach
     internal fun tearDown() {
         mongoClient.getDatabase("klubi").getCollection("members").drop()
     }

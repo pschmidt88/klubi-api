@@ -18,8 +18,11 @@ class RxEventBus : EventBus {
     }
 
     override fun <E : Event> subscribe(eventType: Class<E>, handler: EventHandler<E>) {
-        listen(eventType).subscribe {
-            handler.handle(it)
+        listen(eventType).apply {
+            subscribe { event ->
+                handler.handle(event)
+            }
+            onErrorReturn { throw it }
         }
     }
 }
