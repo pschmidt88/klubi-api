@@ -1,5 +1,6 @@
 package racoony.software.klubi.event_sourcing
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.mongodb.client.MongoClient
 import com.mongodb.client.model.Filters.eq
 import io.kotest.matchers.collections.shouldHaveSize
@@ -27,6 +28,9 @@ class AggregateRepositoryTest {
     @Inject
     lateinit var mongoClient: MongoClient
 
+    @Inject
+    lateinit var objectMapper: ObjectMapper
+
     @AfterEach
     internal fun cleanupDatabase() {
         mongoClient.getDatabase("klubi").getCollection("event_store").drop()
@@ -37,7 +41,7 @@ class AggregateRepositoryTest {
         val aggregateId = UUID.randomUUID()
         eventStore.save(aggregateId, listOf(TestEvent("foo"))).await().indefinitely()
 
-        val aggregate = AggregateRepository<TestAggregate>(eventStore, eventBus)
+        val aggregate = AggregateRepository<TestAggregate>(eventStore, RecordingEventBus())
             .findById(aggregateId) { TestAggregate() }
             .await().indefinitely()
 
@@ -53,7 +57,7 @@ class AggregateRepositoryTest {
             raiseTestEvent()
         }
 
-        AggregateRepository<TestAggregate>(eventStore, eventBus).save(testAggregate)
+        AggregateRepository<TestAggregate>(eventStore, RecordingEventBus()).save(testAggregate)
             .await().indefinitely()
 
         val events = mongoClient.getDatabase("klubi")

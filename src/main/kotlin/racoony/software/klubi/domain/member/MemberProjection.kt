@@ -56,15 +56,15 @@ class MemberProjection {
 
     fun toMember(): Member {
         return Member(
-            name.firstName,
-            name.lastName,
-            address.streetAddress,
-            address.streetNumber,
-            address.postalCode,
-            address.city,
-            birthday,
-            contact.email?.toString(),
-            contact.phone?.toString()
+            firstName = name.firstName,
+            lastName = name.lastName,
+            streetAddress = address.streetAddress,
+            streetNumber = address.streetNumber,
+            postalCode = address.postalCode,
+            city = address.city,
+            dateOfBirth = birthday,
+            emailAddress = contact.email?.toString(),
+            phoneNumber = contact.phone?.toString()
         )
     }
 }

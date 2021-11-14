@@ -50,9 +50,9 @@ class ListMembersTest {
     private fun createRandomMember(): Member {
         return Member(
             number = "24",
-            name = "Luka Jovic",
-            address = "Real Madrid Straße",
-            contact = "lukajovic@eintracht.de"
+            firstName = "Luka Jovic",
+            streetAddress = "Real Madrid Straße",
+            emailAddress = "lukajovic@eintracht.de"
         )
     }
 }
