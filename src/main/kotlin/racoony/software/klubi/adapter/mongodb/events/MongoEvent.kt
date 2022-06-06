@@ -11,7 +11,7 @@ import java.util.UUID
 @RegisterForReflection
 data class MongoEvent @BsonCreator constructor(
     @BsonId val id: ObjectId = ObjectId.get(),
-    @BsonProperty("aggregateId") val aggregateId: UUID,
+    @BsonProperty("aggregateId") val aggregateId: Any,
     @BsonProperty("event") val event: Event
 ) {
 }

@@ -39,6 +39,7 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers:${testContainersVersion}")
     testImplementation("org.testcontainers:mongodb:${testContainersVersion}")
     testImplementation("org.testcontainers:junit-jupiter:${testContainersVersion}")
+    testImplementation "io.strikt:strikt-core:0.34.0"
 }
 
 java {

@@ -17,7 +17,7 @@ class MongoDBEventStore(
         .getDatabase("klubi")
         .getCollection("event_store", MongoEvent::class.java)
 
-    override fun save(aggregateId: UUID, events: List<Event>): Uni<Void> {
+    override fun save(aggregateId: Any, events: List<Event>): Uni<Void> {
         return collection
             .insertMany(events.map {
                 MongoEvent(aggregateId = aggregateId, event = it)
@@ -25,7 +25,7 @@ class MongoDBEventStore(
             .onItem().ignore().andContinueWithNull()
     }
 
-    override fun loadEvents(aggregateId: UUID): Multi<Event> {
+    override fun loadEvents(aggregateId: Any): Multi<Event> {
         return collection
             .find(eq("aggregateId", aggregateId))
             .onItem().transform { it.event }

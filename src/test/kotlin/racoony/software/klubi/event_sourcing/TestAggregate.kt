@@ -1,6 +1,8 @@
 package racoony.software.klubi.event_sourcing
 
-class TestAggregate : Aggregate() {
+import java.util.UUID
+
+class TestAggregate : Aggregate<UUID>(UUID.randomUUID()) {
     var testEvent = ""
     var anotherEvent = ""
 

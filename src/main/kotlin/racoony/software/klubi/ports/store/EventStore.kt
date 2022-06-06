@@ -6,6 +6,6 @@ import racoony.software.klubi.event_sourcing.Event
 import java.util.UUID
 
 interface EventStore {
-    fun save(aggregateId: UUID, events: List<Event>): Uni<Void>
-    fun loadEvents(aggregateId: UUID): Multi<Event>
+    fun save(aggregateId: Any, events: List<Event>): Uni<Void>
+    fun loadEvents(aggregateId: Any): Multi<Event>
 }

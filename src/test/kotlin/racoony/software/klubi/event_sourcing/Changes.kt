@@ -1,11 +1,11 @@
 package racoony.software.klubi.event_sourcing
 
 class Changes(
-    private val aggregate: Aggregate
+    private val aggregate: Aggregate<*>
 ) {
 
     companion object {
-        fun madeTo(aggregate: Aggregate): Changes {
+        fun madeTo(aggregate: Aggregate<*>): Changes {
             return Changes(aggregate)
         }
     }

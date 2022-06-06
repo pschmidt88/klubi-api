@@ -1,12 +1,13 @@
 package racoony.software.klubi.domain.member_registration
 
+import racoony.software.klubi.domain.member.MemberId
 import racoony.software.klubi.domain.member_registration.events.MemberRegistered
 import racoony.software.klubi.event_sourcing.Aggregate
 import java.util.UUID
 
 class MemberRegistration(
-    id: UUID = UUID.randomUUID()
-) : Aggregate(id) {
+    id: MemberId = MemberId()
+) : Aggregate<MemberId>(id) {
 
     fun registerNewMember(
         personalDetails: PersonalDetails,
