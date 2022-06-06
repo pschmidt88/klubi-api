@@ -4,6 +4,7 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.date.beToday
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
+import io.quarkus.test.junit.QuarkusTest
 import org.junit.jupiter.api.Test
 import racoony.software.klubi.domain.member_registration.events.MemberRegistered
 import racoony.software.klubi.event_sourcing.Changes

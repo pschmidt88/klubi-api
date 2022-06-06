@@ -5,20 +5,17 @@ import com.mongodb.client.model.Filters.eq
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.junit.QuarkusTest
 import io.vertx.core.eventbus.EventBus
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import racoony.software.klubi.adapter.mongodb.events.MongoEvent
-import racoony.software.klubi.event_sourcing.storage.MongoDBTestResource
 import racoony.software.klubi.ports.bus.RecordingEventBus
 import racoony.software.klubi.ports.store.EventStore
 import java.util.UUID
 import javax.inject.Inject
 
 @QuarkusTest
-@QuarkusTestResource(MongoDBTestResource::class)
 class AggregateRepositoryTest {
 
     @Inject

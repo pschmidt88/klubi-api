@@ -8,4 +8,3 @@ interface MemberRepository {
     fun findAll(): Multi<Member>
     fun save(member: Member): Uni<Void>
 }
-

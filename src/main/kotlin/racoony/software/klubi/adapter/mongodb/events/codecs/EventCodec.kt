@@ -3,8 +3,10 @@ package racoony.software.klubi.adapter.mongodb.events.codecs
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.mongodb.MongoClientSettings
 import org.bson.BsonReader
 import org.bson.BsonWriter
@@ -21,6 +23,7 @@ class EventCodec(
     private val objectMapper: ObjectMapper = jacksonObjectMapper().apply {
         registerModule(Jdk8Module())
         registerModule(JavaTimeModule())
+        registerKotlinModule()
     }
 
     override fun encode(writer: BsonWriter?, value: Event?, encoderContext: EncoderContext?) {
