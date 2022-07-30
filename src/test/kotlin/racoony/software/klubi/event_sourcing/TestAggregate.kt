@@ -1,5 +1,6 @@
 package racoony.software.klubi.event_sourcing
 
+import racoony.software.klubi.domain.DomainEvent
 import java.util.UUID
 
 class TestAggregate : Aggregate<UUID>(UUID.randomUUID()) {
@@ -22,5 +23,9 @@ class TestAggregate : Aggregate<UUID>(UUID.randomUUID()) {
 
     fun raiseAnotherEvent() {
         this.raise(AnotherEvent("bar"))
+    }
+
+    override fun applyDomainEvents(events: List<DomainEvent>) {
+        TODO("Not yet implemented")
     }
 }

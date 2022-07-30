@@ -1,17 +1,16 @@
 package racoony.software.klubi.domain.department
 
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import racoony.software.klubi.event_sourcing.Changes
+import strikt.api.expectThat
+import strikt.assertions.first
+import strikt.assertions.isA
 
 class DepartmentTest {
 
     @Test
-    internal fun `creates a department and raises event`() {
-
+    fun `creates a department and raises event`() {
         val footballDepartment = Department.create(DepartmentName("Fußball"))
 
-
-        Changes.madeTo(footballDepartment).ofType(DepartmentCreated::class.java)
+        expectThat(footballDepartment.events).first().isA<DepartmentCreated>()
     }
 }

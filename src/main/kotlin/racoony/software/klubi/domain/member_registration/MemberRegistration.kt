@@ -1,5 +1,6 @@
 package racoony.software.klubi.domain.member_registration
 
+import racoony.software.klubi.domain.DomainEvent
 import racoony.software.klubi.domain.member.MemberId
 import racoony.software.klubi.domain.member_registration.events.MemberRegistered
 import racoony.software.klubi.event_sourcing.Aggregate
@@ -15,5 +16,9 @@ class MemberRegistration(
         membershipFeePayment: MembershipFeePayment
     ) {
         raise(MemberRegistered(personalDetails, assignedDepartment, membershipFeePayment))
+    }
+
+    override fun applyDomainEvents(events: List<DomainEvent>) {
+        TODO("Not yet implemented")
     }
 }
