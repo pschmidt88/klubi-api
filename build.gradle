@@ -1,7 +1,7 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version "1.5.31"
-    id "org.jetbrains.kotlin.plugin.allopen" version "1.5.31"
-    id "org.jetbrains.kotlin.plugin.noarg" version "1.5.31"
+    id 'org.jetbrains.kotlin.jvm' version "1.7.20"
+    id "org.jetbrains.kotlin.plugin.allopen" version "1.7.20"
+    id "org.jetbrains.kotlin.plugin.noarg" version "1.7.20"
     id 'io.quarkus'
 }
 
@@ -27,23 +27,23 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
     implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
 
-    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.12.4'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.13.4'
 
     testImplementation 'io.quarkus:quarkus-junit5'
 
-    testImplementation 'io.rest-assured:rest-assured:4.4.0'
-    testImplementation 'io.rest-assured:kotlin-extensions:4.4.0'
-    testImplementation('io.kotest:kotest-runner-junit5:4.6.1')
-    testImplementation('io.kotest:kotest-assertions-core:4.6.1')
+    testImplementation 'io.rest-assured:rest-assured:5.2.0'
+    testImplementation 'io.rest-assured:kotlin-extensions:5.2.0'
+    testImplementation('io.kotest:kotest-runner-junit5:5.5.0')
+    testImplementation('io.kotest:kotest-assertions-core:5.5.0')
 
-    testImplementation 'org.testcontainers:testcontainers:1.16.0'
-    testImplementation "org.testcontainers:mongodb:1.16.0"
-    testImplementation 'org.testcontainers:junit-jupiter:1.16.0'
+    testImplementation("org.testcontainers:testcontainers:${testContainersVersion}")
+    testImplementation("org.testcontainers:mongodb:${testContainersVersion}")
+    testImplementation("org.testcontainers:junit-jupiter:${testContainersVersion}")
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 allOpen {
@@ -58,10 +58,10 @@ noArg {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_11
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_17
     kotlinOptions.javaParameters = true
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_11
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_17
 }

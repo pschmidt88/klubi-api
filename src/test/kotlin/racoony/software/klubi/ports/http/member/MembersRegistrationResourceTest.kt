@@ -1,11 +1,10 @@
 package racoony.software.klubi.ports.http.member
 
-import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
-import org.hamcrest.CoreMatchers.startsWith
+import org.hamcrest.CoreMatchers.containsString
 import org.junit.jupiter.api.Test
 import javax.ws.rs.core.MediaType
 
@@ -37,7 +36,7 @@ class MembersRegistrationResourceTest {
             post("/api/members/registration")
         } Then {
             statusCode(201)
-            header("Location", startsWith("/api/members/"))
+            header("Location", containsString("/api/members/"))
         }
     }
 
