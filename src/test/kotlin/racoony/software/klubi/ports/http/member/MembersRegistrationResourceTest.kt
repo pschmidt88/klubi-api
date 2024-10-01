@@ -4,9 +4,9 @@ import io.quarkus.test.junit.QuarkusTest
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
+import jakarta.ws.rs.core.MediaType
 import org.hamcrest.CoreMatchers.containsString
 import org.junit.jupiter.api.Test
-import javax.ws.rs.core.MediaType
 
 @QuarkusTest
 class MembersRegistrationResourceTest {

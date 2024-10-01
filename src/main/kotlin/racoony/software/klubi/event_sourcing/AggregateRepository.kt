@@ -6,12 +6,13 @@ import racoony.software.klubi.ports.bus.EventBus
 import racoony.software.klubi.ports.store.EventStore
 import java.util.UUID
 import java.util.function.Consumer
-import javax.enterprise.context.ApplicationScoped
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.enterprise.context.Dependent
 
-@ApplicationScoped
+@Dependent
 class AggregateRepository<T : Aggregate>(
-    val eventStore: EventStore,
-    val eventBus: EventBus,
+    private val eventStore: EventStore,
+    private val eventBus: EventBus,
 ) {
     fun <T : Aggregate> findById(id: UUID, aggregate: () -> T): Uni<T> {
         return this.eventStore.loadEvents(id)

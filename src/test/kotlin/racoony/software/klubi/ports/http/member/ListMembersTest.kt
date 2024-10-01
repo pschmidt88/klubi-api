@@ -6,15 +6,11 @@ import io.quarkus.test.junit.QuarkusTest
 import io.restassured.module.kotlin.extensions.Extract
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
-import org.junit.jupiter.api.AfterEach
+import jakarta.inject.Inject
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import racoony.software.klubi.domain.member.Member
-import racoony.software.klubi.event_sourcing.Stories
 import racoony.software.klubi.ports.http.member.list.responses.MemberListResponse
-import racoony.software.klubi.ports.store.EventStore
-import java.util.UUID
-import javax.inject.Inject
 
 @QuarkusTest
 class ListMembersTest {

@@ -1,4 +1,4 @@
-package racoony.software.klubi.ports.store
+package racoony.software.klubi.ports.store.member
 
 import io.smallrye.mutiny.Multi
 import io.smallrye.mutiny.Uni

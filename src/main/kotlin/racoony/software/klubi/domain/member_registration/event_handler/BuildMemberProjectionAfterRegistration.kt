@@ -1,11 +1,11 @@
 package racoony.software.klubi.domain.member_registration.event_handler
 
+import jakarta.enterprise.context.ApplicationScoped
 import org.jboss.logging.Logger
 import racoony.software.klubi.domain.member.MemberProjection
 import racoony.software.klubi.domain.member_registration.events.MemberRegistered
 import racoony.software.klubi.ports.bus.EventHandler
-import racoony.software.klubi.ports.store.MemberRepository
-import javax.enterprise.context.ApplicationScoped
+import racoony.software.klubi.ports.store.member.MemberRepository
 
 @ApplicationScoped
 class BuildMemberProjectionAfterRegistration(

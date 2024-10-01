@@ -3,9 +3,9 @@ package racoony.software.klubi.adapter.mongodb.member
 import io.quarkus.mongodb.reactive.ReactiveMongoClient
 import io.smallrye.mutiny.Multi
 import io.smallrye.mutiny.Uni
+import jakarta.enterprise.context.ApplicationScoped
 import racoony.software.klubi.domain.member.Member
-import racoony.software.klubi.ports.store.MemberRepository
-import javax.enterprise.context.ApplicationScoped
+import racoony.software.klubi.ports.store.member.MemberRepository
 
 @ApplicationScoped
 class MemberMongoDBRepository(

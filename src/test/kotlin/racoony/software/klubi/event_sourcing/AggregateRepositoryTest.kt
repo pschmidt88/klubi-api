@@ -8,13 +8,13 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.quarkus.test.junit.QuarkusTest
 import io.vertx.core.eventbus.EventBus
+import jakarta.inject.Inject
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import racoony.software.klubi.adapter.mongodb.events.MongoEvent
 import racoony.software.klubi.ports.bus.RecordingEventBus
 import racoony.software.klubi.ports.store.EventStore
 import java.util.UUID
-import javax.inject.Inject
 
 @QuarkusTest
 class AggregateRepositoryTest {

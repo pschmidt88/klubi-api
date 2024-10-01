@@ -2,10 +2,10 @@ package racoony.software.klubi.adapter.rx
 
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import jakarta.enterprise.context.ApplicationScoped
 import racoony.software.klubi.event_sourcing.Event
 import racoony.software.klubi.ports.bus.EventBus
 import racoony.software.klubi.ports.bus.EventHandler
-import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
 class RxEventBus : EventBus {
