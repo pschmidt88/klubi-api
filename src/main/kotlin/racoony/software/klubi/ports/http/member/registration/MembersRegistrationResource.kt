@@ -26,7 +26,7 @@ class MembersRegistrationResource(
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    fun createMember(request: MemberRegistrationRequest): Uni<Response> {
+    suspend fun createMember(request: MemberRegistrationRequest): Response {
 
         val personalDetails = request.personalDetails
         val assignedDepartment = request.assignedDepartment
@@ -37,10 +37,12 @@ class MembersRegistrationResource(
         }
 
         return repository.save(memberRegistration)
-            .onItem().transform {
-                Response.created(URI.create("/api/members/${memberRegistration.id}")).build()
-            }
-            .onFailure().invoke(Consumer { logger.error("Failed to save member registration aggregate: $it") })
+            .onFailure { logger.error("Failed to save member registration aggregate: $it") }
+            .fold(
+                { Response.created(URI.create("/api/members/${memberRegistration.id}")).build() },
+                { Response.serverError().build() }
+            )
+
     }
 
 }

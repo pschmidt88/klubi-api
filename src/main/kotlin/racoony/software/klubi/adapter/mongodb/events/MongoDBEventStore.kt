@@ -2,9 +2,10 @@ package racoony.software.klubi.adapter.mongodb.events
 
 import com.mongodb.client.model.Filters.eq
 import io.quarkus.mongodb.reactive.ReactiveMongoClient
-import io.smallrye.mutiny.Multi
-import io.smallrye.mutiny.Uni
+import io.smallrye.mutiny.coroutines.asFlow
+import io.smallrye.mutiny.coroutines.awaitSuspending
 import jakarta.enterprise.context.ApplicationScoped
+import kotlinx.coroutines.flow.Flow
 import racoony.software.klubi.event_sourcing.Event
 import racoony.software.klubi.ports.store.EventStore
 import java.util.UUID
@@ -17,17 +18,15 @@ class MongoDBEventStore(
         .getDatabase("klubi")
         .getCollection("event_store", MongoEvent::class.java)
 
-    override fun save(aggregateId: UUID, events: List<Event>): Uni<Void> {
-        return collection
-            .insertMany(events.map {
-                MongoEvent(aggregateId = aggregateId, event = it)
-            })
-            .onItem().ignore().andContinueWithNull()
+    override suspend fun save(aggregateId: UUID, events: List<Event>): Result<Unit> = runCatching {
+        collection.insertMany(events.map {
+            MongoEvent(aggregateId = aggregateId, event = it)
+        }).awaitSuspending()
     }
 
-    override fun loadEvents(aggregateId: UUID): Multi<Event> {
+    override suspend fun loadEvents(aggregateId: UUID): Flow<Event> {
         return collection
             .find(eq("aggregateId", aggregateId))
-            .onItem().transform { it.event }
+            .map { it.event }.asFlow()
     }
 }

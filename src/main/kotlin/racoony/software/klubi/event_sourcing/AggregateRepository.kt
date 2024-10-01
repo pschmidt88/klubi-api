@@ -1,33 +1,22 @@
 package racoony.software.klubi.event_sourcing
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import io.smallrye.mutiny.Uni
+import jakarta.enterprise.context.Dependent
+import kotlinx.coroutines.flow.toList
 import racoony.software.klubi.ports.bus.EventBus
 import racoony.software.klubi.ports.store.EventStore
 import java.util.UUID
-import java.util.function.Consumer
-import jakarta.enterprise.context.ApplicationScoped
-import jakarta.enterprise.context.Dependent
 
 @Dependent
 class AggregateRepository<T : Aggregate>(
     private val eventStore: EventStore,
     private val eventBus: EventBus,
 ) {
-    fun <T : Aggregate> findById(id: UUID, aggregate: () -> T): Uni<T> {
-        return this.eventStore.loadEvents(id)
-            .collect().asList()
-            .onItem().transform { events ->
-                aggregate().apply { fromHistory(events) }
-            }
-    }
+    suspend fun <T : Aggregate> findById(id: UUID, aggregate: () -> T): T =
+        this.eventStore.loadEvents(id).toList().let { events ->
+            aggregate().apply { fromHistory(events) }
+        }
 
-    fun save(aggregate: T): Uni<Void> {
-        return this.eventStore.save(aggregate.id, aggregate.changes)
-            .onItem().invoke(Consumer {
-                aggregate.changes.forEach {
-                    this.eventBus.publish(it)
-                }
-            })
+    suspend fun save(aggregate: T): Result<Unit> = this.eventStore.save(aggregate.id, aggregate.changes).also {
+        aggregate.changes.forEach(eventBus::publish)
     }
 }

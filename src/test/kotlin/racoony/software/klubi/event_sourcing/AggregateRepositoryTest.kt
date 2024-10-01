@@ -3,6 +3,7 @@ package racoony.software.klubi.event_sourcing
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.mongodb.client.MongoClient
 import com.mongodb.client.model.Filters.eq
+import io.kotest.common.runBlocking
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -39,12 +40,12 @@ class AggregateRepositoryTest {
     @Test
     fun `Given Aggregate with at least one event in store when findById then aggregate is not null`() {
         val aggregateId = UUID.randomUUID()
-        eventStore.save(aggregateId, listOf(TestEvent("foo"))).await().indefinitely()
+        val aggregate = runBlocking {
+            eventStore.save(aggregateId, listOf(TestEvent("foo")))
 
-        val aggregate = AggregateRepository<TestAggregate>(eventStore, RecordingEventBus())
-            .findById(aggregateId) { TestAggregate() }
-            .await().indefinitely()
-
+            AggregateRepository<TestAggregate>(eventStore, RecordingEventBus())
+                .findById(aggregateId) { TestAggregate() }
+        }
         aggregate shouldNotBe null
         aggregate.testEvent shouldBe "foo"
     }
@@ -57,8 +58,9 @@ class AggregateRepositoryTest {
             raiseTestEvent()
         }
 
-        AggregateRepository<TestAggregate>(eventStore, RecordingEventBus()).save(testAggregate)
-            .await().indefinitely()
+        runBlocking {
+            AggregateRepository<TestAggregate>(eventStore, RecordingEventBus()).save(testAggregate)
+        }
 
         val events = mongoClient.getDatabase("klubi")
             .getCollection("event_store", MongoEvent::class.java)
@@ -78,8 +80,9 @@ class AggregateRepositoryTest {
         }
 
         val recordingEventBus = RecordingEventBus()
-        AggregateRepository<TestAggregate>(eventStore, recordingEventBus).save(testAggregate)
-            .await().indefinitely()
+        runBlocking {
+            AggregateRepository<TestAggregate>(eventStore, recordingEventBus).save(testAggregate)
+        }
 
         recordingEventBus.publishedEventsOfType(TestEvent::class.java) shouldHaveSize 1
     }
