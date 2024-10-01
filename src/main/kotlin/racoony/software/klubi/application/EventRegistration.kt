@@ -1,12 +1,11 @@
 package racoony.software.klubi.application
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.quarkus.runtime.Startup
+import jakarta.enterprise.context.ApplicationScoped
 import racoony.software.klubi.domain.member_registration.event_handler.BuildMemberProjectionAfterRegistration
 import racoony.software.klubi.domain.member_registration.events.MemberRegistered
 import racoony.software.klubi.ports.bus.EventBus
-import racoony.software.klubi.ports.store.MemberRepository
-import javax.enterprise.context.ApplicationScoped
+import racoony.software.klubi.ports.store.member.MemberRepository
 
 @Startup
 @ApplicationScoped

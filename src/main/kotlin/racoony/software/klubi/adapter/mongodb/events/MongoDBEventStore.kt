@@ -4,10 +4,10 @@ import com.mongodb.client.model.Filters.eq
 import io.quarkus.mongodb.reactive.ReactiveMongoClient
 import io.smallrye.mutiny.Multi
 import io.smallrye.mutiny.Uni
+import jakarta.enterprise.context.ApplicationScoped
 import racoony.software.klubi.event_sourcing.Event
 import racoony.software.klubi.ports.store.EventStore
 import java.util.UUID
-import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
 class MongoDBEventStore(
