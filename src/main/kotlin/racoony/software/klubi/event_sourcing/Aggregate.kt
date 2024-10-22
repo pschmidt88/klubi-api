@@ -12,16 +12,7 @@ abstract class Aggregate(
         this.changes.add(event)
     }
 
-    private fun applyChange(event: Event) {
-        try {
-            this.javaClass.getDeclaredMethod("apply", event.javaClass).also {
-                it.isAccessible = true
-                it.invoke(this, event)
-            }
-        } catch (_: NoSuchMethodException) {
-            // aggregate doesn't care about the event, so we don't
-        }
-    }
+    abstract fun applyChange(event: Event)
 
     fun fromHistory(history: List<Event>) {
         history.forEach {

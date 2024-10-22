@@ -1,5 +1,7 @@
 package racoony.software.klubi.domain.member_registration.event_handler
 
+import io.quarkus.vertx.ConsumeEvent
+import io.vertx.mutiny.core.eventbus.EventBus
 import jakarta.enterprise.context.ApplicationScoped
 import org.jboss.logging.Logger
 import racoony.software.klubi.domain.member.MemberProjection
@@ -10,21 +12,21 @@ import racoony.software.klubi.ports.store.member.MemberRepository
 @ApplicationScoped
 class BuildMemberProjectionAfterRegistration(
     private val memberRepository: MemberRepository
-) : EventHandler<MemberRegistered> {
+) {
 
     companion object {
         @JvmStatic
         private val logger: Logger = Logger.getLogger(BuildMemberProjectionAfterRegistration::class.java)
     }
 
-    override fun handle(event: MemberRegistered) {
+    @ConsumeEvent("MemberRegistered")
+    suspend fun handle(event: MemberRegistered) {
         logger.info("Handling MemberRegistered event")
         val member = MemberProjection().apply {
             restoreFromHistory(listOf(event))
         }.toMember()
 
         memberRepository.save(member)
-            .onFailure().invoke { cause -> logger.error("Failed to save member", cause) }
-            .onItem().ignore().andContinueWithNull()
+            .onFailure { cause -> logger.error("Failed to save member", cause) }
     }
 }

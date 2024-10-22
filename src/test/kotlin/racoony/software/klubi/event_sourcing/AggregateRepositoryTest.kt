@@ -1,6 +1,5 @@
 package racoony.software.klubi.event_sourcing
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.mongodb.client.MongoClient
 import com.mongodb.client.model.Filters.eq
 import io.kotest.common.runBlocking
@@ -8,7 +7,6 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.quarkus.test.junit.QuarkusTest
-import io.vertx.core.eventbus.EventBus
 import jakarta.inject.Inject
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
@@ -24,13 +22,7 @@ class AggregateRepositoryTest {
     lateinit var eventStore: EventStore
 
     @Inject
-    lateinit var eventBus: EventBus
-
-    @Inject
     lateinit var mongoClient: MongoClient
-
-    @Inject
-    lateinit var objectMapper: ObjectMapper
 
     @AfterEach
     internal fun cleanupDatabase() {

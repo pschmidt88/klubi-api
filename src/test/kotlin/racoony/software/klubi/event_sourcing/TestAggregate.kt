@@ -21,4 +21,19 @@ class TestAggregate : Aggregate() {
     fun raiseAnotherEvent() {
         this.raise(AnotherEvent("bar"))
     }
+
+    override fun applyChange(event: Event) {
+        when (event) {
+            is TestEvent -> apply(event)
+            is AnotherEvent -> apply(event)
+        }
+    }
 }
+
+class AnotherEvent(
+    val otherValue: String
+) : Event()
+
+class TestEvent(
+    val someValue: String
+) : Event()
