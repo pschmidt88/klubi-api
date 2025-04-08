@@ -3,7 +3,11 @@ package racoony.software.klubi.adapter.mongodb.member
 import io.quarkus.mongodb.reactive.ReactiveMongoClient
 import io.smallrye.mutiny.Multi
 import io.smallrye.mutiny.Uni
+import io.smallrye.mutiny.coroutines.asFlow
+import io.smallrye.mutiny.coroutines.awaitSuspending
 import jakarta.enterprise.context.ApplicationScoped
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import racoony.software.klubi.domain.member.Member
 import racoony.software.klubi.ports.store.member.MemberRepository
 
@@ -16,13 +20,11 @@ class MemberMongoDBRepository(
         .getDatabase("klubi")
         .getCollection("members", Member::class.java)
 
-    override fun findAll(): Multi<Member> {
-        return this.collection.find()
+    override suspend fun findAll(): Flow<Member> {
+        return this.collection.find().asFlow()
     }
 
-    override fun save(member: Member): Uni<Void> {
-        return this.collection.insertOne(member)
-            .onItem().ignore().andContinueWithNull()
+    override suspend fun save(member: Member): Result<Unit> = runCatching {
+        this.collection.insertOne(member).awaitSuspending()
     }
-
 }

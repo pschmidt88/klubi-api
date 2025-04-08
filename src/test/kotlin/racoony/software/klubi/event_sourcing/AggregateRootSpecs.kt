@@ -4,7 +4,7 @@ import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class AggregateSpecs {
+class AggregateRootSpecs {
 
     private lateinit var aggregateInstance: TestAggregate
 

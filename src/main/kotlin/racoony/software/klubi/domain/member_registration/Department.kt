@@ -1,5 +1,6 @@
 package racoony.software.klubi.domain.member_registration
 
-data class Department(
+@JvmInline
+value class Department(
     val name: String
 )

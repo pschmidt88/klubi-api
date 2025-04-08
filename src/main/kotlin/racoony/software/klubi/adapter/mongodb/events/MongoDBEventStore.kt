@@ -18,7 +18,7 @@ class MongoDBEventStore(
         .getDatabase("klubi")
         .getCollection("event_store", MongoEvent::class.java)
 
-    override suspend fun save(aggregateId: UUID, events: List<Event>): Result<Unit> = runCatching {
+    override suspend fun save(aggregateId: UUID, events: Iterable<Event>): Result<Unit> = runCatching {
         collection.insertMany(events.map {
             MongoEvent(aggregateId = aggregateId, event = it)
         }).awaitSuspending()
@@ -27,6 +27,7 @@ class MongoDBEventStore(
     override suspend fun loadEvents(aggregateId: UUID): Flow<Event> {
         return collection
             .find(eq("aggregateId", aggregateId))
-            .map { it.event }.asFlow()
+            .map { it.event }
+            .asFlow()
     }
 }

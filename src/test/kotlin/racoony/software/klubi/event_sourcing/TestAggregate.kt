@@ -1,6 +1,8 @@
 package racoony.software.klubi.event_sourcing
 
-class TestAggregate : Aggregate() {
+import java.util.UUID
+
+class TestAggregate(id: AggregateId = UUID.randomUUID()) : AggregateRoot(id) {
     var testEvent = ""
     var anotherEvent = ""
 
@@ -9,16 +11,25 @@ class TestAggregate : Aggregate() {
     }
 
     @Suppress("unused")
-    private fun apply(testEvent: TestEvent) {
+    private fun applyTestEvent(testEvent: TestEvent) {
         this.testEvent = testEvent.someValue
     }
 
     @Suppress("unused")
-    private fun apply(anotherEvent: AnotherEvent) {
+    private fun applyAnotherEvent(anotherEvent: AnotherEvent) {
         this.anotherEvent = anotherEvent.otherValue
     }
 
     fun raiseAnotherEvent() {
         this.raise(AnotherEvent("bar"))
+    }
+
+    override fun applyEvent(event: Event): AggregateRoot {
+        when (event) {
+            is TestEvent -> applyTestEvent(event)
+            is AnotherEvent -> applyAnotherEvent(event)
+        }
+
+        return this
     }
 }

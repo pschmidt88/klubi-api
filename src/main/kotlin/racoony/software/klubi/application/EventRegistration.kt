@@ -14,6 +14,6 @@ class EventRegistration(
     private val memberRepository: MemberRepository,
 ) {
     init {
-        this.eventBus.subscribe(MemberRegistered::class.java, BuildMemberProjectionAfterRegistration(memberRepository))
+        this.eventBus.subscribe(MemberRegistered::class, BuildMemberProjectionAfterRegistration(memberRepository))
     }
 }

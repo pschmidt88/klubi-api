@@ -5,7 +5,7 @@ plugins {
     kotlin("jvm") version "2.0.10"
     kotlin("plugin.allopen") version "2.0.10"
     kotlin("plugin.noarg") version "2.0.10"
-    id("io.quarkus")
+    alias(libs.plugins.quarkus)
 }
 
 group = "software.racoony"
@@ -16,19 +16,14 @@ repositories {
     mavenLocal()
 }
 
-val quarkusPlatformGroupId: String by project
-val quarkusPlatformArtifactId: String by project
-val quarkusPlatformVersion: String by project
-val testContainersVersion: String by project
-
 dependencies {
-    implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
-    implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
-    implementation("io.quarkus:quarkus-kotlin")
-    implementation("io.quarkus:quarkus-mongodb-client")
-    implementation("io.quarkus:quarkus-mongodb-panache-kotlin")
-    implementation("io.quarkus:quarkus-arc")
-    implementation("io.quarkus:quarkus-config-yaml")
+    implementation(enforcedPlatform(libs.quarkus.bom))
+    implementation(libs.quarkus.arc)
+    implementation(libs.quarkus.kotlin)
+    implementation(libs.quarkus.rest.jackson)
+    implementation(libs.quarkus.mongodb.client)
+    implementation(libs.quarkus.mongodb.panache.kotlin)
+    implementation(libs.quarkus.config.yaml)
 
     implementation("io.reactivex.rxjava2:rxjava:2.2.21")
 
@@ -37,16 +32,22 @@ dependencies {
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.+")
 
-    testImplementation("io.quarkus:quarkus-junit5")
+    implementation(libs.arrow.core)
+    implementation(libs.arrow.fx.coroutines)
+    implementation(libs.arrow.resilience)
+
 
     testImplementation("io.rest-assured:rest-assured:5.2.0")
     testImplementation("io.rest-assured:kotlin-extensions:5.2.0")
     testImplementation("io.kotest:kotest-runner-junit5:5.5.0")
     testImplementation("io.kotest:kotest-assertions-core:5.5.0")
 
-    testImplementation("org.testcontainers:testcontainers:${testContainersVersion}")
-    testImplementation("org.testcontainers:mongodb:${testContainersVersion}")
-    testImplementation("org.testcontainers:junit-jupiter:${testContainersVersion}")
+    testImplementation(libs.testcontainers)
+    testImplementation(libs.testcontainers.mongodb)
+    testImplementation(libs.testcontainers.junit)
+
+    testImplementation(libs.quarkus.junit5)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.1")
 }
 
 java {

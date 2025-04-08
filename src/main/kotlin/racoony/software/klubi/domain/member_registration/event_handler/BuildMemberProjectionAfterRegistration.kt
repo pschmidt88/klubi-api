@@ -1,6 +1,7 @@
 package racoony.software.klubi.domain.member_registration.event_handler
 
 import jakarta.enterprise.context.ApplicationScoped
+import kotlinx.coroutines.runBlocking
 import org.jboss.logging.Logger
 import racoony.software.klubi.domain.member.MemberProjection
 import racoony.software.klubi.domain.member_registration.events.MemberRegistered
@@ -23,8 +24,9 @@ class BuildMemberProjectionAfterRegistration(
             restoreFromHistory(listOf(event))
         }.toMember()
 
-        memberRepository.save(member)
-            .onFailure().invoke { cause -> logger.error("Failed to save member", cause) }
-            .onItem().ignore().andContinueWithNull()
+        runBlocking {
+            runCatching { memberRepository.save(member) }
+                .onFailure { cause -> logger.error("Failed to save member", cause) }
+        }
     }
 }

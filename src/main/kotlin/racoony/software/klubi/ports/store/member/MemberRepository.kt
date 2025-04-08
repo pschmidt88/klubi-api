@@ -1,11 +1,10 @@
 package racoony.software.klubi.ports.store.member
 
-import io.smallrye.mutiny.Multi
-import io.smallrye.mutiny.Uni
+import kotlinx.coroutines.flow.Flow
 import racoony.software.klubi.domain.member.Member
 
 interface MemberRepository {
-    fun findAll(): Multi<Member>
-    fun save(member: Member): Uni<Void>
+    suspend fun findAll(): Flow<Member>
+    suspend fun save(member: Member): Result<Unit>
 }
 

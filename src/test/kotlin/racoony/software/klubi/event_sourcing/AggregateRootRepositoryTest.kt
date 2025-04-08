@@ -1,6 +1,5 @@
 package racoony.software.klubi.event_sourcing
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.mongodb.client.MongoClient
 import com.mongodb.client.model.Filters.eq
 import io.kotest.common.runBlocking
@@ -8,8 +7,8 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.quarkus.test.junit.QuarkusTest
-import io.vertx.core.eventbus.EventBus
 import jakarta.inject.Inject
+import kotlinx.coroutines.test.TestScope
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import racoony.software.klubi.adapter.mongodb.events.MongoEvent
@@ -18,19 +17,15 @@ import racoony.software.klubi.ports.store.EventStore
 import java.util.UUID
 
 @QuarkusTest
-class AggregateRepositoryTest {
+class AggregateRootRepositoryTest {
+
+    val testScope = TestScope()
 
     @Inject
     lateinit var eventStore: EventStore
 
     @Inject
-    lateinit var eventBus: EventBus
-
-    @Inject
     lateinit var mongoClient: MongoClient
-
-    @Inject
-    lateinit var objectMapper: ObjectMapper
 
     @AfterEach
     internal fun cleanupDatabase() {
@@ -53,8 +48,7 @@ class AggregateRepositoryTest {
     @Test
     fun `aggregate with raised event, when saving aggregate, events should've been persisted to the event store`() {
         val aggregateId = UUID.randomUUID()
-        val testAggregate = TestAggregate().apply {
-            id = aggregateId
+        val testAggregate = TestAggregate(aggregateId).apply {
             raiseTestEvent()
         }
 
@@ -74,16 +68,16 @@ class AggregateRepositoryTest {
     @Test
     fun `aggregate with raised event, when saving aggregate, events should've been published to event bus`() {
         val aggregateId = UUID.randomUUID()
-        val testAggregate = TestAggregate().apply {
-            id = aggregateId
+        val testAggregate = TestAggregate(aggregateId).apply {
             raiseTestEvent()
         }
 
-        val recordingEventBus = RecordingEventBus()
+        val recordingEventBus = RecordingEventBus(testScope)
+
         runBlocking {
             AggregateRepository<TestAggregate>(eventStore, recordingEventBus).save(testAggregate)
         }
 
-        recordingEventBus.publishedEventsOfType(TestEvent::class.java) shouldHaveSize 1
+        recordingEventBus.publishedEventsOfType(TestEvent::class) shouldHaveSize 1
     }
 }
