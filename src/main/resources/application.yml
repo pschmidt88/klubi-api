@@ -1,6 +1,6 @@
 quarkus:
   log:
-    level: info
+    level: debug
   http:
     access-log:
       enabled: true

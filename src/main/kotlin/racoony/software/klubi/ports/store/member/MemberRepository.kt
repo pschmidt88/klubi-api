@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import racoony.software.klubi.domain.member.Member
 
 interface MemberRepository {
-    suspend fun findAll(): Flow<Member>
+    suspend fun findAll(): Iterable<Member>
     suspend fun save(member: Member): Result<Unit>
 }
 

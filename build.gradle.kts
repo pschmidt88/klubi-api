@@ -26,33 +26,32 @@ dependencies {
     implementation(libs.quarkus.mongodb.panache.kotlin)
     implementation(libs.quarkus.config.yaml)
 
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.core.jvm)
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
-    implementation("org.mongodb:bson-kotlinx:5.4.0")
+    implementation(libs.kotlinx.datetime)
 
-    implementation("io.reactivex.rxjava2:rxjava:2.2.21")
-
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-
-//    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.+")
+    implementation(libs.mongodb.bson.kotlinx)
 
     implementation(libs.arrow.core)
     implementation(libs.arrow.fx.coroutines)
     implementation(libs.arrow.resilience)
 
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-    testImplementation("io.rest-assured:rest-assured:5.2.0")
-    testImplementation("io.rest-assured:kotlin-extensions:5.2.0")
-    testImplementation("io.kotest:kotest-runner-junit5:5.5.0")
-    testImplementation("io.kotest:kotest-assertions-core:5.5.0")
+    testImplementation(libs.restAssured)
+    testImplementation(libs.restAssured.kotlin)
+    testImplementation(libs.kotest.runner.junit5)
+    testImplementation(libs.kotest.assertions.core)
 
     testImplementation(libs.testcontainers)
     testImplementation(libs.testcontainers.mongodb)
     testImplementation(libs.testcontainers.junit)
 
     testImplementation(libs.quarkus.junit5)
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.1")
+    testImplementation(libs.kotlinx.coroutines.test)
 }
 
 java {
@@ -74,7 +73,7 @@ noArg {
 
 kotlin {
     compilerOptions {
-        apiVersion.set(KotlinVersion.KOTLIN_2_0)
+        apiVersion.set(KotlinVersion.KOTLIN_2_1)
         jvmTarget.set(JvmTarget.JVM_21)
         javaParameters.set(true)
     }

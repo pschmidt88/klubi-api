@@ -5,13 +5,10 @@ import arrow.core.Option
 import arrow.core.flatMap
 import arrow.core.right
 import jakarta.enterprise.context.Dependent
-import kotlinx.coroutines.flow.toList
 import racoony.software.klubi.domain.Failure
 import racoony.software.klubi.domain.Result
 import racoony.software.klubi.domain.Success
-import racoony.software.klubi.ports.bus.EventBus
-import racoony.software.klubi.ports.bus.publishAsync
-import java.util.UUID
+import java.util.*
 
 @Dependent
 class AggregateRepository<T : AggregateRoot>(

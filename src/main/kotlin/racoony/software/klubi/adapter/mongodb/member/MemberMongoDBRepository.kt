@@ -20,8 +20,8 @@ class MemberMongoDBRepository(
         .getDatabase("klubi")
         .getCollection("members", Member::class.java)
 
-    override suspend fun findAll(): Flow<Member> {
-        return this.collection.find().asFlow()
+    override suspend fun findAll(): Iterable<Member> {
+        return this.collection.find().collect().asList().awaitSuspending().asIterable()
     }
 
     override suspend fun save(member: Member): Result<Unit> = runCatching {
