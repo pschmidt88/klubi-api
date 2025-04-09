@@ -36,7 +36,7 @@ class MemberProjection {
         this.paymentMethod = event.membershipFeePayment.paymentMethod
     }
 
-    fun restoreFromHistory(history: List<Event>) {
+    fun restoreFromHistory(history: Iterable<Event>) {
         history.forEach {
             this.applyChange(it)
         }

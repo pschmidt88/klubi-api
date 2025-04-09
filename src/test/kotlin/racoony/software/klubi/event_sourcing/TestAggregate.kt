@@ -1,8 +1,10 @@
 package racoony.software.klubi.event_sourcing
 
+import io.quarkus.logging.Log
 import java.util.UUID
 
 class TestAggregate(id: AggregateId = UUID.randomUUID()) : AggregateRoot(id) {
+
     var testEvent = ""
     var anotherEvent = ""
 
@@ -25,6 +27,7 @@ class TestAggregate(id: AggregateId = UUID.randomUUID()) : AggregateRoot(id) {
     }
 
     override fun applyEvent(event: Event): AggregateRoot {
+        Log.debugf("Applying event %s to aggregate %s", event, this)
         when (event) {
             is TestEvent -> applyTestEvent(event)
             is AnotherEvent -> applyAnotherEvent(event)

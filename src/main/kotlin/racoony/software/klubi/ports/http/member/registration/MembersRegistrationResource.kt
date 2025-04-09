@@ -37,10 +37,10 @@ class MembersRegistrationResource(
         }
 
         return repository.save(memberRegistration)
-            .onFailure { logger.error("Failed to save member registration aggregate: $it") }
+            .onLeft { logger.error("Failed to save member registration aggregate: $it") }
             .fold(
+                { Response.serverError().build() },
                 { Response.created(URI.create("/api/members/${memberRegistration.id}")).build() },
-                { Response.serverError().build() }
             )
 
     }

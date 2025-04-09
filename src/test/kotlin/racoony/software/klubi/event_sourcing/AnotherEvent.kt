@@ -1,6 +1,8 @@
 package racoony.software.klubi.event_sourcing
 
-@DomainEvent
-class AnotherEvent(
-    val otherValue: String
-) : Event()
+data class AnotherEvent(
+    val otherValue: String,
+    val version: Long? = null
+) : Event(version) {
+    override fun copyWithVersion(version: Long): Event = copy(version = version)
+}

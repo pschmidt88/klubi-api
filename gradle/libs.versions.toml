@@ -1,5 +1,6 @@
 [versions]
 arrow = "2.0.1"
+kotlin-serialization = "1.8.1"
 quarkus-platform = "3.18.2"
 quarkus-plugin = "3.18.2"
 testcontainers = "1.17.4"
@@ -9,6 +10,8 @@ testcontainers = "1.17.4"
 arrow-core = { module ="io.arrow-kt:arrow-core", version.ref = "arrow" }
 arrow-fx-coroutines = { module ="io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
 arrow-resilience = { module ="io.arrow-kt:arrow-resilience", version.ref = "arrow" }
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlin-serialization" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization" }
 quarkus-arc = { module = "io.quarkus:quarkus-arc" }
 quarkus-bom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus-platform"}
 quarkus-config-yaml = { module = "io.quarkus:quarkus-config-yaml" }
@@ -48,3 +51,4 @@ testcontainers-mongodb = { module = "org.testcontainers:mongodb", version.ref = 
 
 [plugins]
 quarkus = { id = "io.quarkus", version.ref = "quarkus-plugin" }
+

@@ -2,9 +2,10 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    kotlin("jvm") version "2.0.10"
-    kotlin("plugin.allopen") version "2.0.10"
-    kotlin("plugin.noarg") version "2.0.10"
+    kotlin("jvm") version "2.1.20"
+    kotlin("plugin.serialization") version "2.1.20"
+    kotlin("plugin.allopen") version "2.1.20"
+    kotlin("plugin.noarg") version "2.1.20"
     alias(libs.plugins.quarkus)
 }
 
@@ -25,12 +26,16 @@ dependencies {
     implementation(libs.quarkus.mongodb.panache.kotlin)
     implementation(libs.quarkus.config.yaml)
 
+    implementation(libs.kotlinx.serialization.core)
+    implementation(libs.kotlinx.serialization.json)
+    implementation("org.mongodb:bson-kotlinx:5.4.0")
+
     implementation("io.reactivex.rxjava2:rxjava:2.2.21")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.+")
+//    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.+")
 
     implementation(libs.arrow.core)
     implementation(libs.arrow.fx.coroutines)

@@ -26,7 +26,12 @@ abstract class AggregateRoot(
 
     protected abstract fun applyEvent(event: Event): AggregateRoot
 
-    fun fromHistory(history: List<Event>) {
+    fun fromHistory(history: Iterable<Event>) {
         history.fold(this) { agg, event -> agg.applyEvent(event) }
+    }
+
+    fun markChangesAsCommited() {
+        log.debug("Marking changes as commited")
+        _uncommittedChanges.clear()
     }
 }

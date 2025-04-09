@@ -5,8 +5,11 @@ import racoony.software.klubi.domain.member_registration.MembershipFeePayment
 import racoony.software.klubi.domain.member_registration.PersonalDetails
 import racoony.software.klubi.event_sourcing.Event
 
-class MemberRegistered(
+data class MemberRegistered(
     val personalDetails: PersonalDetails,
     val assignedDepartment: AssignedDepartment,
-    val membershipFeePayment: MembershipFeePayment
-) : Event()
+    val membershipFeePayment: MembershipFeePayment,
+    val version: Long? = null
+) : Event(version) {
+    override fun copyWithVersion(version: Long): MemberRegistered = copy(version = version)
+}
