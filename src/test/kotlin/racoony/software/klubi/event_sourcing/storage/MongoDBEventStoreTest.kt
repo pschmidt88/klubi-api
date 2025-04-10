@@ -5,6 +5,7 @@ import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beOfType
+import io.quarkus.mongodb.reactive.ReactiveMongoClient
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
 import kotlinx.coroutines.test.runTest
@@ -18,11 +19,10 @@ import kotlin.uuid.Uuid
 @QuarkusTest
 class MongoDBEventStoreTest {
 
-    // TODO: replace runBlocking with runTest
     // TODO: Instantiate MongoDbEventSTore directly and replace eventBus with fake
 
     @Inject
-    lateinit var mongoClient: MongoClient
+    lateinit var mongoClient: ReactiveMongoClient
 
     @Test
     fun `writing events to mongodb should not blow up and return success`() = runTest {

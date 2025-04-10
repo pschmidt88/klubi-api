@@ -9,7 +9,7 @@ data class MemberRegistered(
     val personalDetails: PersonalDetails,
     val assignedDepartment: AssignedDepartment,
     val membershipFeePayment: MembershipFeePayment,
-    val version: Long? = null
-) : Event(version) {
+    override val version: Long? = null,
+) : Event() {
     override fun copyWithVersion(version: Long): MemberRegistered = copy(version = version)
 }

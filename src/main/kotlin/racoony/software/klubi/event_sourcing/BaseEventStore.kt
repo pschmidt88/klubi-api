@@ -6,7 +6,6 @@ import arrow.core.left
 import arrow.core.right
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.toList
-import kotlinx.serialization.Serializable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import racoony.software.klubi.domain.Result
@@ -19,19 +18,16 @@ import racoony.software.klubi.ports.bus.EventBus
  *
  * TODO: find a better solution than the nullable eventBus. we need to have a zero arg constructor for CDI to work
  */
-abstract class BaseEventStore(
+abstract class BaseEventStore<E : EventDescriptor>(
     private val eventBus: EventBus? = null
 ) : EventStore {
-
-    @Serializable
-    data class EventDescriptor(val aggregateId: AggregateId, val version: Long, val event: Event)
 
     companion object {
         private val log: Logger = LoggerFactory.getLogger(BaseEventStore::class.java)
     }
 
-    protected abstract suspend fun stream(key: AggregateId): Option<Iterable<EventDescriptor>>
-    protected abstract suspend fun appendEventDescriptor(key: AggregateId, eventDescriptor: EventDescriptor)
+    protected abstract suspend fun stream(key: AggregateId): Option<Iterable<E>>
+    protected abstract suspend fun appendEvent(key: AggregateId, version: Long, event: Event)
 
 
     override suspend fun findEventsByAggregateId(aggregateId: AggregateId): Option<Iterable<Event>> {
@@ -68,9 +64,8 @@ abstract class BaseEventStore(
                 val versionedEvent = event.copyWithVersion(eventVersion)
                 emit(versionedEvent)
 
-                val eventDescriptor = EventDescriptor(aggregateId, eventVersion, event)
                 log.debug("Appending event {} to stream {}", versionedEvent, aggregateId)
-                appendEventDescriptor(aggregateId, eventDescriptor)
+                appendEvent(aggregateId, eventVersion, event)
 
                 log.trace("Publishing event {} on the bus", versionedEvent)
                 eventBus?.publish(event)
@@ -79,7 +74,6 @@ abstract class BaseEventStore(
     }
 
     private fun Option<Iterable<EventDescriptor>>.versionMismatchDetected(expectedVersion: Option<Long>): Boolean {
-
         return expectedVersion.map { version ->
             val lastEvent = this.flatMap {
                 eventDescriptors -> Option.fromNullable(eventDescriptors.lastOrNull())
@@ -88,4 +82,10 @@ abstract class BaseEventStore(
             lastEvent.isSome { event -> event.version != version }
         }.getOrElse { false }
     }
+}
+
+interface EventDescriptor {
+    val aggregateId: AggregateId
+    val event: Event
+    val version: Long?
 }
