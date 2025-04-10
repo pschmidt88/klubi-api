@@ -14,7 +14,7 @@ import java.util.*
 class AggregateRepository<T : AggregateRoot>(
     private val eventStore: EventStore,
 ) {
-    suspend fun <T : AggregateRoot> findById(id: UUID, aggregate: () -> T): T =
+    suspend fun <T : AggregateRoot> findById(id: AggregateId, aggregate: () -> T): T =
         this.eventStore.findEventsByAggregateId(id)
             .map { events -> aggregate().apply { fromHistory(events) } }
             .getOrNull() ?: TODO("error handling")

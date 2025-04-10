@@ -2,12 +2,12 @@ package racoony.software.klubi.event_sourcing
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.util.UUID
+import kotlin.uuid.Uuid
 
-typealias AggregateId = UUID
+typealias AggregateId = Uuid
 
 abstract class AggregateRoot(
-    val id: AggregateId = AggregateId.randomUUID()
+    val id: AggregateId = Uuid.random()
 ) {
     companion object {
         private val log: Logger = LoggerFactory.getLogger(AggregateRoot::class.java)

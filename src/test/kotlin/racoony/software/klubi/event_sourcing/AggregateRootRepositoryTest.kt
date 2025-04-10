@@ -1,19 +1,22 @@
 package racoony.software.klubi.event_sourcing
 
 import arrow.core.some
-import com.mongodb.client.MongoClient
+
 import com.mongodb.client.model.Filters.eq
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.quarkus.mongodb.reactive.ReactiveMongoClient
 import io.quarkus.test.junit.QuarkusTest
+import io.smallrye.mutiny.coroutines.awaitSuspending
 import jakarta.inject.Inject
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import racoony.software.klubi.ports.bus.RecordingEventBus
-import java.util.*
+import kotlin.uuid.Uuid
 
 @QuarkusTest
 class AggregateRootRepositoryTest {
@@ -24,16 +27,16 @@ class AggregateRootRepositoryTest {
     lateinit var eventStore: EventStore
 
     @Inject
-    lateinit var mongoClient: MongoClient
+    lateinit var mongoClient: ReactiveMongoClient
 
     @AfterEach
-    internal fun cleanupDatabase() {
+    internal fun cleanupDatabase() = runTest {
         mongoClient.getDatabase("klubi").getCollection("event_store").drop()
     }
 
     @Test
     fun `Given Aggregate with at least one event in store when findById then aggregate is not null`() = runTest {
-        val aggregateId = UUID.randomUUID()
+        val aggregateId = Uuid.random()
 
         eventStore.saveEvents(aggregateId, listOf(TestEvent("foo")), 0L.some())
 
@@ -46,7 +49,7 @@ class AggregateRootRepositoryTest {
     @Test
     fun `aggregate with raised event, when saving aggregate, events should've been persisted to the event store`() =
         runTest {
-            val aggregateId = UUID.randomUUID()
+            val aggregateId = Uuid.random()
             val testAggregate = TestAggregate(aggregateId).apply {
                 raiseTestEvent()
             }
@@ -56,7 +59,7 @@ class AggregateRootRepositoryTest {
             val events = mongoClient.getDatabase("klubi")
                 .getCollection("event_store")
                 .find(eq("aggregateId", aggregateId))
-                .toList()
+                .collect().asList().awaitSuspending()
 
             events shouldNotBe null
             events.size shouldBe 1
@@ -64,7 +67,7 @@ class AggregateRootRepositoryTest {
 
     @Test
     fun `aggregate with raised event, when saving aggregate, events should've been published to event bus`() = runTest {
-        val aggregateId = UUID.randomUUID()
+        val aggregateId = Uuid.random()
         val testAggregate = TestAggregate(aggregateId).apply {
             raiseTestEvent()
         }

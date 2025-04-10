@@ -1,5 +1,6 @@
 [versions]
 arrow = "2.0.1"
+mongodb-driver = "5.4.0"
 kotest = "5.5.0"
 kotlinx-coroutines = "1.10.1"
 kotlinx-datetime = "0.6.2"
@@ -21,7 +22,8 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-mongodb-bson-kotlinx = { module = "org.mongodb:bson-kotlinx", version = "5.4.0" }
+mongodb-driver-kotlin-coroutine = { module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.ref = "mongodb-driver" }
+mongodb-bson-kotlinx = { module = "org.mongodb:bson-kotlinx", version.ref = "mongodb-driver" }
 quarkus-arc = { module = "io.quarkus:quarkus-arc" }
 quarkus-bom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus-platform"}
 quarkus-config-yaml = { module = "io.quarkus:quarkus-config-yaml" }
@@ -35,18 +37,6 @@ restAssured-kotlin = { module = "io.rest-assured:kotlin-extensions", version.ref
 testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
 testcontainers-junit = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
 testcontainers-mongodb = { module = "org.testcontainers:mongodb", version.ref = "testcontainers" }
-
-#
-#testImplementation("io.quarkus:quarkus-junit5")
-#
-#testImplementation("io.rest-assured:rest-assured:5.2.0")
-#testImplementation("io.rest-assured:kotlin-extensions:5.2.0")
-#testImplementation("io.kotest:kotest-runner-junit5:5.5.0")
-#testImplementation("io.kotest:kotest-assertions-core:5.5.0")
-#
-#testImplementation("org.testcontainers:testcontainers:${testContainersVersion}")
-#testImplementation("org.testcontainers:mongodb:${testContainersVersion}")
-#testImplementation("org.testcontainers:junit-jupiter:${testContainersVersion}")
 
 [plugins]
 quarkus = { id = "io.quarkus", version.ref = "quarkus-plugin" }

@@ -3,15 +3,14 @@ package racoony.software.klubi.event_sourcing
 import arrow.core.Option
 import arrow.core.getOrElse
 import arrow.core.left
-import arrow.core.raise.nullable
 import arrow.core.right
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.toList
+import kotlinx.serialization.Serializable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import racoony.software.klubi.domain.Result
 import racoony.software.klubi.ports.bus.EventBus
-import java.util.UUID
 
 
 /**
@@ -24,6 +23,7 @@ abstract class BaseEventStore(
     private val eventBus: EventBus? = null
 ) : EventStore {
 
+    @Serializable
     data class EventDescriptor(val aggregateId: AggregateId, val version: Long, val event: Event)
 
     companion object {
@@ -56,7 +56,7 @@ abstract class BaseEventStore(
     }
 
     private suspend fun appendAndPublish(
-        aggregateId: UUID,
+        aggregateId: AggregateId,
         events: Iterable<Event>,
         previousAggregateVersion: Option<Long>
     ): Iterable<Event> {
@@ -79,9 +79,13 @@ abstract class BaseEventStore(
     }
 
     private fun Option<Iterable<EventDescriptor>>.versionMismatchDetected(expectedVersion: Option<Long>): Boolean {
+
         return expectedVersion.map { version ->
-            this.map { eventDescriptors -> eventDescriptors.lastOrNull() }
-                .isSome { event -> event?.version != version }
+            val lastEvent = this.flatMap {
+                eventDescriptors -> Option.fromNullable(eventDescriptors.lastOrNull())
+            }
+
+            lastEvent.isSome { event -> event.version != version }
         }.getOrElse { false }
     }
 }

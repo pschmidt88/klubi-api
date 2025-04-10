@@ -1,12 +1,12 @@
 package racoony.software.klubi.domain.member
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import io.quarkus.mongodb.panache.common.MongoEntity
+
 import io.quarkus.runtime.annotations.RegisterForReflection
 import java.time.LocalDate
 
 @RegisterForReflection
-@MongoEntity(collection = "members")
+//@MongoEntity(collection = "members")
 data class Member(
     @field:JsonProperty("number")
     val number: String? = null,

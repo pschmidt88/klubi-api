@@ -32,6 +32,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.datetime)
 
+    implementation(libs.mongodb.driver.kotlin.coroutine)
     implementation(libs.mongodb.bson.kotlinx)
 
     implementation(libs.arrow.core)
@@ -73,6 +74,7 @@ noArg {
 
 kotlin {
     compilerOptions {
+        optIn.add("kotlin.uuid.ExperimentalUuidApi")
         apiVersion.set(KotlinVersion.KOTLIN_2_1)
         jvmTarget.set(JvmTarget.JVM_21)
         javaParameters.set(true)
