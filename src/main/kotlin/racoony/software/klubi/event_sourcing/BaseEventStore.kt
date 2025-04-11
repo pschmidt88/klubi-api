@@ -65,10 +65,10 @@ abstract class BaseEventStore<E : EventDescriptor>(
                 emit(versionedEvent)
 
                 log.debug("Appending event {} to stream {}", versionedEvent, aggregateId)
-                appendEvent(aggregateId, eventVersion, event)
+                appendEvent(aggregateId, eventVersion, versionedEvent)
 
                 log.trace("Publishing event {} on the bus", versionedEvent)
-                eventBus?.publish(event)
+                eventBus?.publish(versionedEvent)
             }
         }.toList()
     }

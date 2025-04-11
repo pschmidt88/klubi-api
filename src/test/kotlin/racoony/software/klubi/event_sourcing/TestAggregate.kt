@@ -1,9 +1,10 @@
 package racoony.software.klubi.event_sourcing
 
 import io.quarkus.logging.Log
+import java.util.UUID
 import kotlin.uuid.Uuid
 
-class TestAggregate(id: AggregateId = Uuid.random()) : AggregateRoot(id) {
+class TestAggregate(id: AggregateId = UUID.randomUUID()) : AggregateRoot(id) {
 
     var testEvent = ""
     var anotherEvent = ""

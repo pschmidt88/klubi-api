@@ -2,10 +2,10 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    kotlin("jvm") version "2.1.20"
-    kotlin("plugin.serialization") version "2.1.20"
-    kotlin("plugin.allopen") version "2.1.20"
-    kotlin("plugin.noarg") version "2.1.20"
+    kotlin("jvm") version "2.0.21"
+    kotlin("plugin.serialization") version "2.0.21"
+    kotlin("plugin.allopen") version "2.0.21"
+    kotlin("plugin.noarg") version "2.0.21"
     alias(libs.plugins.quarkus)
 }
 
@@ -42,6 +42,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
+    implementation(libs.jackson.kotlin)
+
     testImplementation(libs.restAssured)
     testImplementation(libs.restAssured.kotlin)
     testImplementation(libs.kotest.runner.junit5)
@@ -75,7 +77,7 @@ noArg {
 kotlin {
     compilerOptions {
         optIn.add("kotlin.uuid.ExperimentalUuidApi")
-        apiVersion.set(KotlinVersion.KOTLIN_2_1)
+        apiVersion.set(KotlinVersion.KOTLIN_2_0)
         jvmTarget.set(JvmTarget.JVM_21)
         javaParameters.set(true)
     }

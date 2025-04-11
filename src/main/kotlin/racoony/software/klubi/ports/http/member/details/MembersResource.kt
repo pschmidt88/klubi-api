@@ -19,7 +19,7 @@ class MembersResource(
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun find(id: UUID): Response {
-        return eventStore.findEventsByAggregateId(id.toKotlinUuid())
+        return eventStore.findEventsByAggregateId(id)
             .map { MemberProjection().apply { restoreFromHistory(it) } }
             .map { Response.ok(it.toMember()).build() }
             .getOrElse { Response.status(404).build() }

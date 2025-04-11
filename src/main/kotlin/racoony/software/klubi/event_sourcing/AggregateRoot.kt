@@ -2,13 +2,15 @@ package racoony.software.klubi.event_sourcing
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import kotlin.uuid.Uuid
+import java.util.*
 
-typealias AggregateId = Uuid
+typealias AggregateId = UUID
 
 abstract class AggregateRoot(
-    val id: AggregateId = Uuid.random()
+    val id: AggregateId = UUID.randomUUID()
 ) {
+    private var version = 0
+
     companion object {
         private val log: Logger = LoggerFactory.getLogger(AggregateRoot::class.java)
     }
@@ -18,10 +20,15 @@ abstract class AggregateRoot(
 
     protected fun raise(event: Event) {
         log.debug("Applying {}", event)
-        applyEvent(event)
+        applyEventAndIncrementVersion(event)
 
         log.debug("Queuing uncommitted changes")
         _uncommittedChanges.add(event)
+    }
+
+    private fun applyEventAndIncrementVersion(event: Event) {
+        applyEvent(event)
+        version = version.inc()
     }
 
     protected abstract fun applyEvent(event: Event): AggregateRoot

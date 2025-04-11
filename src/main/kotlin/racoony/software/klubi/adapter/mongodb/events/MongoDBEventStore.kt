@@ -37,8 +37,7 @@ class MongoDbEventStore(
 }
 
 data class MongoDbEventDescriptor(
-    @BsonId
-    val id: ObjectId? = null,
+    @BsonId val id: ObjectId = ObjectId.get(),
     override val aggregateId: AggregateId,
     override val version: Long,
     override val event: Event,

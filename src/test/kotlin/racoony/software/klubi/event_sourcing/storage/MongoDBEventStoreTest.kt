@@ -1,7 +1,6 @@
 package racoony.software.klubi.event_sourcing.storage
 
 import arrow.core.some
-import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beOfType
@@ -14,7 +13,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import racoony.software.klubi.adapter.mongodb.events.MongoDbEventStore
 import racoony.software.klubi.event_sourcing.TestEvent
 import racoony.software.klubi.ports.bus.RecordingEventBus
-import kotlin.uuid.Uuid
+import java.util.*
 
 @QuarkusTest
 class MongoDBEventStoreTest {
@@ -26,7 +25,7 @@ class MongoDBEventStoreTest {
 
     @Test
     fun `writing events to mongodb should not blow up and return success`() = runTest {
-        val aggregateId = Uuid.random()
+        val aggregateId = UUID.randomUUID()
 
         val eventStore = MongoDbEventStore(mongoClient, RecordingEventBus())
 
@@ -35,7 +34,7 @@ class MongoDBEventStoreTest {
 
     @Test
     fun `it should read saved events`() = runTest {
-        val aggregateId = Uuid.random()
+        val aggregateId = UUID.randomUUID()
 
         val eventStore = MongoDbEventStore(mongoClient, RecordingEventBus()).also {
             val result = it.saveEvents(aggregateId, listOf(TestEvent("foo")), 0L.some())

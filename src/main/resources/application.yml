@@ -6,9 +6,10 @@ quarkus:
       enabled: true
   mongodb:
     database: klubi
-    devservices:
-      properties:
-        uuidRepresentation: STANDARD
+    connection-string: mongodb://localhost:27017/?uuidRepresentation=STANDARD
+#    devservices:
+#      properties:
+#        uuidRepresentation: STANDARD
 
 "%prod":
   quarkus:

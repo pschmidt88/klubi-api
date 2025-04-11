@@ -4,10 +4,10 @@ import racoony.software.klubi.domain.member_registration.events.MemberRegistered
 import racoony.software.klubi.event_sourcing.AggregateId
 import racoony.software.klubi.event_sourcing.AggregateRoot
 import racoony.software.klubi.event_sourcing.Event
-import kotlin.uuid.Uuid
+import java.util.*
 
 class MemberRegistration(
-    id: AggregateId = Uuid.random()
+    id: AggregateId = UUID.randomUUID()
 ) : AggregateRoot(id) {
 
     fun registerNewMember(
